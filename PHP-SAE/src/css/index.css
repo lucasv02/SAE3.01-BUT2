@@ -1,0 +1,20 @@
+*,
+::before,
+::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Lexend', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(180deg, #fef9e7, #ffffff); /* Dégradé doux */
+}
+
+/* Style pour le contenu texte */
+.text-content {
+    flex: 1; /* Prend une partie de l'espace */
+    max-width: 28%; /* Limite la largeur du contenu texte à 50% */
+}

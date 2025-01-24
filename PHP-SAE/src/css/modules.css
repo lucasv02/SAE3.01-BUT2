@@ -1,0 +1,52 @@
+/* Page principale */
+.modules-calcul {
+    padding: 30px;
+    text-align: center;
+    display: flex;
+    justify-content: space-evenly; /* Espace entre les éléments */
+    align-items: center; /* Aligne verticalement au centre */
+}
+
+h1 {
+    color: #f28d35;
+    padding-bottom: 20px;
+}
+
+.intro {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+p {
+    font-size: 18px;
+    color: #555;
+}
+
+.formulaire {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.formulaire_calc {
+    display: flex;
+    justify-content: center;
+}
+
+/* Formulaire */
+#formulaire_calc {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 500px;
+    padding: 20px;
+    background: #fafafa;
+    border-radius: 8px; /* Bord arrondi */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre pour le bloc du formulaire */
+    flex: 1; /* Le formulaire prend tout l'espace disponible */
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
