@@ -117,6 +117,7 @@ nav {
     transition: transform 0.1s ease-out, background-color 0.2s ease-out;
 }
 
+/* cache l'icon "USER" lorsque la page est en pleine écran */
 .user-toggler {
     display: none;
 }
