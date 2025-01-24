@@ -37,10 +37,11 @@ nav {
   margin-left: 6px;
   font-weight: 550;
   color: #faed9c;
+  padding : 20px
 }
 
 .nav-icon img {
-  width: 100px;
+  width: 70px;
 }
 
 .hamburger {
