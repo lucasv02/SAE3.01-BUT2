@@ -41,7 +41,6 @@ nav {
   font-size: 32px;
   margin-left: 6px;
   font-weight: 550;
-  color: white;
   padding : 20px;
   color : #DFF2FF;/* couleur de relax math*/
 }
@@ -57,8 +56,8 @@ nav {
 
 .navlinks-container a {
   margin: 5px;
-  font-size: 20px;
-  text-decoration: none; /* Sinon une ligne apparait en dessous */
+  font-size: 24px;
+  text-decoration: solid; /* Sinon une ligne apparait en dessous */
   position: relative;
   display: inline-block;
   color: #DFF2FF;/* couleur des onglets */
@@ -144,7 +143,7 @@ nav {
   display: none;
 }
 
-.banniere_ht img {
+.banniere_haute img {
   width: 100%;
   max-height: 250px; /* Hauteur réduite */
   object-fit: cover; /* Garde les proportions en rognant */
@@ -261,7 +260,7 @@ nav {
     top: 100%;
     left: 0;
     transform: translate(-100%);
-    height: 100vh;
+    height: 110vh;
     padding: 15px 50px 15px 20px;
     /*border-right: 1px solid #c5c5c6;*/
   }
@@ -293,7 +292,7 @@ nav {
   .user-toggler img {
     width: 20px;
   }
-  .banniere_ht img {
+  .banniere_haute img {
     width: 100%;
     max-height: 200px; /* Hauteur réduite */
     object-fit: cover; /* Garde les proportions en rognant */
@@ -329,13 +328,6 @@ nav {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
-label {
-  font-size: 18px;
-  display: block;
-  margin-bottom: 5px;
-  color: #333;
-}
-
 input {
   width: 100%;
   padding: 10px;
@@ -345,23 +337,23 @@ input {
 
 input, select {
   border: 2px solid #e0e0e0;
-  background: var(--bleu-roi);
+  /*background: var(--bleu-roi);*/
   padding: 10px;
   font-size: 15px;
   margin-top: 5px;
 }
 
 input:focus, select:focus {
-  background: var(--bleu-roi);
+  background: var(--bleu-clair);
   box-shadow: 0 0 6px rgba(242, 141, 53, 0.5);
 }
 
 /* Bouton de validation */
 .btn-submit {
-  background: #F28D35;
+  background: #4169E1;
   color: #fff;
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 22px;
   border: none;
   cursor: pointer;
   border-radius: 15px;
@@ -386,13 +378,6 @@ input:focus, select:focus {
 /* Style pour la liste déroulante des choix de module de calculs */
 .form-group {
   margin-bottom: 20px;
-}
-
-label {
-  display: block;
-  font-weight: 500;
-  margin-bottom: 5px;
-  color: #333;
 }
 
 select {
