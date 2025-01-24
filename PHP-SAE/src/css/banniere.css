@@ -1,0 +1,38 @@
+.banniere_haut img {
+    width: 100%;
+    max-height: 250px; /* Hauteur réduite */
+    object-fit: cover; /* Garde les proportions en rognant */
+    object-position: bottom; /* Rogne le haut de l'image */
+    overflow: hidden;
+    padding-bottom: 20px;
+}
+.banniere_bas img {
+    width: 100%;
+    height: 175px; /* Hauteur réduite */
+    object-fit: cover; /* Garde les proportions en rognant */
+    object-position: top; /* Rogne le bas de l'image */
+    overflow: hidden;
+    padding-top: 20px;
+
+}
+
+@media (max-width: 900px) {
+
+    .banniere_haut img {
+        width: 100%;
+        max-height: 200px; /* Hauteur réduite */
+        object-fit: cover; /* Garde les proportions en rognant */
+        object-position: bottom; /* Rogne le haut de l'image */
+        overflow: hidden;
+        padding-bottom: 20px;
+
+    }
+    .banniere_bas img {
+        width: 100%;
+        height: 100%; /* Hauteur réduite */
+        object-fit: cover; /* Garde les proportions en rognant */
+        object-position: top; /* Rogne le bas de l'image */
+        overflow: hidden;
+        padding-top: 20px;
+    }
+}
