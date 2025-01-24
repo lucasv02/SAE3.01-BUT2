@@ -125,8 +125,9 @@ nav {
 .sign-btns button:hover {
   background: var(--bleu-roi); /* Couleur de survol */
   color:#ffffff ; /* Change la couleur au survol */
-  box-shadow: 7px 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
   border-radius: 15px;
+  background: linear-gradient(90deg, var(--bleu-roi) 70%, var(--bleu-clair ) 100%); /* Dégradé harmonieux */
   transition: background-color 0.3s ease-out, color 0.3s ease-out;
 }
 
