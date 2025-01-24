@@ -53,4 +53,4 @@ git pull
 
 ## License 
 <br>
-© 2024 Lucas Vieira, Léa Schendel, Maden Passoubady, Seraphin Laudat
+© 2025 Lucas Vieira, Léa Schendel, Maden Passoubady, Seraphin Laudat
