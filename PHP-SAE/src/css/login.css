@@ -1,0 +1,68 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f6fa;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    display: flex;
+
+}
+
+#titre-login {
+    margin-bottom: 5px;
+}
+
+#explicatif {
+    margin-top: 5px;
+    font-size: 22px;
+}
+
+#copyright {
+    text-align: center;
+}
+
+.conteneur-formulaire {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: #ffffff;
+    padding-left: 60px;
+    padding-right: 60px;
+    padding-bottom: 10px;
+    padding-top: 15px;
+    border-radius: 10px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+input[type="email"], input[type="password"] {
+    border-radius: 5px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+button[type="submit"] {
+    border-radius: 5px;
+    background-color: #d9824c;
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin-top: 10px;
+}
+#logo {
+    width: 100px;
+    height: auto;
+
+}
+
+#mdp-oublie {
+    margin-top: 5px;
+    color: #000000;
+    text-align: right;
+    align-self: flex-end;
+}
