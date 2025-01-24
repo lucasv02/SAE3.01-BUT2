@@ -282,11 +282,63 @@ nav {
   }
 }
 
+
+
+/* Page principale */
+.module-calcul {
+  padding: 20px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  text-align: center;
+
+}
+
+.module-calcul h1 {
+  color: #f28d35;
+  margin-bottom: 20px;
+  margin-right: 880px; /*Si on veut le mettre sur le cote sinon sans ca il sera au centre */
+}
+
+.module-calcul p {
+  text-align: center;
+  margin-right: 840px;
+}
+
 .footer-content {
   text-align: center;
   font-size: 14px;
   color: #777;
   padding: 10px 0;
+}
+
+.intro {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Formulaire */
+#calculationForm {
+  max-width: 500px;
+  margin-left: 60px;
+  padding: 20px;
+  background: #fafafa;
+  border-radius: 8px; /* Bord arrondi */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre pour le bloc du formulaire */
+  flex: 1; /* Le formulaire prend tout l'espace disponible */
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Conteneur global pour le formulaire et l'image */
+.calculation-container {
+  display: flex;
+  justify-content: space-between; /* Espace entre les éléments */
+  align-items: center; /* Aligne verticalement au centre */
+  margin-top: 20px;
+  padding: 20px;
 }
 
 /* Styles pour l'image */
@@ -350,6 +402,12 @@ input:focus, select:focus {
   transform: scale(0.95); /*effet de réduction pour simuler un clic */
   transition: transform 0.1s ease-out, background-color 0.2s ease-out;
   border-radius: 25px;
+}
+
+
+/* Style pour la liste déroulante des choix de module de calculs */
+.form-group {
+  margin-bottom: 20px;
 }
 
 label {
