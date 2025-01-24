@@ -64,8 +64,8 @@ nav {
   content: "";
   position: absolute;
   left: 0;
-  bottom: -10px; /* Place la ligne en dessous */
-  width: 100%;
+  bottom: -5px; /* Place la ligne en dessous */
+  width: 88%;
   height: 3px; /* Épaisseur de la ligne */
   background: linear-gradient(90deg, #f28d35, #faed9c); /* Dégradé */
   transform: scaleX(1); /* Ligne visible même sans survol */
