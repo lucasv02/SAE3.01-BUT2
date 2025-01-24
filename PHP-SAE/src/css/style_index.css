@@ -1,3 +1,8 @@
+:root {
+  --bleu-roi : #4169E1;
+  --bleu-clair : #DFF2FF;
+}
+
 *,
 ::before,
 ::after {
@@ -19,7 +24,7 @@ nav {
   display: flex;
   align-items: center;
   padding: 15px 25px;
-  background: #f28d35;
+  background: var(--bleu-roi);
   /*box-shadow: inset 0px -1px 0px #faed9c;*/
   z-index: 1000;
   top: 0;
@@ -36,8 +41,9 @@ nav {
   font-size: 32px;
   margin-left: 6px;
   font-weight: 550;
-  color: #faed9c;
-  padding : 20px
+  color: white;
+  padding : 20px;
+  color : #DFF2FF;/* couleur de relax math*/
 }
 
 .nav-icon img {
@@ -55,7 +61,7 @@ nav {
   text-decoration: none; /* Sinon une ligne apparait en dessous */
   position: relative;
   display: inline-block;
-  color: #faed9c;
+  color: #DFF2FF;/* couleur des onglets */
   padding: 5px 10px; /* Pour un peu d'espace autour du texte */
   transition: color 0.3s ease;
 }
@@ -67,7 +73,7 @@ nav {
   bottom: -4px; /* Place la ligne en dessous */
   width: 88%;
   height: 3px; /* Épaisseur de la ligne */
-  background: linear-gradient(90deg, #f28d35, #faed9c); /* Dégradé */
+  background: linear-gradient(90deg,var(--bleu-roi),  var(--bleu-clair)); /* Dégradé */
   transform: scaleX(1); /* Ligne visible même sans survol */
   transform-origin: left;
   transition: transform 0.4s ease;
@@ -75,7 +81,7 @@ nav {
 
 
 .navlinks-container a:hover {
-  background-color: #ef9b4e; /* Couleur de texte survol */
+  background: var(--bleu-roi); /* Couleur de texte survol */
   color: #ffffff; /* Change la couleur survol */
   box-shadow: 5px 4px 10px rgba(0, 0, 0, 0.2);
   border-radius: 25px;
@@ -83,7 +89,7 @@ nav {
 
 /* CSS après clique sur S'inscrire et Se connecter*/
 .navlinks-container a:active {
-  background-color: #f28d35; /* Couleur plus foncée pour clic */
+  background: var(--bleu-roi); /* Couleur plus foncée pour clic */
   color: #ffffff; /* Contraste élevé pour le texte */
   box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.3);
   border-radius: 30px;
@@ -102,8 +108,8 @@ nav {
 
 
 .sign-btns button {
-  color: #faed9c;
-  background: linear-gradient(90deg, #f28d35 70%, #faed9c 100%); /* Dégradé harmonieux */
+  color: #DFF2FF;
+  background: linear-gradient(90deg, var(--bleu-roi) 70%, var(--bleu-clair ) 100%); /* Dégradé harmonieux */
   font-family: 'Lexend', sans-serif;
   font-size: 18px;
   font-weight: 550;
@@ -117,7 +123,7 @@ nav {
 }
 
 .sign-btns button:hover {
-  background-color: #ef9b4e; /* Couleur de survol */
+  background: var(--bleu-roi); /* Couleur de survol */
   color:#ffffff ; /* Change la couleur au survol */
   box-shadow: 7px 4px 10px rgba(0, 0, 0, 0.2);
   border-radius: 15px;
@@ -125,7 +131,7 @@ nav {
 }
 
 .sign-btns button:active {
-  background-color: #f28d35; /* Couleur plus foncée pour indiquer un clic */
+  background: var(--bleu-roi); /* Couleur plus foncée pour indiquer un clic */
   color: #ffffff; /* Couleur texte après clique */
   box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.3); /* Ombre intérieure pour clique */
   border-radius: 15px; /* Arrondi encore plus prononcé */
@@ -189,7 +195,7 @@ nav {
     cursor: pointer;
     border: none;
     display: flex;
-    background: #f28d35;
+    background: var(--bleu-roi);
     align-items: center;
     position: relative;
   }
@@ -231,7 +237,7 @@ nav {
     flex-direction: column;
     align-items: flex-start;
     position: absolute;
-    background: #f28d35;
+    background: var(--bleu-roi);
     top: 100%;
     left: 0;
     transform: translate(-100%);
@@ -295,10 +301,11 @@ nav {
 }
 
 .module-calcul h1 {
-  color: #f28d35;
   margin-bottom: 20px;
   margin-right: 880px; /*Si on veut le mettre sur le cote sinon sans ca il sera au centre */
+  color :black;
 }
+
 
 .module-calcul p {
   text-align: center;
@@ -368,20 +375,20 @@ input {
 
 imput, select {
   border: 2px solid #e0e0e0;
-  border-color: #f28d35;
+  background: var(--bleu-roi);
   padding: 10px;
   font-size: 15px;
   margin-top: 5px;
 }
 
 input:focus, select:focus {
-  border-color: #f28d35;
+  background: var(--bleu-roi);
   box-shadow: 0 0 6px rgba(242, 141, 53, 0.5);
 }
 
 /* Bouton de validation */
 .btn-submit {
-  background: #f28d35;
+  background: #F28D35;
   color: #fff;
   padding: 10px 20px;
   font-size: 16px;
@@ -392,7 +399,7 @@ input:focus, select:focus {
 
 .btn-submit:hover {
   background-color: #ef9b4e; /* Couleur de survol */
-  background: #e67300;
+  background: #F28D35;
   color: #ffffff; /* Change la couleur au survol */
   box-shadow: 7px 4px 10px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s ease-out, color 0.3s ease-out;
