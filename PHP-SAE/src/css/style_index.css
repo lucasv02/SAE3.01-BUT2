@@ -106,7 +106,6 @@ nav {
   margin-left: auto;
 }
 
-
 .sign-btns button {
   color: #DFF2FF;
   background: linear-gradient(90deg, var(--bleu-roi) 70%, var(--bleu-clair ) 100%); /* Dégradé harmonieux */
