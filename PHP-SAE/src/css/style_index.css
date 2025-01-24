@@ -10,7 +10,7 @@ body {
   font-family: 'Lexend', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: white; /* Gris extrêmement léger */
+  background: linear-gradient(180deg, #fef9e7, #ffffff); /* Dégradé doux */
 }
 
 nav {
@@ -33,73 +33,110 @@ nav {
 
 .nav-icon span {
   font-family: Roboto Flex, sans-serif;
-  font-size: 25px;
-  margin-left: 10px;
-  font-weight: 400;
+  font-size: 32px;
+  margin-left: 6px;
+  font-weight: 550;
   color: #faed9c;
 }
 
 .nav-icon img {
-  width: 40px;
+  width: 100px;
 }
 
 .hamburger {
   display: none;
 }
 
+
 .navlinks-container a {
-  margin: 0 10px;
-  font-size: 16px;
-  font-weight: 500;
-  text-decoration: none;
-  color: #faed9c;
+  margin: 5px;
+  font-size: 20px;
+  text-decoration: none; /* Sinon une ligne apparait en dessous */
   position: relative;
+  display: inline-block;
+  color: #faed9c;
+  padding: 5px 10px; /* Pour un peu d'espace autour du texte */
+  transition: color 0.3s ease;
 }
+
 .navlinks-container a::after {
   content: "";
-  display: block;
   position: absolute;
-  bottom: -3px;
+  left: 0;
+  bottom: -10px; /* Place la ligne en dessous */
   width: 100%;
-  height: 1px;
-  transform: scale(0);
+  height: 3px; /* Épaisseur de la ligne */
+  background: linear-gradient(90deg, #f28d35, #faed9c); /* Dégradé */
+  transform: scaleX(1); /* Ligne visible même sans survol */
   transform-origin: left;
-  background: #faed9c;
-  transition: transform 0.3s ease-out;
+  transition: transform 0.4s ease;
 }
-/* Passage sur le texte */
-/*.navlinks-container a:hover::after {*/
-/*  transform: scaleX(1);}*/
+
+
 .navlinks-container a:hover {
-  background-color: #faeda7;
-  color: #ff8400;
-  border-radius:2px;}
+  background-color: #ef9b4e; /* Couleur de texte survol */
+  color: #ffffff; /* Change la couleur survol */
+  box-shadow: 5px 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 25px;
+}
+
+/* CSS après clique sur S'inscrire et Se connecter*/
+.navlinks-container a:active {
+  background-color: #f28d35; /* Couleur plus foncée pour clic */
+  color: #ffffff; /* Contraste élevé pour le texte */
+  box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 30px;
+  transform: scale(0.95); /*effet de pour simuler un clic */
+  transition: transform 0.1s ease-out, background-color 0.2s ease-out;
+}
+
+.navlinks-container a:hover::after {
+  transform: scaleX(1.1); /* agrandi la ligne au survol */
+}
+
 
 .nav-authentication {
   margin-left: auto;
 }
 
+
 .sign-btns button {
   color: #faed9c;
-  background-color: #f28d35;
-  font-family: Roboto Flex, sans-serif;
-  font-size: 16px;
-  min-width: 90px;
-  padding: 10px 5px;
-  margin: 0 5px;
-  border-radius: 5px;
-  cursor: pointer;
+  background: linear-gradient(90deg, #f28d35 70%, #faed9c 100%); /* Dégradé harmonieux */
+  font-family: 'Lexend', sans-serif;
+  font-size: 18px;
+  font-weight: 550;
+  padding: 10px 20px;
+  margin: 0 10px;
   border: none;
+  border-radius: 15px; /* Coins arrondis pour un aspect moderne */
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Douce ombre */
 }
 
-.sign-btns button:nth-child(2) {
-  border: none;
-  color: #f28d35;
-  background: #faed9c;
+.sign-btns button:hover {
+  background-color: #ef9b4e; /* Couleur de survol */
+  color:#ffffff ; /* Change la couleur au survol */
+  box-shadow: 7px 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  transition: background-color 0.3s ease-out, color 0.3s ease-out;
 }
+
+.sign-btns button:active {
+  background-color: #f28d35; /* Couleur plus foncée pour indiquer un clic */
+  color: #ffffff; /* Couleur texte après clique */
+  box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.3); /* Ombre intérieure pour clique */
+  border-radius: 15px; /* Arrondi encore plus prononcé */
+  transform: scale(0.95); /*effet de réduction pour simuler un clic */
+  transition: transform 0.1s ease-out, background-color 0.2s ease-out;
+}
+
+
 .user-toggler {
   display: none;
 }
+
 .banniere_ht img {
   width: 100%;
   max-height: 250px; /* Hauteur réduite */
@@ -115,17 +152,6 @@ nav {
   overflow: hidden;
 }
 
-/* Style pour la vidéo */
-.video-container {
-  flex: 1; /* Prend une partie de l'espace */
-  margin-right: 40px; /* Espace à droite de la vidéo */
-  max-width: 65%; /* Limite la largeur de la vidéo à 50% */
-}
-
-video {
-  width: 100%; /* Ajuste la vidéo à la largeur de son conteneur */
-  height: auto; /* Conserve les proportions */
-}
 
 /* Style pour le contenu texte */
 .text-content {
@@ -253,5 +279,173 @@ video {
     object-fit: cover; /* Garde les proportions en rognant */
     object-position: top; /* Rogne le bas de l'image */
     overflow: hidden;
+  }
+}
+
+
+
+/* Page principale */
+.module-calcul {
+  padding: 20px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  text-align: center;
+
+}
+
+.module-calcul h1 {
+  color: #f28d35;
+  margin-bottom: 20px;
+  margin-right: 880px; /*Si on veut le mettre sur le cote sinon sans ca il sera au centre */
+}
+
+.module-calcul p {
+  text-align: center;
+  margin-right: 840px;
+}
+
+.footer-content {
+  text-align: center;
+  font-size: 14px;
+  color: #777;
+  padding: 10px 0;
+}
+
+.intro {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Formulaire */
+#calculationForm {
+  max-width: 500px;
+  margin-left: 60px;
+  padding: 20px;
+  background: #fafafa;
+  border-radius: 8px; /* Bord arrondi */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre pour le bloc du formulaire */
+  flex: 1; /* Le formulaire prend tout l'espace disponible */
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Conteneur global pour le formulaire et l'image */
+.calculation-container {
+  display: flex;
+  justify-content: space-between; /* Espace entre les éléments */
+  align-items: center; /* Aligne verticalement au centre */
+  margin-top: 20px;
+  padding: 20px;
+}
+
+/* Styles pour l'image */
+.module-image {
+  width: 700px; /* Taille de l'image */
+  max-width: 100%; /* S'adapte à la taille de l'écran si nécessaire */
+  height: auto; /* Maintient les proportions */
+  margin-right: 70px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+label {
+  font-size: 18px;
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+imput, select {
+  border: 2px solid #e0e0e0;
+  border-color: #f28d35;
+  padding: 10px;
+  font-size: 15px;
+  margin-top: 5px;
+}
+
+input:focus, select:focus {
+  border-color: #f28d35;
+  box-shadow: 0 0 6px rgba(242, 141, 53, 0.5);
+}
+
+/* Bouton de validation */
+.btn-submit {
+  background: #f28d35;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 25px;
+}
+
+.btn-submit:hover {
+  background-color: #ef9b4e; /* Couleur de survol */
+  background: #e67300;
+  color: #ffffff; /* Change la couleur au survol */
+  box-shadow: 7px 4px 10px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease-out, color 0.3s ease-out;
+}
+
+.btn-submit:active {
+  box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.3); /* Ombre intérieure pour clique */
+  transform: scale(0.95); /*effet de réduction pour simuler un clic */
+  transition: transform 0.1s ease-out, background-color 0.2s ease-out;
+  border-radius: 25px;
+}
+
+
+/* Style pour la liste déroulante des choix de module de calculs */
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+select {
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 2px solid #cfcfcf; /* Couleur de la bordure */
+  border-radius: 5px; /* Coins arrondis */
+  background-color: #fff; /* Fond blanc */
+  color: #000000; /* Couleur du texte */
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+select:focus {
+  border-color: #ffffff; /* Couleur de bordure au focus */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.8); /* Effet lumineux */
+}
+
+option {
+  font-size: 16px;
+  padding: 10px;
+  background-color: #ffffff; /* Fond blanc pour les options */
+  color: #333; /* Couleur du texte */
+}
+
+/* Ajuste l'affichage sur les appareils mobiles */
+@media (max-width: 768px) {
+  select {
+    font-size: 14px;
+    padding: 8px 12px;
   }
 }
