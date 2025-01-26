@@ -53,7 +53,6 @@ nav {
   display: none;
 }
 
-
 .navlinks-container a {
   margin: 5px;
   font-size: 24px;
@@ -78,7 +77,6 @@ nav {
   transition: transform 0.4s ease;
 }
 
-
 .navlinks-container a:hover {
   background: var(--bleu-roi); /* Couleur de texte survol */
   color: #ffffff; /* Change la couleur survol */
@@ -99,7 +97,6 @@ nav {
 .navlinks-container a:hover::after {
   transform: scaleX(1.1); /* agrandi la ligne au survol */
 }
-
 
 .nav-authentication {
   margin-left: auto;
@@ -138,7 +135,6 @@ nav {
   transition: transform 0.1s ease-out, background-color 0.2s ease-out;
 }
 
-
 .user-toggler {
   display: none;
 }
@@ -166,24 +162,6 @@ nav {
   object-fit: cover; /* Garde les proportions en rognant */
   object-position: top; /* Rogne le bas de l'image */
   overflow: hidden;
-}
-
-
-/* Style pour le contenu texte */
-.text-content {
-  border: solid #F28D35 3px;
-  width: 33%;
-  margin: 150px auto 100px auto;
-  text-align: center;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.2);
-  padding: 10px;
-}
-
-.video {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .footer-content {
@@ -280,9 +258,8 @@ nav {
   .navlinks-container a {
     color: #faed9c;
     font-size: 18px;
-    margin: 10px 0px;
+    margin: 10px 0;
   }
-
 
   .nav-authentication {
     order: 3;
@@ -323,7 +300,6 @@ nav {
   color: var(--bleu-clair);
   /*padding: 10px 0;*/
   background-color: var(--bleu-roi);
-  text-color: white;
 }
 
 
@@ -370,7 +346,6 @@ input:focus, select:focus {
 
 .btn-submit:hover {
   background-color: #ef9b4e; /* Couleur de survol */
-  background: #F28D35;
   color: #ffffff; /* Change la couleur au survol */
   box-shadow: 7px 4px 10px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s ease-out, color 0.3s ease-out;
