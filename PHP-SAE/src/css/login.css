@@ -1,33 +1,3 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f6fa;
-    height: 100vh;
-}
-
-.banniere_ht img {
-    width: 100%;
-    max-height: 250px; /* Hauteur réduite */
-    object-fit: cover; /* Garde les proportions en rognant */
-    object-position: bottom; /* Rogne le haut de l'image */
-    overflow: hidden;
-}
-
-.banniere_bs img {
-    width: 100%;
-    height: 175px; /* Hauteur réduite */
-    object-fit: cover; /* Garde les proportions en rognant */
-    object-position: top; /* Rogne le bas de l'image */
-    overflow: hidden;
-}
-
-.footer-content {
-    text-align: center;
-    font-size: 14px;
-    color: var(--bleu-clair);
-
-
-}
-
 #titre-login {
     margin-bottom: 5px;
 }
@@ -75,7 +45,7 @@ input[type="email"], input[type="password"] {
     margin-top: 10px;
 }
 
-button {
+.button-connexion {
     background-color: #4169E1;
     border: 1px solid #ccc;
     padding: 10px 20px;
@@ -85,15 +55,13 @@ button {
     color: #ffffff;
 }
 
-button:hover {
+.button-connexion:hover {
     background-color: #F28D35; /* Couleur de survol */
-    background: #F28D35;
-    color: #ffffff; /* Change la couleur au survol */
     box-shadow: 7px 4px 10px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease-out, color 0.3s ease-out;
 }
 
-button:active {
+.button-connexion:active {
     box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.3); /* Ombre intérieure pour clique */
     transform: scale(0.95); /*effet de réduction pour simuler un clic */
     transition: transform 0.1s ease-out, background-color 0.2s ease-out;
@@ -103,7 +71,6 @@ button:active {
 #logo {
     width: 100px;
     height: auto;
-
 }
 
 #mdp-oublie {
@@ -113,15 +80,11 @@ button:active {
     align-self: flex-end;
 }
 
-label {
+.formulaire label {
     display: block;
     font-weight: 500;
     padding-top: 10px;
-
     color: #333;
     font-size: 18px;
 }
 
-a {
-    padding: 5px 5px 10px;
-}

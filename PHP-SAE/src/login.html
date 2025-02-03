@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/logo.png" />
     <title>Connexion - Relax</title>
-    <link rel="stylesheet" href="css/login.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/login.css">
+
 </head>
 
-<body>
-
 <header>
-    <div class="banniere_ht">
+    <div class="banniere_haute">
         <img src="img/banniere_haut.svg" alt="Bannière haute">
     </div>
 
     <nav>
-        <a href="#" class="nav-icon" aria-label="Homepage" aria-current="page">
+        <a class="nav-icon" aria-label="Homepage" aria-current="page">
             <img src="img/logo.png" alt="Logo Relax Maths" >
             <span>Relax Maths</span>
         </a>
@@ -26,13 +26,13 @@
                 <span></span>
                 <span></span>
             </button>
-
             <div class="navlinks-container">
-                <a href="index.html" aria-current="page">Accueil</a>
+                <a href="index.html">Accueil</a>
+                <a href="modules.html">Modules</a>
             </div>
         </div>
         <div class="nav-authentication">
-            <a href="#" class="user-toggler" aria-label="Page de connexion">
+            <a href="login.html" class="user-toggler" aria-label="Page de connexion">
                 <img src="img/user.svg" alt="Icône utilisateur" >
             </a>
             <div class="sign-btns">
@@ -47,29 +47,31 @@
     </nav>
 </header>
 
-<div class="conteneur-formulaire">
-    <div class="formulaire">
-        <img id="logo" src="img/logo.png" alt="logo représentant une calculatrice">
-        <h1 id="titre-login">Relax Maths</h1>
-        <p id="explicatif">Connectez-vous à votre compte</p>
+<body>
 
-        <form action="login.php" method="post">
-            <label for="email">Adresse email</label>
-            <input type="email" name="email" id="email" placeholder="Adresse mail" required>
-            <br>
-            <label for="password">Mot de passe</label>
-            <input type="password" name="password" id="password" placeholder="Mot de passe" required>
-            <a id="mdp-oublie" href="mdpOublie.html">Mot de passe oublié ?</a>
-            <br>
-            <button type="submit">Connexion</button>
-        </form>
+    <div class="conteneur-formulaire">
+        <div class="formulaire">
+            <img id="logo" src="img/logo.png" alt="logo représentant une calculatrice">
+            <h1 id="titre-login">Relax Maths</h1>
+            <p id="explicatif">Connectez-vous à votre compte</p>
+
+            <form action="login.php" method="post">
+                <label for="email">Adresse email</label>
+                <input type="email" name="email" id="email" placeholder="Adresse mail" required>
+                <br>
+                <label for="password">Mot de passe</label>
+                <input type="password" name="password" id="password" placeholder="Mot de passe" required>
+                <a id="mdp-oublie" href="mdpOublie.html">Mot de passe oublié ?</a>
+                <br>
+                <button class="button-connexion" type="submit">Connexion</button>
+            </form>
+        </div>
     </div>
-</div>
 
 </body>
 
 <footer>
-           <div class="banniere_bs">
+           <div class="banniere_bas">
                <img src="img/banniere_bas.svg" alt="Bannière basse">
            </div>
        </footer>
