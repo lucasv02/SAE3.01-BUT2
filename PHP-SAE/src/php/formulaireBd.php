@@ -7,7 +7,7 @@ echo "<body>
               <img id='logo' src='images/logo.jpeg' alt='logo représentant une calculatrice'>
               <h1 id='titre-login'>Relax Maths</h1>
               <p id='explicatif'>Connectez-vous à votre compte</p>
-                  <form action='login.php' method='post'>
+                  <form action='../login.php' method='post'>
                       <label for='email'>Adresse mail</label>
                       <input type='email' name='email' id='email' placeholder='Adresse mail' required>
                       <br>
