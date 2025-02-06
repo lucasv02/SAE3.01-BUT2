@@ -234,7 +234,7 @@ nav {
     }
 
     .navlinks-container a {
-        color: #faed9c;
+        color: var(--bleu-clair);
         font-size: 18px;
         margin: 10px 0;
     }
