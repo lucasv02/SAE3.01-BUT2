@@ -17,6 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $message_resultat = "Erreur : L'écart-type est inférieur ou égal à 0, veuillez saisir une valeur positive.";
         } else if (($nb_rectangle <= 0)) {
             $message_resultat = "Erreur : Le nombre de rectangles médians est inférieur ou égal à 0, veuillez saisir une valeur positive.";
+        } else if (($nb_rectangle > 5000000)) {
+            $message_resultat = "Pour le bien de l'application web, veuillez saisir un nombre de rectangles médians inférieur à 5 000 000.";
         } else {
             $resultat = methode_rectangles($moyenne, $ecart_type, $borne_sup, $nb_rectangle);
             // Vérification si le résultat est nul
