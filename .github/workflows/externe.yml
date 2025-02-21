@@ -19,7 +19,7 @@ jobs:
       - name: Nettoyage du dossier distant (sans supprimer les fichiers cachés)
         run: |
           lftp -c "
-          open -u ${{ secrets.FTP_USER }},${{ secrets.FTP_PASSWORD }} sftp://${{ secrets.SFTP_HOST }};
+          open -u ${{ secrets.FTP_USER }},${{ secrets.FTP_SECRET }} sftp://${{ secrets.FTP_HOST }};
           cd /sites/sae.lucasvieira.fr/;
           glob -a rm -rf -- [^.]*
           bye
