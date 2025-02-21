@@ -36,12 +36,12 @@ echo'
         <img src="../img/user.svg" alt="Icône utilisateur" >
       </a>
       <div class="sign-btns">
-        <a href="login.php" type="button" aria-label="Se connecter">
-          <button type="button" aria-label="Se connecter">Se connecter</button>
-        </a>
-        <a href="inscription.php" type="button" aria-label="Se connecter">
-          <button type="button" aria-label="S\inscrire">S\'inscrire</button>
-        </a>
+          <button type="button" aria-label="Se connecter">
+            <a href="login.php" type="button" aria-label="Se connecter">Se connecter</a>
+          </button>
+          <button type="button" aria-label="S\inscrire">
+            <a href="inscription.php" type="button" aria-label="S\'inscrire">S\'inscrire</a>
+          </button>
       </div>
     </div>
   </nav>

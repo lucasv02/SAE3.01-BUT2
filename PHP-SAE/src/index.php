@@ -19,7 +19,7 @@ echo '<!DOCTYPE html>
 include 'php/menu-nc.php';
 
 echo '<body>
-  <script src="/js/accueil.js"></script>
+  <script src="js/accueil.js"></script>
 
   <div class="content">
     <div class="text-content">
@@ -29,7 +29,7 @@ echo '<body>
 
     <div class ="video">
       <video controls width="800">
-        <source src="../img/iut-velizy.mp4" type="video/mp4" />
+        <source src="img/iut-velizy.mp4" type="video/mp4" />
       </video>
     </div>
 

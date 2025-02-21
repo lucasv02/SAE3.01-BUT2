@@ -21,7 +21,7 @@ include 'php/menu-nc.php';
 echo '<body>
 
 
-<script src="../js/accueil.js"></script>
+<script src="js/accueil.js"></script>
 
 <div class="text-content">
   <h1>Page en Construction</h1>

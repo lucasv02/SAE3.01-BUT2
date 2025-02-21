@@ -19,7 +19,7 @@ echo '<!DOCTYPE html>
 include 'php/menu-c.php';
 
 echo '<body>
-<script src="../js/accueil.js"></script>
+<script src="js/accueil.js"></script>
 
 <div class="text-content">
   <h1>Page en Construction</h1>
