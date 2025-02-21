@@ -25,11 +25,12 @@ jobs:
           glob -a rm -rf -- [^.]*
           bye
           "
+
       - name: Envoi des fichiers de PHP-SAE/src via SFTP
         run: |
           lftp -c "
           set sftp:auto-confirm yes;
-          open -u ${{ secrets.SFTP_USER }},${{ secrets.SFTP_PASSWORD }} sftp://${{ secrets.SFTP_HOST }};
-          mirror -R --parallel=10 --exclude-glob .* PHP-SAE/src/ /sites/sae.lucasvieira.fr/
+          open -u ${{ secrets.FTP_USER }},${{ secrets.FTP_SECRET }} sftp://${{ secrets.FTP_HOST }};
+          mirror -R --parallel=10 --exclude-glob .* PHP-SAE/src/ sites/sae.lucasvieira.fr/
           bye
           "
