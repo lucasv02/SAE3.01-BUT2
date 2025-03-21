@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else if (($nb_rectangle <= 0)) {
             $message_resultat = "Erreur : Le nombre de rectangles médians est inférieur ou égal à 0, veuillez saisir une valeur positive.";
         } else if (($nb_rectangle > 5000000)) {
-            $message_resultat = "Pour le bien de l'application web, veuillez saisir un nombre de rectangles médians inférieur ou égal à 5 000 000.";
+            $message_resultat = "Veuillez saisir un nombre de rectangles médians inférieur ou égal à 5 000 000.";
         } else {
             $resultat = methode_rectangles($moyenne, $ecart_type, $borne_sup, $nb_rectangle);
             // Vérification si le résultat est nul
@@ -73,9 +73,12 @@ echo '<!DOCTYPE html>
 </head>
 ';
 
+echo '<body>';
+
 include 'php/menu-c.php';
 
-echo '<body>
+echo'
+    
 <main class="modules-calcul">
     <div class="formulaire">
         <div class="titre">
@@ -126,8 +129,8 @@ echo '</p>
 </main>
 
 <script src="js/accueil.js"></script>
-
-</body>
 ';
 
 include 'php/footer.php';
+
+echo'</body>';

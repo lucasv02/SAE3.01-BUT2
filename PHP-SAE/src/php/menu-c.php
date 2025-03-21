@@ -31,10 +31,8 @@ echo'
       <a href="login.php" class="user-toggler" aria-label="Page de connexion">
         <img src="../img/user.svg" alt="Icône utilisateur" >
       </a>
-      <div class="sign-btns">
-        <a href="index.php" type="button" aria-label="Deconnexion">
-          <button type="button" aria-label="Deconnecter">Déconnexion</button>
-        </a>
+      <div class="navlinks-container">
+        <a href="index.php" >Déconnexion</a>
       </div>
     </div>
   </nav>

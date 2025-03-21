@@ -16,9 +16,13 @@ echo '<!DOCTYPE html>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet">
 </head>';
 
+
+
+echo '<body>';
+
 include 'php/menu-nc.php';
 
-echo '<body>
+echo'
 
     <div class="conteneur-formulaire">
         <div class="formulaire">
@@ -37,8 +41,12 @@ echo '<body>
                 <button class="button-connexion" type="submit">Connexion</button>
             </form>
         </div>
-    </div>
+    </div>';
+
+include 'php/footer.php';
+
+echo'
 
 </body>';
 
-include 'php/footer.php';
+
