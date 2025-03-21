@@ -8,11 +8,15 @@ $table="utilisateur"; // Nom de la table dans la base de données
 if (isset($_POST['ok'], $_POST['identifiant'], $_POST['password'])) {
     $login = $_POST['identifiant'];
     $password = md5($_POST['password']);
-    $password =
 
 
-    $sql = "SELECT `login`,`password` from utilisateur where `login`='$login' and `password`='md5$password';";
-    $resultat = mysqli_query($cnx,$sql);
+    $sql = "SELECT `login`, `password` FROM $table WHERE `login`='$login' AND `password`='$password'";
+    $resultat = mysqli_query($cnx, $sql);
+
+    if (!$resultat) {
+        error_log("Erreur lors de l'exécution de la requête SELECT: " . mysqli_error($cnx));
+        die("Erreur lors de l'exécution de la requête");
+    }
 
     if (mysqli_num_rows($resultat)==1) {
         header('Location: /inscription.php?erreur=1');
