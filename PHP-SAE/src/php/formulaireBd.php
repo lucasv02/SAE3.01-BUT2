@@ -24,6 +24,7 @@ if (isset($_POST['identifiant'], $_POST['password'])) {
     else {
         $sqlInsert = "INSERT INTO $table (login,password) VALUES ('$login','$password');";
         mysqli_query($cnx,$sqlInsert);
+        header('Location: /inscription.php?ok=1');
     }
 }
 
