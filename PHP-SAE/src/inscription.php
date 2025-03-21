@@ -7,7 +7,6 @@ if(isset($_GET["erreur"])) {
 
 if(isset($_GET["ok"])) {
     $message = "Votre compte a été crée avec succès";
-
 }
 // Mise en place du Header
 echo '<!DOCTYPE html>
@@ -46,7 +45,6 @@ echo '<body>
                 <br>
                 <button class="button-connexion" type="submit">S\'incrire</button>
             </form>
-            
         </div>
     </div>
 

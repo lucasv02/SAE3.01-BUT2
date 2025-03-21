@@ -73,7 +73,11 @@ input[type="text"], input[type="password"] {
     height: auto;
 }
 
-
+.message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .formulaire label {
     display: block;
     font-weight: 500;
