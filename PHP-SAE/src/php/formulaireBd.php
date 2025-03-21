@@ -5,8 +5,8 @@ $cnx=mysqli_connect("di2s6.myd.infomaniak.com","di2s6_sae","saqfy8-tutxus-xeDzaq
 $bd=mysqli_select_db($cnx,"di2s6_sae"); // Sélection de la base de données "auth"
 $table="utilisateur"; // Nom de la table dans la base de données
 
-if (isset($_POST['ok'], $_POST['login'], $_POST['password'])) {
-    $login = $_POST['login'];
+if (isset($_POST['ok'], $_POST['identifiant'], $_POST['password'])) {
+    $login = $_POST['identifiant'];
     $password = md5($_POST['password']);
     $password =
 
