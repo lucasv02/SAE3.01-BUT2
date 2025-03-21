@@ -24,7 +24,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Vérification si le résultat est nul
             if ($resultat !== null) {
                 $message_resultat = "Le résultat de l'intégrale est : " . $resultat;
-            } else {
+            }
+            if ($resultat == "valeurs_non_cohérentes") {
+                $message_resultat = "Les valeurs saisies ne produisent pas de résultats mathématiques cohérents.\n Veuillez saisir de nouvelles valeurs plus adaptées.";
+            }
+            else if ($resultat == null) {
                 $message_resultat = "Erreur : Le calcul n'a pas pu être effectué.";
             }
         }
@@ -43,7 +47,7 @@ function loi_normale($point_median, $moyenne, $ecart_type) {
     return (1/(sqrt(2 * pi()*$ecart_type))) * (exp(-(1/2)*((($point_median - $moyenne)/$ecart_type)**2)));  #SEPH
 
 }
-// Loi normale corrigée
+
 function methode_rectangles($moyenne, $ecart_type, $borne_sup, $nb_rectangle) {
     $borne_inf = -5*$ecart_type;
     $largeur_rect = ($borne_sup - $borne_inf) / $nb_rectangle;
@@ -52,6 +56,9 @@ function methode_rectangles($moyenne, $ecart_type, $borne_sup, $nb_rectangle) {
     for ($i = 0; $i < $nb_rectangle; $i++) {
         $point_median = $borne_inf + ($i + 0.5) * $largeur_rect;
         $res += loi_normale($point_median, $moyenne, $ecart_type) * $largeur_rect;
+    }
+    if ($res > 1) {
+        return "valeurs_non_cohérentes";
     }
     return $res;
 }
@@ -100,7 +107,7 @@ echo'
 
                 <div class="form-group">
                     <label for="ecart_type">Ecart type :</label>
-                    <input type="number" step="0.01" id="ecart_type" name="ecart_type" placeholder="Entrez la valeur de l\'écart type." required>
+                    <input type="number" min="0.1" step="0.01" id="ecart_type" name="ecart_type" placeholder="Entrez la valeur de l\'écart type." required>
                 </div>
 
                 <div class="form-group">
@@ -124,7 +131,7 @@ echo'
     <div class="resultat">
         <p>';
      echo htmlspecialchars($message_resultat);
-echo '</p>
+     echo '</p>
     </div>
 </main>
 
