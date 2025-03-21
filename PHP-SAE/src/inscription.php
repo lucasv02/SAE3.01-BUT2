@@ -4,6 +4,11 @@ $message = "";
 if(isset($_GET["erreur"])) {
     $message = "Un compte est déjà existant";
 }
+
+if(isset($_GET["ok"])) {
+    $message = "Votre compte a été crée avec succès";
+
+}
 // Mise en place du Header
 echo '<!DOCTYPE html>
 <html lang="fr">
@@ -37,9 +42,11 @@ echo '<body>
                 <label for="password">Mot de passe</label>
                 <input type="password" name="password" id="password" placeholder="Mot de passe" required>
                 <br>
+                <p class="message">'.$message.'</p>
+                <br>
                 <button class="button-connexion" type="submit">S\'incrire</button>
             </form>
-            <p class='.$message.'>".$message."</p>
+            
         </div>
     </div>
 
