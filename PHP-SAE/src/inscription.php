@@ -1,5 +1,9 @@
 <?php
 
+$message = "";
+if(isset($_GET["erreur"])) {
+    $message = "Un compte est déjà existant";
+}
 // Mise en place du Header
 echo '<!DOCTYPE html>
 <html lang="fr">
@@ -9,7 +13,7 @@ echo '<!DOCTYPE html>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="img/logo.png" />
   <title>Relax Maths</title>
-  <link rel="stylesheet" href="css/construction.css" />
+  <link rel="stylesheet" href="css/inscription.css" />
   <link rel="stylesheet" href="css/general.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,15 +24,24 @@ include 'php/menu-nc.php';
 
 echo '<body>
 
+    <div class="conteneur-formulaire">
+        <div class="formulaire">
+            <img id="logo" src="img/logo.png" alt="logo représentant une calculatrice">
+            <h1 id="titre-login">Relax Maths</h1>
+            <p id="explicatif">Inscription sur la plateforme</p>
 
-<script src="../js/accueil.js"></script>
-
-<div class="text-content">
-  <h1>Page en Construction</h1>
-  <br>
-  <p>Revenez dans deux semaines...</p>
-</div>
-
+            <form action="/php/formulaireBd.php" method="POST">
+                <label for="email">Identifiant</label>
+                <input type="text" name="identifiant" id="identifiant" placeholder="identifiant" required>
+                <br>
+                <label for="password">Mot de passe</label>
+                <input type="password" name="password" id="password" placeholder="Mot de passe" required>
+                <br>
+                <button class="button-connexion" type="submit">S\'incrire</button>
+            </form>
+            <p class='.$message.'>".$message."</p>
+        </div>
+    </div>
 
 
 </body>';
