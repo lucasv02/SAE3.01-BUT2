@@ -51,4 +51,10 @@ echo '<body>
 
 </body>';
 
+echo "
+<label for='alea'>Captcha</label>
+<imput type='number' name='alea' id='alea'>
+<button type='submit' name='ok' value='Valider'>Valider</button>
+";
+
 include 'php/footer.php';
