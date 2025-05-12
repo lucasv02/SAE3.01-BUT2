@@ -17,11 +17,11 @@ if (isset($_POST['identifiant']) && isset($_POST['password'])) {
         $_SESSION["login"] = true;
         $_SESSION['identifiant'] = $login;
         $_SESSION['password'] = $password;
-        header('Location ../compte.php');
+        header('Location /compte.php');
 
     }
     else {
-        header('Location ../connexion.php?erreur=1');
+        header('Location /connexion.php?erreur=1');
         exit(0);
     }
 }
