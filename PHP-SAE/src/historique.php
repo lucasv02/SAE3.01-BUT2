@@ -16,9 +16,11 @@ echo '<!DOCTYPE html>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet">
 </head>';
 
+echo '<body>';
+
 include 'php/menu-c.php';
 
-echo '<body>
+echo'
 <script src="../js/accueil.js"></script>
 
 <div class="text-content">
@@ -26,10 +28,13 @@ echo '<body>
   <br>
   <p>Revenez dans deux semaines...</p>
 </div>
-
-</body>
 ';
 
 include 'php/footer.php';
+
+echo'
+</body>
+';
+
 
 
