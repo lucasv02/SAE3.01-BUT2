@@ -28,7 +28,7 @@ echo'
       </button>
       <div class="navlinks-container">
         <a href="index.php">Accueil</a>
-        <a href="modules.php">Modules</a>
+        <a href="modules.php">Probabilité</a>
         <a href="crypto.php">Crypto</a>
       </div>
     </div>
