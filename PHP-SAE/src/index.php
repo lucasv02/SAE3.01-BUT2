@@ -16,10 +16,12 @@ echo '<!DOCTYPE html>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet">
 </head>';
 
+echo'<body>';
+
 include 'php/menu-nc.php';
 
-echo '<body>
-  <script src="js/accueil.js"></script>
+echo '
+  <script src="/js/accueil.js"></script>
 
   <div class="content">
     <div class="text-content">
@@ -29,12 +31,15 @@ echo '<body>
 
     <div class ="video">
       <video controls width="800">
-        <source src="img/iut-velizy.mp4" type="video/mp4" />
+        <source src="../img/iut-velizy.mp4" type="video/mp4" />
       </video>
     </div>
 
   </div>
-
-</body>';
+  ';    
 
 include 'php/footer.php';
+
+echo'
+
+</body>';

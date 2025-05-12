@@ -16,21 +16,22 @@ echo '<!DOCTYPE html>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet">
 </head>';
 
+
+echo '<body>';
+
 include 'php/menu-nc.php';
 
-echo '<body>
-
-
-<script src="js/accueil.js"></script>
+echo '
+<script src="../js/accueil.js"></script>
 
 <div class="text-content">
   <h1>Page en Construction</h1>
   <br>
-  <p>Revenez dans deux semaines...</p>
-</div>
-
-
-
-</body>';
+  <p>Revenez dans deux semaines...</p>  
+</div>';
 
 include 'php/footer.php';
+
+echo'
+</body>';
+

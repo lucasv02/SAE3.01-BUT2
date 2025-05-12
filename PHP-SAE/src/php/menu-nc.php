@@ -28,20 +28,17 @@ echo'
       </button>
       <div class="navlinks-container">
         <a href="index.php">Accueil</a>
-        <a href="modules.php">Modules</a>
+        <a href="modules.php">Probabilité</a>
+        <a href="crypto.php">Crypto</a>
       </div>
     </div>
     <div class="nav-authentication">
       <a href="login.php" class="user-toggler" aria-label="Page de connexion">
         <img src="../img/user.svg" alt="Icône utilisateur" >
       </a>
-      <div class="sign-btns">
-          <button type="button" aria-label="Se connecter">
-            <a href="login.php" type="button" aria-label="Se connecter">Se connecter</a>
-          </button>
-          <button type="button" aria-label="S\inscrire">
-            <a href="inscription.php" type="button" aria-label="S\'inscrire">S\'inscrire</a>
-          </button>
+      <div class="navlinks-container">
+        <a href="login.php">Se connecter</a>
+        <a href="inscription.php" >S\'inscrire</a>
       </div>
     </div>
   </nav>
