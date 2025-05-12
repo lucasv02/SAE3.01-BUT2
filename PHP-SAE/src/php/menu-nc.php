@@ -29,6 +29,7 @@ echo'
       <div class="navlinks-container">
         <a href="index.php">Accueil</a>
         <a href="modules.php">Modules</a>
+        <a href="crypto.php">Crypto</a>
       </div>
     </div>
     <div class="nav-authentication">
