@@ -38,7 +38,7 @@ echo'
 
             <form action="/php/connexion.php" method="POST">
                 <label for="email">Identifiant</label>
-                <input type="email" name="identifiant" id="identifiant" placeholder="identifiant" required>
+                <input type="text" name="identifiant" id="identifiant" placeholder="identifiant" required>
                 <br>
                 <label for="password">Mot de passe</label>
                 <input type="password" name="password" id="password" placeholder="Mot de passe" required>
