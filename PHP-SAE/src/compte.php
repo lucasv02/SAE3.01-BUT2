@@ -10,4 +10,5 @@ echo '<!DOCTYPE html>
 
 echo '<body>
     <h1>Bienvenue sur ton compte</h1>
+    <a href="deconnexion.php">Déco</a>
 </body>';
