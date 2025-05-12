@@ -9,7 +9,7 @@ if (isset($_POST['identifiant']) && isset($_POST['password'])) {
     $login = $_POST['identifiant'];
     $password = md5($_POST['password']);
 
-    $sql = "SELECT * FROM $table WHERE `login`='.$login.' AND `password`='.$password.'";
+    $sql = "SELECT * FROM $table WHERE `login`='$login' AND `password`='$password'";
     $resultat = mysqli_query($cnx, $sql);
 
     if (mysqli_num_rows($resultat)==1) {
