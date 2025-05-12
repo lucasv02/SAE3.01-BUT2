@@ -123,7 +123,7 @@ echo '<!DOCTYPE html>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="img/logo.png" />
   <title>Relax Maths</title>
-  <link rel="stylesheet" href="css/modules.css" />
+  <link rel="stylesheet" href="css/crypto.css" />
   <link rel="stylesheet" href="css/general.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -144,8 +144,8 @@ echo '<body>
         </div>
 
         <!-- Bloc du formulaire -->
-        <div class="formulaire_calc">
-            <form id="formulaire_calc" method="POST" action="">
+        <div class="formulaire_crypto">
+            <form id="formulaire_crypto" method="POST" action="">
 
                 <div class="form-group">
                     <label for="message">Message :</label>
