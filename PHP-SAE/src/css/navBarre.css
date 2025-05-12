@@ -33,41 +33,40 @@ nav {
 }
 
 
-.navlinks-container a {
+.navlinks-container a, .sign-btns a {
     margin: 5px;
-    font-size: 20px;
-    text-decoration: none; /* Sinon une ligne apparait en dessous */
+    font-size: 24px;
+    text-decoration: solid; /* Sinon une ligne apparait en dessous */
     position: relative;
     display: inline-block;
-    color: #faed9c;
+    color: #DFF2FF;/* couleur des onglets */
     padding: 5px 10px; /* Pour un peu d'espace autour du texte */
     transition: color 0.3s ease;
 }
 
-.navlinks-container a::after {
+.navlinks-container a::after, .sign-btns a::after {
     content: "";
     position: absolute;
     left: 0;
-    bottom: -10px; /* Place la ligne en dessous */
-    width: 100%;
+    bottom: -4px; /* Place la ligne en dessous */
+    width: 88%;
     height: 3px; /* Épaisseur de la ligne */
-    background: linear-gradient(90deg, #f28d35, #faed9c); /* Dégradé */
+    background: linear-gradient(90deg,var(--bleu-roi),  var(--bleu-clair)); /* Dégradé */
     transform: scaleX(1); /* Ligne visible même sans survol */
     transform-origin: left;
     transition: transform 0.4s ease;
 }
 
-
-.navlinks-container a:hover {
-    background-color: #ef9b4e; /* Couleur de texte survol */
+.navlinks-container a:hover, .sign-btns a:hover {
+    background: var(--bleu-roi); /* Couleur de texte survol */
     color: #ffffff; /* Change la couleur survol */
     box-shadow: 5px 4px 10px rgba(0, 0, 0, 0.2);
     border-radius: 25px;
 }
 
 /* CSS après clique sur S'inscrire et Se connecter*/
-.navlinks-container a:active {
-    background-color: #f28d35; /* Couleur plus foncée pour clic */
+.navlinks-container a:active, .sign-btns a:active {
+    background: var(--bleu-roi); /* Couleur plus foncée pour clic */
     color: #ffffff; /* Contraste élevé pour le texte */
     box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.3);
     border-radius: 30px;
@@ -75,7 +74,7 @@ nav {
     transition: transform 0.1s ease-out, background-color 0.2s ease-out;
 }
 
-.navlinks-container a:hover::after {
+.navlinks-container a:hover::after, .sign-btns a:hover::after {
     transform: scaleX(1.1); /* agrandi la ligne au survol */
 }
 
@@ -223,9 +222,6 @@ nav {
         margin-left: 0;
     }
 
-    .sign-btns {
-        display: none;
-    }
 
     .user-toggler {
         display: block;
