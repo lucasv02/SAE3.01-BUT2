@@ -21,7 +21,7 @@ if (isset($_POST['identifiant']) && isset($_POST['password'])) {
 
     }
     else {
-        header('Location: /connexion.php?erreur=1');
+        header('Location: /login.php?erreur=1');
         exit(0);
     }
 }
