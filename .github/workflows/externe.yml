@@ -3,7 +3,7 @@ name: Déploiement via SFTP - Branch Lucas
 on:
   push:
     branches:
-      - dev
+      - lucas
 
 jobs:
   deploy:
