@@ -1,4 +1,4 @@
-name: Déploiement via SFTP - branche seraphin
+name: Déploiement via SFTP - seraphin.sae.lucasvieira.fr
 
 on:
   push:
@@ -21,7 +21,7 @@ jobs:
           lftp -c "
           set sftp:auto-confirm yes;
           open -u ${{ secrets.FTP_USER }},${{ secrets.FTP_SECRET }} sftp://${{ secrets.FTP_HOST }};
-          cd sites/sae.lucasvieira.fr/;
+          cd sites/seraphin.sae.lucasvieira.fr/;
           glob -a rm -rf -- [^.]*
           bye
           "
@@ -31,6 +31,6 @@ jobs:
           lftp -c "
           set sftp:auto-confirm yes;
           open -u ${{ secrets.FTP_USER }},${{ secrets.FTP_SECRET }} sftp://${{ secrets.FTP_HOST }};
-          mirror -R --parallel=10 --exclude-glob .* PHP-SAE/src/ sites/sae.lucasvieira.fr/
+          mirror -R --parallel=10 --exclude-glob .* PHP-SAE/src/ sites/seraphin.sae.lucasvieira.fr/
           bye
           "
