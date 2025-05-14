@@ -1,5 +1,11 @@
 <?php
 
+$message = "";
+if(isset($_GET["erreur"])) {
+    $message = "Erreur de mot de passe ou compte inconnu";
+}
+
+
 // Mise en place du Header
 echo '<!DOCTYPE html>
 <html lang="fr">
@@ -30,13 +36,15 @@ echo'
             <h1 id="titre-login">Relax Maths</h1>
             <p id="explicatif">Connectez-vous à votre compte</p>
 
-            <form action="/php/formulaireBd.php" method="POST">
-                <label for="email">Adresse email</label>
-                <input type="email" name="email" id="email" placeholder="Adresse mail" required>
+            <form action="/php/connexion.php" method="POST">
+                <label for="email">Identifiant</label>
+                <input type="text" name="identifiant" id="identifiant" placeholder="identifiant" required>
                 <br>
                 <label for="password">Mot de passe</label>
                 <input type="password" name="password" id="password" placeholder="Mot de passe" required>
                 <a id="mdp-oublie" href="mdpOublie.php">Mot de passe oublié ?</a>
+                <br>
+                <p class="message">'.$message.'</p>
                 <br>
                 <button class="button-connexion" type="submit">Connexion</button>
             </form>
