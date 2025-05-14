@@ -1,0 +1,216 @@
+# Compte rendu de SAE - Partie réseaux
+
+Lors de l'installation de PHP, nous avions déjà installé les extensions nécessaires pour PHPMyAdmin. Ainsi, lors de l'installation de PHPMyadmin, nous avons défini un mot de passe pour l'utilisateur phpmyadmin.
+
+**Auteurs :** Lucas Vieira, Maden Passoubady, Léa Schendel, Séraphin Laudat
+
+## I. Introduction
+
+Dans le cadre de notre SAE, nous devons mettre en place un serveur qui hebergera une application web.
+Le cahier des charges rédigé par le client nous impose d'utiliser un raspberry pi pour héberger notre application.
+
+L'objectif de ce document est donc de répertorier l'installation des différents services sur le serveur afin que quiconque puisse reproduire notre travail.
+
+## II. Informations générales sur le serveur
+
+Les informations concernant le réseau du raspberry pi peuvent être consultées en effectuant un `ip a`.
+
+- **Nom du serveur :** `pi19`
+- **Nom de l'utilisateur :** `pi19`
+- **Mot de passe :** `*!pi19!*`
+- **Adresse IP :** `192.168.25.19`
+- **Masque réseau :** `255.255.248.0`
+- **Adresse de la passerelle :** `192.168.24.254`
+- **Adresses du serveur DNS :**
+    - `192.168.24.10`
+    - `193.51.29.1`
+    - `193.51.24.1`
+
+Dans une machine linux, afin de retrouver le serveur DNS, il suffit de consulter
+le fichier `/etc/resolv.conf` qui contient les adresses des différents serveurs DNS que la machine utilise.
+
+- **Versions des différents composants** :
+    - **Version de Python :** 3.11.2
+    - **Version de PHP :** 8.2.26
+    - **Version de Apache :** 2.4.62
+    - **Version de MariaDB :** 10.11.6
+    - **Version de PHPMyAdmin :** 5.2.1
+    - **Version de R :** 4.2.2
+    - **Version de Java :** 17.0.13
+
+## III. Mise en place du raspberry pi
+
+Dans un premier temps, nous avons installé le système d'exploitation sur le raspberry pi.
+Pour cela, nous avons installé le logiciel `Raspberry Pi Imager` qui permet de flasher une carte SD avec un système d'exploitation pour raspberry pi.
+Dans notre cas, nous avons choisi d'installer `Raspberry Pi OS Lite` qui est une version allégée de l'OS basée sur Debian. Elle ne possède pas d'interface graphique
+et est donc plus légère.
+
+Ensuite, à l'aide du logiciel `Raspberry Pi Imager`, nous avons flashé une carte SD de 16Go avec `Raspberry Pi OS Lite`
+puis nous avons confié la carte SD à notre professeur afin qu'elle soit installée dans notre raspberry pi. Une fois que notre raspberry pi oppérationnel, nous nous sommes connecté
+en ssh en utilisant les identifiants que le professeur nous a fourni via la commande suivante `ssh pi19@192.168.25.19`.
+
+## IV - Correction des erreurs avant installation
+
+Avant de commencer l'installation des différents services, nous avons du corriger quelques erreurs qui étaient présentes sur le serveur.
+En effet avant de commencer à installer des services, il est important de s'assurer que le serveur est à jour et qu'il n'y ait pas d'erreurs.
+Dans notre cas, nous avons identifié 2 erreurs :
+
+### 1. Erreur de date et d'heure
+
+Lors de la connexion au serveur, nous avons remarqué que la date et l'heure n'était pas correcte.
+Normalement, un serveur utilise NTP qui est un protocole de synchronisation de l'heure sur internet à partir d'un serveur de temps. (il s'agit d'un serveur qui possède une horloge très précise).
+Cependant, dans notre cas, le serveur n'arrivait pas à se synchroniser avec un serveur NTP, car par défaut, le réseau de l'UVSQ n'autorise pas la connexion à des serveurs NTP.
+
+Pour y remédier, nous avons effectué les commandes suivantes afin de définir manuellement la date et l'heure du serveur :
+
+- `sudo timedatectl set-ntp false` afin de désactiver l'usage de ntp.
+- `sudo timedatectl set-time "YYYY-MM-DD HH:MM:SS"` pour définir l'heure et le jour actuel.
+
+### 2. Erreur de résolution de nom
+
+Lors de la connexion au serveur, nous avons remarqué que le serveur n'arrivait pas à accéder à son nom de machine.
+Pour corriger cela, nous avons dû modifier le fichier `/etc/hosts` afin d'ajouter une ligne qui associe le nom de la machine à son adresse IP.
+
+Pour y remédier, nous avons effectué les commandes suivantes :
+- `sudo nano /etc/hosts` afin d'ouvrir le fichier hosts
+- Puis ajouter la ligne suivante : `127.0.0.1 rpi19`
+
+Une fois ces erreurs corrigées, nous avons pu effectuer un `apt-get update` et `apt-get upgrade` afin de mettre à jour les paquets utilisés par le serveur.
+
+## V - Installation de PHP et MariaDB
+
+Nous avons installé PHP et MariaDB en même temps sur notre serveur, afin d'y parvenir nous avons saisi les commandes suivantes :
+
+- `sudo apt install -y php php-pdo php-mysql php-zip php-gd php-mbstring php-curl php-json php-xml php-pear php-bcmath libapache2-mod-php mariadb-server mariadb-client` Cette commande nous permet d'installer PHP,
+  MariaDB et les différentes extensions PHP basiques.
+
+- `sudo mysql_secure_installation` Cette commande nous permet de sécuriser notre installation de MariaDB en définissant un mot de passe root et en supprimant les utilisateurs anonymes.
+  Il est important d'effectuer cette commande afin de sécuriser notre base de données.
+
+Par défault, après l'installation du service MariaDB, le service est démarré et activé automatiquement.
+Dans le cas ou le service ne serait pas démarré ou activé, il est possible de le démarrer et de l'activer en utilisant les commandes suivantes :
+
+- `sudo systemctl start mariadb` pour démarrer le service MariaDB.
+- `sudo systemctl enable mariadb` pour activer le service MariaDB au démarrage du serveur.
+
+## VI - Installation de Apache
+
+Une fois PHP et MariaDB installés, nous avons procédé à l'installation d'Apache sur notre serveur. Pour cela, nous avons utilisé la commande suivante : `sudo apt install -y apache2`.
+Cette commande nous permet d'installer le serveur web Apache sur notre Raspberry Pi.
+Par défault, après l'installation, le service est démarré et activé automatiquement. 
+
+Si cela n'est pas le cas, il est possible de démarrer et d'activer le service en utilisant les commandes suivantes :
+
+- `sudo systemctl start apache2` pour démarrer le service Apache.
+- `sudo systemctl enable apache2` pour activer le service Apache au démarrage du serveur.
+
+Une fois Apache installé, nous avons effectué un test en ouvrant un navigateur web et en tapant l'adresse IP de notre serveur.
+Ce qui nous a bien amené sur la page par défault d'Apache.
+
+## VII - Installation de PHPMyAdmin
+
+Nous avons décidé d'installer PHPMyAdmin sur notre serveur afin de faciliter la gestion de notre base de données et de nos tables. Cependant, en production, nous retirerons PHPMyAdmin pour des raisons de sécurité car cela pourrait être une faille de sécurité.
+
+Pour installer PHPMyAdmin, nous avons utilisé la commande suivante `sudo apt install phpmyadmin` en ayant vérifié en amont que les extensions php nécessaires étaient installées.
+Lors de l'installation de PHP, nous avions déjà installé les extensions nécessaires pour PHPMyAdmin. Ainsi, lors de l'installation de PHPMyadmin, nous avons défini un mot de passe pour l'utilisateur phpmyadmin.
+Par défaut, PHPMyadmin crée un alias pour Apache, ce qui nous permet d'accéder à PHPMyAdmin en tapant l'adresse IP de notre serveur suivi de `/phpmyadmin`.
+
+Ainsi, nous avons pu nous connecter à PHPMyAdmin en utilisant les identifiants que nous avons défini lors de l'installation de celui-ci ou en nous connectant avec l'utilisateur root de MariaDB.
+
+## VIII - Installation de fail2ban
+
+Nous avons décidé d'installer fail2ban sur notre serveur afin de sécuriser notre serveur.
+Fail2ban est un logiciel qui permet de surveiller les identifiants de connexion et de bannir les adresses IP qui tentent de se connecter de manière répétée avec des identifiants incorrects.
+Il prend en compte plusieurs types de services comme SSH, Apache, Nginx, etc. Dans notre cas, nous le mettons en place sur le service ssh.
+
+Dans un premier temps, nous avons installé fail2ban en utilisant la commande suivante `sudo apt install -y fail2ban`.
+Puis nous avons activé le service fail2ban en utilisant la commande `sudo systemctl enable fail2ban` et `sudo systemctl start fail2ban`.
+
+Nous avons ensuite configuré fail2ban pour qu'il surveille les identifiants de connexion ssh en créant un fichier jail dans le dossier `/etc/fail2ban/jail.local` avec le contenu suivant :
+
+```
+[sshd]
+enabled = true
+port = ssh
+filter = sshd
+logpath = /var/log/auth.log
+maxretry = 3
+findtime = 300
+bantime = 3600
+ignoreip = 127.0.0.1
+```
+
+Ce fichier de configuration permet de surveiller les identifiants de connexion ssh, si une adresse IP tente de se connecter trois fois avec un mot de passe incorrect en moins de cinq minutes,
+l'adresse IP sera bannie pour une durée d'une heure. Nous avons ajouté une exception pour l'adresse IP `127.0.0.1` afin de ne pas bannir l'adresse IP du serveur.
+
+Avant de rédémarrer le service fail2ban, nous avons vérifié que le fichier `/var/log/auth.log` existait bien et qu'il contenait les logs de connexion ssh. 
+Dans notre cas, il n'était pas présent, nous avons donc installé rsyslog en utilisant la commande `sudo apt install -y rsyslog` afin d'enregistrer les différentes tentatives de connexion ssh.
+
+Une fois la configuration de ce fichier terminée, nous avons redémarré le service fail2ban en utilisant la commande `sudo systemctl restart fail2ban`.
+Pour conclure, nous avons vérifié que fail2ban fonctionnait correctement en utilisant la commande `sudo fail2ban-client status sshd` qui nous a renvoyé que le service était actif.
+Nous avons également vérifié que cela fonctionnait en essayant de nous connecter en ssh avec un mot de passe incorrect plusieurs fois, ce qui a bien banni notre adresse IP.
+
+### Quelques commandes fail2ban utiles :
+
+- `sudo fail2ban-client status sshd` : Permet de vérifier l'état du service fail2ban pour le service sshd. Elle affiche aussi le nombres d'adresses IP bannie ainsi que celles bannies.
+- `sudo fail2ban-client set sshd unbanip ADRESSE_IP` : Permet de débannir une adresse IP bannie par le service.
+
+## IX - Installation des langages de programmations
+
+Nous avons installé 4 langages de programmation sur notre serveur : Python, PHP, R et Java. Nous ne savons pas encore si nous allons tous les utiliser mais nous les avons installé pour le moment par mesure de prévention.
+
+### Installation de Python
+
+Par défault, Python est déjà installé sur notre serveur, nous avons donc vérifié la version de Python en utilisant la commande `python3 --version` qui nous a renvoyé la version 3.11.2.
+Nous avons donc estimé qu'il n'était pas nécessaire de upgrader Python car il est aussi utilisé par d'autres services et cela aurait pu poser des problèmes de compatibilité.
+
+Afin de vérifier que python fonctionne, nous avons créé un petit programme python :
+
+```python
+print("Hello World")
+```
+Nous avons exécuté ce programme en utilisant la commande `python3 hello.py` et cela a bien affiché `Hello World`.
+
+### Installation de PHP
+
+PHP a été installé en même temps que MariaDB, nous avons donc vérifié la version de PHP en utilisant la commande `php --version` qui nous a renvoyé la version 8.2.26.
+Cette version de PHP est suffisante pour notre application web, nous en avons conclu qu'il n'était pas nécessaire de upgrader PHP.
+
+Afin de vérifier que PHP fonctionne, nous avons créé un petit programme PHP :
+
+```php
+<?php
+echo "Hello World";
+?>
+```
+Nous avons exécuté ce programme en utilisant la commande `php hello.php` et cela a bien affiché `Hello World`.
+
+### Installation de R
+
+R n'étant pas présent par défaut, nous l'avons téléchargé en utilisant la commande suivante `sudo apt install -y r-base`. Nous avons ensuite vérifié la version de R en utilisant la commande `R --version` qui nous a renvoyé la version 4.2.2.
+Cette version de R n'étant pas obsolète, nous n'avons pas jugé nécessaire de upgrader R.
+
+Afin de vérifier que R fonctionne, nous avons créé un petit programme R :
+
+```R
+print("Hello World")
+```
+
+Nous avons exécuté ce programme en utilisant la commande `Rscript hello.R` et cela a bien affiché `Hello World`.
+
+### Installation de Java
+
+Pour finir, nous avons installé Java sur notre serveur. Pour cela nous avons saisi la commande suivante `sudo apt install -y default-jdk`.
+Puis, nous avons vérifié la version de Java en utilisant la commande `java --version` qui nous a renvoyé la version 17.0.13.
+
+Afin de s'assurer que java fonctionne, nous avons créé un petit programme Java :
+
+```java
+public class Hello {
+    public static void main(String[] args) {
+        System.out.println("Hello World");
+    }
+}
+```
+
+Nous l'avons compilé en utilisant la commande `javac Hello.java` puis exécuté en utilisant la commande `java Hello` et cela a bien affiché `Hello World`.
