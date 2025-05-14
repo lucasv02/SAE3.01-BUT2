@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 function chiffrer($message) {
 
     // Nettoyage du message : minuscules, suppression des caractères non valides
-    $message = strtolower($message);
+    $message = strtoupper($message);
     $message = preg_replace('/[^A-Z0-9]/', '', $message);  // on garde que A-Z et 0-9
 
 
@@ -55,7 +55,6 @@ function chiffrer($message) {
         for ($j = 0; $j < 6; $j++) {
             $lettre = $grille[$i][$j];
             $substitution[$lettre] = $lignes[$i] . $colonnes[$j];
-            echo $substitution[$lettre];
         }
     }
 
@@ -63,10 +62,8 @@ function chiffrer($message) {
     $message_chiffre = '';
     $chars = str_split($message);
     foreach ($chars as $c) {
-        echo "%s\n", $c;
         if (isset($substitution[$c])) {
             $message_chiffre .= $substitution[$c];
-            echo $message_chiffre;
         }
     }
 
