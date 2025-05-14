@@ -1,9 +1,9 @@
-name: Déploiement via SFTP
+name: Déploiement via SFTP - branche seraphin
 
 on:
   push:
     branches:
-      - dev
+      - seraphin
 
 jobs:
   deploy:
