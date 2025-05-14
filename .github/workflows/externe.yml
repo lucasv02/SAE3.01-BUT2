@@ -1,0 +1,36 @@
+name: Déploiement via SFTP - lucas.sae.lucasvieira.fr
+
+on:
+  push:
+    branches:
+      - lucas
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupération du code
+        uses: actions/checkout@v4
+
+      - name: Installation de lftp
+        run: sudo apt-get update && sudo apt-get install -y lftp
+
+      - name: Nettoyage du dossier distant (sans supprimer les fichiers cachés)
+        run: |
+          lftp -c "
+          set sftp:auto-confirm yes;
+          open -u ${{ secrets.FTP_USER }},${{ secrets.FTP_SECRET }} sftp://${{ secrets.FTP_HOST }};
+          cd sites/lucas.sae.lucasvieira.fr/;
+          glob -a rm -rf -- [^.]*
+          bye
+          "
+
+      - name: Envoi des fichiers de PHP-SAE/src via SFTP
+        run: |
+          lftp -c "
+          set sftp:auto-confirm yes;
+          open -u ${{ secrets.FTP_USER }},${{ secrets.FTP_SECRET }} sftp://${{ secrets.FTP_HOST }};
+          mirror -R --parallel=10 --exclude-glob .* PHP-SAE/src/ sites/lucas.sae.lucasvieira.fr/
+          bye
+          "

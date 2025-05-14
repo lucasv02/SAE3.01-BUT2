@@ -1,9 +1,10 @@
-  <!DOCTYPE html>
+   <!DOCTYPE html>
   <html lang="fr">
   <head>
     <meta charset="UTF-8" >
     <meta http-equiv="X-UA-Compatible" content="IE=edge" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <link rel="icon" href="../img/logo.png" />
     <title>Relax Maths - Module Calcul</title>
     <link rel="stylesheet" href="../css/style.css" >
     <link rel="stylesheet" href="../css/modules.css" >
@@ -16,7 +17,7 @@
   <body>
   <!--------------------------------------------------------------------------------------------------------------------->
   <header>
-    <div class="banniere_ht">
+    <div class="banniere_haute">
       <img src="../img/banniere_haut.svg" alt="Bannière haute">
     </div>
     <nav>
@@ -31,17 +32,19 @@
           <span></span>
         </button>
         <div class="navlinks-container">
-          <a href="#" aria-current="page">Accueil</a>
-          <a href="#">Modules</a>
-          <a href="#">Historique</a>
+          <a href="index.html">Accueil</a>
+          <a href="modules.html">Modules</a>
+          <a href="historique.html">Historique</a>
         </div>
       </div>
       <div class="nav-authentication">
-        <a href="#" class="user-toggler" aria-label="Page de connexion">
+        <a href="login.html" class="user-toggler" aria-label="Page de connexion">
           <img src="../img/user.svg" alt="Icône utilisateur" >
         </a>
         <div class="sign-btns">
-          <button type="button" aria-label="Déconnexion">Déconnexion</button>
+          <a href="index.html" type="button" aria-label="Se connecter">
+            <button type="button" aria-label="Déconnexion">Déconnexion</button>
+          </a>
         </div>
       </div>
     </nav>
@@ -96,22 +99,17 @@
     </div>
   </main>
 
-
+  <script src="../js/accueil.js"></script>
 
   <!--------------------------------------------------------------------------------------------------------------------->
 
   <!-- Bannière du bas -->
-  <footer>
-    <div class="banniere_bs">
-      <img src="../img/banniere_bas.svg" alt="Bannière basse">
-    </div>
-
-    <div class="footer-content">
-      <p>&copy; 2025 Relax Maths. Tous droits réservés.</p>
-    </div>
-  </footer>
-
-
 
   </body>
+
+  <footer>
+    <div class="banniere_bas">
+      <img src="../img/banniere_bas.svg" alt="Bannière basse">
+    </div>
+  </footer>
   </html>

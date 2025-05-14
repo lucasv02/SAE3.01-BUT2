@@ -1,116 +1,38 @@
 <?php
 
-require_once ("fonctions.php");
+// Connexion à la base de données
+$cnx=mysqli_connect("di2s6.myd.infomaniak.com","di2s6_sae","saqfy8-tutxus-xeDzaq"); // Connexion à MySQL (aucun mot de passe spécifié, à sécuriser dans un environnement de production)
+$bd=mysqli_select_db($cnx,"di2s6_sae"); // Sélection de la base de données "auth"
+$table="utilisateur"; // Nom de la table dans la base de données
 
-echo "<body>
-          <div class='conteneur-formulaire'>
-              <img id='logo' src='images/logo.jpeg' alt='logo représentant une calculatrice'>
-              <h1 id='titre-login'>Relax Maths</h1>
-              <p id='explicatif'>Connectez-vous à votre compte</p>
-                  <form action='login.php' method='post'>
-                      <label for='email'>Adresse mail</label>
-                      <input type='email' name='email' id='email' placeholder='Adresse mail' required>
-                      <br>
-                      <label for='password'>Mot de passe</label>
-                      <input type='password' name='password' id='password' placeholder='Mot de passe' required>
-                      <a id='mdp-oublie' href='/reset-password'>Mot de passe oublié ?</a>
-                      <br>
-                      <button type='submit'>Connexion</button>
-                      <p id='copyright'>© 2024 Relax Maths</p>
-                  </form>
+if (isset($_POST['identifiant'], $_POST['password'])) {
+    $login = $_POST['identifiant'];
+    $password = md5($_POST['password']);
 
 
-          </div>
-      </body>";
+    $sql = "SELECT `login`, `password` FROM $table WHERE `login`='$login' AND `password`='$password'";
+    $resultat = mysqli_query($cnx, $sql);
 
-echo "<style>
-body {
-          background-color: #f5f6fa;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-          display: flex;
+    if (!$resultat) {
+        error_log("Erreur lors de l'exécution de la requête SELECT: " . mysqli_error($cnx));
+        die("Erreur lors de l'exécution de la requête");
+    }
 
-      }
-
-      #titre-login {
-          margin-bottom: 5px;
-          font-family: Arial, Helvetica, sans-serif;
-      }
-
-      #explicatif {
-          margin-top: 5px;
-          font-size: 22px;
-          font-family: Arial, Helvetica, sans-serif;
-      }
-
-      #copyright {
-          text-align: center;
-      }
-
-      .conteneur-formulaire {
-          display: flex;
-          align-items: center;
-          flex-direction: column;
-          background-color: #ffffff;
-          padding-left: 60px;
-          padding-right: 60px;
-          padding-bottom: 10px;
-          padding-top: 15px;
-          border-radius: 10px;
-      }
-
-      form {
-          display: flex;
-          flex-direction: column;
-          width: 100%;
-          font-family: Arial, Helvetica, sans-serif;
-      }
-
-      input[type='email'], input[type='password'] {
-          border-radius: 5px;
-          background-color: #ffffff;
-          border: 1px solid #ccc;
-          padding: 5px;
-          margin-top: 10px;
-      }
-
-      button[type='submit'] {
-          border-radius: 5px;
-          background-color: #d9824c;
-          border: 1px solid #ccc;
-          padding: 5px;
-          margin-top: 10px;
-          font-family: Arial, Helvetica, sans-serif;
-      }
-      #logo {
-          width: 100px;
-          height: auto;
-
-      }
-
-      #mdp-oublie {
-          margin-top: 5px;
-          color: #000000;
-          text-align: right;
-          align-self: flex-end;
-          font-family: Arial, Helvetica, sans-serif;
-      }
-  </style>
-";
-
-$cnx=mysqli_connect("localhost","relax-user","HeLu2FGK#2J");
-$bd=mysqli_select_db($cnx,"auth");
-$table="relax";
-
-if (isset($_POST['email'],$_POST['password'])) {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    $sqlInser="INSERT INTO $table (email, password) VALUES ('$email', '$password')";
-    print_r($sqlInser);
-    mysqli_query($cnx,$sqlInser);
-
+    if (mysqli_num_rows($resultat)==1) {
+        header('Location: /inscription.php?erreur=1');
+    }
+    else {
+        $sqlInsert = "INSERT INTO $table (login,password) VALUES ('$login','$password');";
+        mysqli_query($cnx,$sqlInsert);
+        header('Location: /inscription.php?ok=1');
+    }
 }
 
-mysqli_close($cnx);
+
+
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Insère un nouvel utilisateur avec le login et le mot de passe soumis
+//$sqlInser="INSERT INTO $table (login, password) VALUES ('$login', '$password')";
+//mysqli_query($cnx,$sqlInser); // Exécution de la requête d'insertion
+//}
