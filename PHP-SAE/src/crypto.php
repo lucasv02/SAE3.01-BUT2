@@ -151,7 +151,7 @@ echo '<body>
 
                 <div class="form-group">
                     <label for="message">Message :</label>
-                    <input type="text" id="message" name="message" placeholder="perdu" required>
+                    <input type="text" id="message" name="message" placeholder="Exemple : perdu" required>
                 </div>
                 
                 <div class="form-group">
