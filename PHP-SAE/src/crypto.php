@@ -135,7 +135,7 @@ echo '<!DOCTYPE html>
 include 'php/menu-c.php';
 
 echo '<body>
-<main class="crytpographie">
+<main class="cryptographie">
     <div class="formulaire">
         <div class="titre">
             <h1>Module de Cryptographie</h1>
