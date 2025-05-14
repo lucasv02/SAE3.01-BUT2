@@ -1,4 +1,4 @@
-name: Déploiement via SFTP
+name: Déploiement via SFTP - Branch Lucas
 
 on:
   push:
