@@ -55,7 +55,7 @@ function chiffrer($message) {
         for ($j = 0; $j < 6; $j++) {
             $lettre = $grille[$i][$j];
             $substitution[$lettre] = $lignes[$i] . $colonnes[$j];
-            console.log($substitution[$lettre]);
+            echo $substitution[$lettre];
         }
     }
 
@@ -63,10 +63,10 @@ function chiffrer($message) {
     $message_chiffre = '';
     $chars = str_split($message);
     foreach ($chars as $c) {
-        console.log("%s\n", $c);
+        echo "%s\n", $c;
         if (isset($substitution[$c])) {
             $message_chiffre .= $substitution[$c];
-            console.log($message_chiffre);
+            echo $message_chiffre;
         }
     }
 
