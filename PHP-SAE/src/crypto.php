@@ -30,10 +30,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 function chiffrer($message) {
+
+    // Nettoyage du message : minuscules, suppression des caractères non valides
+    $message = strtolower($message);
+    $message = preg_replace('/[^A-Z0-9]/', '', $message);  // on garde que A-Z et 0-9
+
+
     $lignes = ['A', 'D', 'F', 'G', 'V', 'X'];
     $colonnes = ['A', 'D', 'F', 'G', 'V', 'X'];
 
-    // Grille de l'énoncé (en minuscules pour cohérence)
+    // Grille de l'énoncé (en majuscules pour cohérence)
     $grille = [
         ['G', 'E', 'H', 'I', 'M', 'S'],
         ['C', 'R', 'F', 'T', 'D', 'U'],
@@ -49,19 +55,18 @@ function chiffrer($message) {
         for ($j = 0; $j < 6; $j++) {
             $lettre = $grille[$i][$j];
             $substitution[$lettre] = $lignes[$i] . $colonnes[$j];
+            printf($substitution[$lettre]);
         }
     }
-
-    // Nettoyage du message : minuscules, suppression des caractères non valides
-    $message = strtolower($message);
-    $message = preg_replace('/[^a-z0-9]/', '', $message);  // on garde que a-z et 0-9
 
     // Chiffrement
     $message_chiffre = '';
     $chars = str_split($message);
     foreach ($chars as $c) {
+        printf("%s\n", $c);
         if (isset($substitution[$c])) {
             $message_chiffre .= $substitution[$c];
+            printf($message_chiffre);
         }
     }
 
