@@ -30,10 +30,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 function chiffrer($message) {
+
+    // Nettoyage du message : minuscules, suppression des caractères non valides
+    $message = strtoupper($message);
+    $message = preg_replace('/[^A-Z0-9]/', '', $message);  // on garde que A-Z et 0-9
+
+
     $lignes = ['A', 'D', 'F', 'G', 'V', 'X'];
     $colonnes = ['A', 'D', 'F', 'G', 'V', 'X'];
 
-    // Grille de l'énoncé (en minuscules pour cohérence)
+    // Grille de l'énoncé (en majuscules pour cohérence)
     $grille = [
         ['G', 'E', 'H', 'I', 'M', 'S'],
         ['C', 'R', 'F', 'T', 'D', 'U'],
@@ -51,10 +57,6 @@ function chiffrer($message) {
             $substitution[$lettre] = $lignes[$i] . $colonnes[$j];
         }
     }
-
-    // Nettoyage du message : minuscules, suppression des caractères non valides
-    $message = strtolower($message);
-    $message = preg_replace('/[^a-z0-9]/', '', $message);  // on garde que a-z et 0-9
 
     // Chiffrement
     $message_chiffre = '';
@@ -133,7 +135,7 @@ echo '<!DOCTYPE html>
 include 'php/menu-c.php';
 
 echo '<body>
-<main class="crytpographie">
+<main class="cryptographie">
     <div class="formulaire">
         <div class="titre">
             <h1>Module de Cryptographie</h1>
@@ -149,7 +151,7 @@ echo '<body>
 
                 <div class="form-group">
                     <label for="message">Message :</label>
-                    <input type="text" id="message" name="message" placeholder="perdu" required>
+                    <input type="text" id="message" name="message" placeholder="Exemple : perdu" required>
                 </div>
                 
                 <div class="form-group">
