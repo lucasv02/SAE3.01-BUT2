@@ -1,10 +1,16 @@
 <?php
-
+session_start();
 $message = "";
-if(isset($_GET["erreur"])) {
-    $message = "Erreur de mot de passe ou compte inconnu";
+if (isset($_GET["erreur"])) {
+    switch ($_GET["erreur"]) {
+        case 1:
+            $message = "Erreur de mot de passe ou compte inconnu.";
+            break;
+        case 2:
+            $message = "Erreur dans le captcha. Veuillez réessayer.";
+            break;
+    }
 }
-
 
 // Mise en place du Header
 echo '<!DOCTYPE html>
