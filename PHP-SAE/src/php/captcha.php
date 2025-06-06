@@ -1,4 +1,5 @@
 <?php
+
 function aleatoire($rnd){
     $num=range(0, 9);
     shuffle($num);
@@ -20,17 +21,14 @@ function aleatoire($rnd){
     echo "</tr></table>";
 }
 
+session_start();
 $captcha = random_int(0, 9);
+$_SESSION['captcha'] = $captcha;
 
+echo "<fieldset class='fieldset'>
+<legend class='legend'>Captcha</legend>
+<label for='alea'>Captcha</label><br>";
 aleatoire($captcha);
-
-
-echo "<fildset class='fieldset'><legend class='legend'>Captcha</legend>
-<label for='alea'>Captcha</label>
-<input type='number' name='alea' placeholder='Entrez le numéro' id='alea'>
-<button type='submit' name='ok' value='Valider'>Valider</button>
-";
-if (isset($_GET['error'])) {
-    echo "<p class='perreor'>vous avez une erreur sur la saisie de vos identifiants.</p>";
-}
-echo "</fildset>";
+echo "<input type='number' name='alea' placeholder='Entrez le numéro' id='alea' required>
+</fieldset>";
+?>
