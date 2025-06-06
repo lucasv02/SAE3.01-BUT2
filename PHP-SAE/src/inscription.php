@@ -1,9 +1,15 @@
 <?php
 
 $message = "";
-if(isset($_GET["erreur"])) {
-    $message = "Un compte est déjà existant";
+if (isset($_GET["erreur"])) {
+    if ($_GET["erreur"] == 2) {
+        $message = "Erreur dans le captcha. Veuillez réessayer.";
+    } else {
+        $message = "Un compte est déjà existant.";
+    }
+    $typeMessage = "erreur";
 }
+
 
 if(isset($_GET["ok"])) {
     $message = "Votre compte a été crée avec succès";
