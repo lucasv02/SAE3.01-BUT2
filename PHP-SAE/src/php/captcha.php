@@ -6,7 +6,7 @@ $a = random_int(0, 50);
 $b = random_int(0, 50);
 
 //Stock le résultat du calcul dans la session
-$_SESSION['captcha'] = $a + $b;
+$_SESSION['captcha-result'] = $a + $b;
 
 
 echo "
