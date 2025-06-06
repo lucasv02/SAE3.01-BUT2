@@ -23,7 +23,7 @@ function aleatoire($rnd){
 
 session_start();
 $captcha = random_int(0, 9);
-$_SESSION['captcha'] = $captcha;
+$_SESSION['captcha'] = $captcha;//Commentaire test
 
 echo "<fieldset class='fieldset'>
 <legend class='legend'>Captcha</legend>
