@@ -12,7 +12,7 @@ $_SESSION['captcha'] = $a + $b;
 echo "
 <fieldset class='fieldset'><legend class='legend'>Captcha</legend>
 <label for='alea'>Combien font $a + $b ?</label><br>
-<input type='number' name='alea' placeholder='Entrez le réponse' id='alea' required>
+<input type='number' name='captcha' placeholder='Entrez le réponse' id='captcha' required>
 </fieldset>";
 
 //Affichage d'un message d'erreur en cas d'erreur
