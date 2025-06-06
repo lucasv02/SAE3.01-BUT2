@@ -89,25 +89,34 @@ input[type="email"], input[type="password"] {
 }
 
 /* Css pour captcha*/
-.captcha {
-    margin-top: 15px;
+#captcha {
+    width: 100%;
+    padding: 10px;
+    font-size: 15px;
+    margin-top: 5px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
-.captcha label {
+/* Style du label associé */
+label[for="captcha"] {
     display: block;
-    font-size: 18px;
-    font-weight: 500;
     margin-bottom: 5px;
+    font-weight: 500;
     color: #333;
 }
 
-.captcha input[type="number"] {
-    width: 100%;
-    padding: 6px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    box-sizing: border-box;
+#captcha, label[for="captcha"] {
+    margin-bottom: 15px;
 }
+
+#captcha:focus {
+    outline: none;
+    box-shadow: 0 0 6px rgba(242, 141, 53, 0.5);
+    border-color: #f28d35;
+}
+
 
 
