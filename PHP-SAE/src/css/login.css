@@ -88,3 +88,26 @@ input[type="email"], input[type="password"] {
     font-size: 18px;
 }
 
+/* Css pour captcha*/
+.captcha {
+    margin-top: 15px;
+}
+
+.captcha label {
+    display: block;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.captcha input[type="number"] {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+
