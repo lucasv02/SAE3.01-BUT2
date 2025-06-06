@@ -43,20 +43,21 @@ echo'
                 <label for="password">Mot de passe</label>
                 <input type="password" name="password" id="password" placeholder="Mot de passe" required>
                 <a id="mdp-oublie" href="mdpOublie.php">Mot de passe oublié ?</a>
-                <br>
-                <br>
+                <br><br>';
+include 'php/captcha.php';
+
+echo'                
                 <p class="message">'.$message.'</p>
                 <br>
                 <button class="button-connexion" type="submit">Connexion</button>
             </form>
         </div>
     </div>';
-include 'php/captcha.php';
 
 include 'php/footer.php';
 
 echo'
-
 </body>';
+
 
 
