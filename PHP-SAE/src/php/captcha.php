@@ -17,6 +17,6 @@ echo "
 
 //Affichage d'un message d'erreur en cas d'erreur
 if(isset($_GET['erreur']) && $_GET['erreur'] != 2) {
-    echo '<p class\"perreor\">Erreur sur le captcha. Veuillez réessayer.</p>';
+    echo '<p class=\"perreor\">Erreur sur le captcha. Veuillez réessayer.</p>';
 }
 ?>
