@@ -40,15 +40,16 @@ echo '<body>
                 <br>
                 <label for="password">Mot de passe</label>
                 <input type="password" name="password" id="password" placeholder="Mot de passe" required>
-                <br>
+                <br>';
+include 'php/captcha.php';
+
+echo '
                 <p class="message">'.$message.'</p>
                 <br>
                 <button class="button-connexion" type="submit">S\'incrire</button>
             </form>
         </div>
     </div>
-
-
 </body>';
 
 include 'php/footer.php';
