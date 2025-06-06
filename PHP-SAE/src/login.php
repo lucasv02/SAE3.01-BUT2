@@ -49,7 +49,7 @@ echo'
                 <label for="password">Mot de passe</label>
                 <input type="password" name="password" id="password" placeholder="Mot de passe" required>
                 <a id="mdp-oublie" href="mdpOublie.php">Mot de passe oublié ?</a>
-                <br><br>';
+                <br>';
 include 'php/captcha.php';
 
 echo'                
