@@ -44,6 +44,8 @@ echo'
                 <input type="password" name="password" id="password" placeholder="Mot de passe" required>
                 <a id="mdp-oublie" href="mdpOublie.php">Mot de passe oublié ?</a>
                 <br>
+                <?php include "php/captcha.php" ?>
+                <br>
                 <p class="message">'.$message.'</p>
                 <br>
                 <button class="button-connexion" type="submit">Connexion</button>
