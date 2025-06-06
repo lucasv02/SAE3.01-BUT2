@@ -2,8 +2,8 @@
 session_start(); // Necéssaire pour stocker les valeurs à vérifer
 
 //Générer un calcul simple
-$a = random_int(0, 100);
-$b = random_int(0, 100);
+$a = random_int(0, 50);
+$b = random_int(0, 50);
 
 //Stock le résultat du calcul dans la session
 $_SESSION['captcha'] = $a + $b;
