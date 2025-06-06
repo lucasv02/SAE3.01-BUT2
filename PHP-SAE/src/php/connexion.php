@@ -2,16 +2,16 @@
 session_start();
 
 $cnx = mysqli_connect("di2s6.myd.infomaniak.com", "di2s6_sae", "saqfy8-tutxus-xeDzaq");
-$bd = mysqli_select_db($cnx, "di2s6_sae");//on choisi la base de donnée
+$bd = mysqli_select_db($cnx, "di2s6_sae");//ont choisi la base de donnée
 $table = "utilisateur"; //nom de table dans la BDD
 
 if (isset($_POST['identifiant']) &&
     isset($_POST['password']) &&
-    isset($_POST['alea']) &&
-    isset($_SESSION['captcha'])
+    isset($_POST['captcha']) &&
+    isset($_SESSION['captcha-result'])
 ) {
     // Vérifie si le captcha est corretc
-    if ($_POST['alea'] != $_SESSION['captcha']) {
+    if ($_POST['captcha'] != $_SESSION['captcha-result']) {
         header("location: /login.php?erreur=2");
         exit();
     }
