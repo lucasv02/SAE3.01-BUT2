@@ -10,7 +10,7 @@ if (isset($_POST['identifiant']) &&
     isset($_POST['captcha']) &&
     isset($_SESSION['captcha-result'])
 ) {
-    // Vérifie si le captcha est corretc
+    // Vérifie si le captcha est correct
     if ($_POST['captcha'] != $_SESSION['captcha-result']) {
         header("location: /login.php?erreur=2");
         exit();
@@ -27,7 +27,7 @@ if (isset($_POST['identifiant']) &&
         $_SESSION["login"] = true;
         $_SESSION['identifiant'] = $login;
         $_SESSION['password'] = $password;
-        header('Location: /compte.php');
+        header('Location: /index.php');
         exit();
     } else {
         header('Location: /login.php?erreur=1');
