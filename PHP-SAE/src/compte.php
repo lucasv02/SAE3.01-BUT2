@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 echo '<!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -10,5 +12,6 @@ echo '<!DOCTYPE html>
 
 echo '<body>
     <h1>Bienvenue sur ton compte</h1>
+    <p>Votre identifiant : ' . htmlspecialchars($_SESSION['identifiant']) . '</p>
     <a href="deconnexion.php">Déco</a>
 </body>';

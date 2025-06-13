@@ -1,9 +1,15 @@
 <?php
 
 $message = "";
-if(isset($_GET["erreur"])) {
-    $message = "Un compte est déjà existant";
+if (isset($_GET["erreur"])) {
+    if ($_GET["erreur"] == 2) {
+        $message = "Erreur dans le captcha. Veuillez réessayer.";
+    } else {
+        $message = "Un compte est déjà existant.";
+    }
+    $typeMessage = "erreur";
 }
+
 
 if(isset($_GET["ok"])) {
     $message = "Votre compte a été crée avec succès";
@@ -40,21 +46,16 @@ echo '<body>
                 <br>
                 <label for="password">Mot de passe</label>
                 <input type="password" name="password" id="password" placeholder="Mot de passe" required>
-                <br>
+                <br>';
+include 'php/captcha.php';
+
+echo '
                 <p class="message">'.$message.'</p>
                 <br>
                 <button class="button-connexion" type="submit">S\'incrire</button>
             </form>
         </div>
     </div>
-
-
 </body>';
-
-echo "
-<label for='alea'>Captcha</label>
-<imput type='number' name='alea' id='alea'>
-<button type='submit' name='ok' value='Valider'>Valider</button>
-";
 
 include 'php/footer.php';

@@ -1,26 +1,22 @@
 <?php
+session_start(); // Necéssaire pour stocker les valeurs à vérifer
 
-$x =array(12,10,8,10,2,4,10);
-$n =array(1,2,1,3,1,2,4);
+//Générer un calcul simple
+$a = random_int(0, 50);
+$b = random_int(0, 50);
 
-echo '<table>';
-echo '<tr>';
-echo '<th>x</th>';
-foreach ($x as $value) {
-    echo '<td>'.$value.'</td>';
+//Stock le résultat du calcul dans la session
+$_SESSION['captcha-result'] = $a + $b;
+
+
+echo "
+<fieldset class='fieldset'><legend class='legend'>Captcha</legend>
+<label for='captcha'>Combien font $a + $b ?</label><br>
+<input type='number' name='captcha' placeholder='Entrez le réponse' id='captcha' required>
+</fieldset>";
+
+//Affichage d'un message d'erreur en cas d'erreur
+if(isset($_GET['erreur']) && $_GET['erreur'] != 2) {
+    echo '<p class="erreur">Erreur sur le captcha. Veuillez réessayer.</p>';
 }
-echo '</tr>';
-
-echo '<tr>';
-echo '<th>n</th>';
-foreach ($n as $value) {
-    echo '<td>'.$value.'</td>';
-}
-echo '</tr>';
-echo '</table>';
-
-
-$message="";
-if(isset($_GET["error"])){
-    $message="erreur d'identifiant ou de MDP";
-}
+?>

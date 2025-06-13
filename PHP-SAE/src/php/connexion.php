@@ -1,27 +1,39 @@
 <?php
+session_start();
 
 $cnx = mysqli_connect("di2s6.myd.infomaniak.com", "di2s6_sae", "saqfy8-tutxus-xeDzaq");
-$bd = mysqli_select_db($cnx, "di2s6_sae");//on choisi la base de donnée
+$bd = mysqli_select_db($cnx, "di2s6_sae");//ont choisi la base de donnée
 $table = "utilisateur"; //nom de table dans la BDD
 
+if (isset($_POST['identifiant']) &&
+    isset($_POST['password']) &&
+    isset($_POST['captcha']) &&
+    isset($_SESSION['captcha-result'])
+) {
+    // Vérifie si le captcha est corretc
+    if ($_POST['captcha'] != $_SESSION['captcha-result']) {
+        header("location: /login.php?erreur=2");
+        exit();
+    }
 
-if (isset($_POST['identifiant']) && isset($_POST['password'])) {
+
     $login = $_POST['identifiant'];
     $password = md5($_POST['password']);
 
     $sql = "SELECT * FROM $table WHERE `login`='$login' AND `password`='$password'";
     $resultat = mysqli_query($cnx, $sql);
 
-    if (mysqli_num_rows($resultat)==1) {
-        session_start();
+    if (mysqli_num_rows($resultat) == 1) {
         $_SESSION["login"] = true;
         $_SESSION['identifiant'] = $login;
         $_SESSION['password'] = $password;
         header('Location: /compte.php');
-
-    }
-    else {
+        exit();
+    } else {
         header('Location: /login.php?erreur=1');
         exit(0);
     }
+} else {
+    header('Location: /login.php?erreur=1');
+    exit();
 }

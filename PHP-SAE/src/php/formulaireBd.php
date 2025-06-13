@@ -6,6 +6,12 @@ $bd=mysqli_select_db($cnx,"di2s6_sae"); // Sélection de la base de données "au
 $table="utilisateur"; // Nom de la table dans la base de données
 
 if (isset($_POST['identifiant'], $_POST['password'])) {
+    session_start(); // nécessaire pour récupérer la valeur du captcha
+
+    if (!isset($_POST['captcha']) || $_POST['captcha'] != $_SESSION['captcha-result']) {
+        header('Location: /inscription.php?erreur=2'); // erreur spéciale captcha
+        exit;
+    }
     $login = $_POST['identifiant'];
     $password = md5($_POST['password']);
 
@@ -27,12 +33,3 @@ if (isset($_POST['identifiant'], $_POST['password'])) {
         header('Location: /inscription.php?ok=1');
     }
 }
-
-
-
-
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-// Insère un nouvel utilisateur avec le login et le mot de passe soumis
-//$sqlInser="INSERT INTO $table (login, password) VALUES ('$login', '$password')";
-//mysqli_query($cnx,$sqlInser); // Exécution de la requête d'insertion
-//}
