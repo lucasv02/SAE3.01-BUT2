@@ -1,10 +1,10 @@
 <?php
 
 session_start();
-unset($_SESSION['identifiant']);
-unset($_SESSION['password']);
-unset($_SESSION['login']);
-session_destroy();
+$_SESSION = []; // Vider toutes les variables de session
+session_unset(); // Supprime les variables de session
+session_destroy(); // Détruit la session
+setcookie(session_name(), '', time() - 3600, '/'); // Supprime le cookie de session
 
 header('Location: /index.php');
 exit;
