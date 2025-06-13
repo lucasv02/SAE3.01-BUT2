@@ -21,7 +21,7 @@ echo '<!DOCTYPE html>
 
 echo'<body>';
 
-if (isset($_SESSION['login']) || isset($_SESSION['login']) == true) {
+if (isset($_SESSION['login']) && $_SESSION['login']) {
 
     include 'php/menu-c.php';
     echo '
