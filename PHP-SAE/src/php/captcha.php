@@ -1,36 +1,22 @@
 <?php
-function aleatoire($rnd){
-    $num=range(0, 9);
-    shuffle($num);
-    $i=0;
-    echo "<table class='alea' role='presentation'>";
-    echo "<tr>";
-    foreach($num as $valeur){
-        if($i==5){
-            echo "</tr><tr>";
-        }
-        if ($valeur == $rnd){
-            echo "<td style='border-radius: 8px; border: 1px solid firebrick; height: 30px'>".$valeur."</td>";
-        }
-        else {
-            echo "<td style='border-radius: 8px; border: 1px solid firebrick; background-color: firebrick; color: white; height: 30px'>".$valeur."</td>";
-        }
-        $i=$i+1;
-    }
-    echo "</tr></table>";
+session_start(); // Necéssaire pour stocker les valeurs à vérifer
+
+//Générer un calcul simple
+$a = random_int(0, 50);
+$b = random_int(0, 50);
+
+//Stock le résultat du calcul dans la session
+$_SESSION['captcha-result'] = $a + $b;
+
+
+echo "
+<fieldset class='fieldset'><legend class='legend'>Captcha</legend>
+<label for='captcha'>Combien font $a + $b ?</label><br>
+<input type='number' name='captcha' placeholder='Entrez le réponse' id='captcha' required>
+</fieldset>";
+
+//Affichage d'un message d'erreur en cas d'erreur
+if(isset($_GET['erreur']) && $_GET['erreur'] != 2) {
+    echo '<p class="erreur">Erreur sur le captcha. Veuillez réessayer.</p>';
 }
-
-$captcha = random_int(0, 9);
-
-aleatoire($captcha);
-
-
-echo "<fildset class='fieldset'><legend class='legend'>Captcha</legend>
-<label for='alea'>Captcha</label>
-<input type='number' name='alea' placeholder='Entrez le numéro' id='alea'>
-<button type='submit' name='ok' value='Valider'>Valider</button>
-";
-if (isset($_GET['error'])) {
-    echo "<p class='perreor'>vous avez une erreur sur la saisie de vos identifiants.</p>";
-}
-echo "</fildset>";
+?>

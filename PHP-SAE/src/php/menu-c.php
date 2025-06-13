@@ -25,7 +25,6 @@ echo'
         <a href="index.php">Accueil</a>
         <a href="modules.php">Probabilité</a>
         <a href="crypto.php">Crypto</a>
-        <a href="compte.php">Mon Compte</a>
         <a href="historique.php">Historique</a>
       </div>
     </div>
@@ -34,6 +33,7 @@ echo'
         <img src="../img/user.svg" alt="Icône utilisateur" >
       </a>
       <div class="navlinks-container">
+        <a href="compte.php">Mon Compte</a>
         <a href="index.php" >Déconnexion</a>
       </div>
     </div>
