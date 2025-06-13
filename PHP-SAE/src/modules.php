@@ -149,9 +149,9 @@ echo'
     include 'php/menu-nc.php';
     echo '
     <div class="text-content">
-        <h1>Page en Construction</h1>
+        <h1>Accès refusée</h1>
         <br>
-        <p>Revenez dans deux semaines...</p>
+        <p>Vous devez être authentifier afin d\accéder à cette page</p>
     </div>';
 
     include 'php/footer.php';
