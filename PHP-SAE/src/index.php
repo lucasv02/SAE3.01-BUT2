@@ -24,7 +24,7 @@ echo'<body>';
 
 if (isset($_SESSION['login']) || isset($_SESSION['login']) == true) {
 
-    include 'php/menu.php';
+    include 'php/menu-c.php';
     echo '
   <script src="/js/accueil.js"></script>
 
