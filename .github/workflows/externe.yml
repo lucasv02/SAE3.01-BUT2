@@ -34,3 +34,12 @@ jobs:
           mirror -R --parallel=10 --exclude-glob .* PHP-SAE/src/ sites/lucas.sae.lucasvieira.fr/
           bye
           "
+
+      - name: Création du fichier d'environnement PHP avec les secrets
+        run: |
+          echo "<?php
+          putenv('DB_HOST=${{ secrets.DB_HOST }}');
+          putenv('DB_USER=${{ secrets.DB_USER }}');
+          putenv('DB_PASS=${{ secrets.DB_PASS }}');
+          putenv('DB_NAME=${{ secrets.DB_NAME }}');
+          " > PHP-SAE/src/php/env.php
