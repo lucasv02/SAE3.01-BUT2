@@ -151,7 +151,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
     include 'php/menu-nc.php';
     echo '
     <div class="text-content">
-        <h1>Accès refusé</h1>
+        <h1>Accès refusée</h1>
         <br>
         <p>Vous devez être authentifié afin d\'accéder à cette page</p>
     </div>';
