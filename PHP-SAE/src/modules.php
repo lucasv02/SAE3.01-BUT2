@@ -151,7 +151,7 @@ echo'
     <div class="text-content">
         <h1>Accès refusée</h1>
         <br>
-        <p>Vous devez être authentifier afin d\accéder à cette page</p>
+        <p>Vous devez être authentifier afin d\'accéder à cette page</p>
     </div>';
 
     include 'php/footer.php';

@@ -30,7 +30,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
   <div class="content">
     <div class="text-content">
           <h1>Bienvenue ' . htmlspecialchars($_SESSION['identifiant']) . '.</h1>
-      <p>Une vidéo explicative de l\application est consultable ci-dessous</p>
+      <p>Une vidéo explicative de l\'application est consultable ci-dessous</p>
     </div>
 
     <div class ="video">
