@@ -9,27 +9,29 @@ $db_user = getenv('DB_USER');
 $db_pass = getenv('DB_PASS');
 $db_name = getenv('DB_NAME');
 
-$cnx = mysqli_connect($db_host, $db_user, $db_pass);
-$bd = mysqli_select_db($cnx, $db_name);
+$cnx = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 $table = "utilisateur";
 
-if (isset($_POST['identifiant']) &&
+if (
+    isset($_POST['identifiant']) &&
     isset($_POST['password']) &&
     isset($_POST['captcha']) &&
     isset($_SESSION['captcha-result'])
 ) {
-    // Vérifie si le captcha est correct
+    // Check captcha
     if ($_POST['captcha'] != $_SESSION['captcha-result']) {
         header("location: /login.php?erreur=2");
         exit();
     }
 
-
     $login = $_POST['identifiant'];
     $password = md5($_POST['password']);
 
-    $sql = "SELECT * FROM $table WHERE `login`='$login' AND `password`='$password'";
-    $resultat = mysqli_query($cnx, $sql);
+    // Use prepared statement to prevent SQL injection
+    $stmt = mysqli_prepare($cnx, "SELECT * FROM $table WHERE `login` = ? AND `password` = ?");
+    mysqli_stmt_bind_param($stmt, "ss", $login, $password);
+    mysqli_stmt_execute($stmt);
+    $resultat = mysqli_stmt_get_result($stmt);
 
     if (mysqli_num_rows($resultat) == 1) {
         $_SESSION["login"] = true;
