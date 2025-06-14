@@ -1,35 +1,44 @@
 <?php
 
-// Connexion à la base de données
-$cnx=mysqli_connect("di2s6.myd.infomaniak.com","di2s6_sae","saqfy8-tutxus-xeDzaq"); // Connexion à MySQL (aucun mot de passe spécifié, à sécuriser dans un environnement de production)
-$bd=mysqli_select_db($cnx,"di2s6_sae"); // Sélection de la base de données "auth"
-$table="utilisateur"; // Nom de la table dans la base de données
+
+require_once __DIR__ . '/env.php';
+
+$db_host = getenv('DB_HOST');
+$db_user = getenv('DB_USER');
+$db_pass = getenv('DB_PASS');
+$db_name = getenv('DB_NAME');
+
+$cnx = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
+$table = "utilisateur";
 
 if (isset($_POST['identifiant'], $_POST['password'])) {
-    session_start(); // nécessaire pour récupérer la valeur du captcha
+    session_start();
 
     if (!isset($_POST['captcha']) || $_POST['captcha'] != $_SESSION['captcha-result']) {
-        header('Location: /inscription.php?erreur=2'); // erreur spéciale captcha
+        header('Location: /inscription.php?erreur=2');
         exit;
     }
+
     $login = $_POST['identifiant'];
     $password = md5($_POST['password']);
 
-
-    $sql = "SELECT `login`, `password` FROM $table WHERE `login`='$login' AND `password`='$password'";
-    $resultat = mysqli_query($cnx, $sql);
+    $stmt = mysqli_prepare($cnx, "SELECT `login`, `password` FROM $table WHERE `login` = ? AND `password` = ?");
+    mysqli_stmt_bind_param($stmt, "ss", $login, $password);
+    mysqli_stmt_execute($stmt);
+    $resultat = mysqli_stmt_get_result($stmt);
 
     if (!$resultat) {
         error_log("Erreur lors de l'exécution de la requête SELECT: " . mysqli_error($cnx));
         die("Erreur lors de l'exécution de la requête");
     }
 
-    if (mysqli_num_rows($resultat)==1) {
+    if (mysqli_num_rows($resultat) == 1) {
         header('Location: /inscription.php?erreur=1');
-    }
-    else {
-        $sqlInsert = "INSERT INTO $table (login,password) VALUES ('$login','$password');";
-        mysqli_query($cnx,$sqlInsert);
+    } else {
+        
+        $stmtInsert = mysqli_prepare($cnx, "INSERT INTO $table (`login`, `password`) VALUES (?, ?)");
+        mysqli_stmt_bind_param($stmtInsert, "ss", $login, $password);
+        mysqli_stmt_execute($stmtInsert);
         header('Location: /inscription.php?ok=1');
     }
 }
