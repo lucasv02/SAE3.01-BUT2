@@ -1,9 +1,17 @@
 <?php
 session_start();
 
-$cnx = mysqli_connect("di2s6.myd.infomaniak.com", "di2s6_sae", "saqfy8-tutxus-xeDzaq");
-$bd = mysqli_select_db($cnx, "di2s6_sae");//ont choisi la base de donnée
-$table = "utilisateur"; //nom de table dans la BDD
+// Load environment variables from env.php
+require_once __DIR__ . '/env.php';
+
+$db_host = getenv('DB_HOST');
+$db_user = getenv('DB_USER');
+$db_pass = getenv('DB_PASS');
+$db_name = getenv('DB_NAME');
+
+$cnx = mysqli_connect($db_host, $db_user, $db_pass);
+$bd = mysqli_select_db($cnx, $db_name);
+$table = "utilisateur";
 
 if (isset($_POST['identifiant']) &&
     isset($_POST['password']) &&
