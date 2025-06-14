@@ -2,6 +2,8 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+session_start();
+
 $message_resultat = 'En attente de saisie de paramètres...'; // Déplacement de cette ligne en dehors du bloc POST
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -82,7 +84,11 @@ echo '<!DOCTYPE html>
 
 echo '<body>';
 
-include 'php/menu-c.php';
+
+
+if (isset($_SESSION['login']) || isset($_SESSION['login']) == true) {
+
+    include 'php/menu-c.php';
 
 echo'
     
@@ -138,6 +144,17 @@ echo'
 <script src="js/accueil.js"></script>
 ';
 
-include 'php/footer.php';
+    include 'php/footer.php';
+} else {
+    include 'php/menu-nc.php';
+    echo '
+    <div class="text-content">
+        <h1>Accès refusée</h1>
+        <br>
+        <p>Vous devez être authentifier afin d\'accéder à cette page</p>
+    </div>';
 
-echo'</body>';
+    include 'php/footer.php';
+}
+
+echo '</body>';

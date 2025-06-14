@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 // Mise en place du Header
 echo '<!DOCTYPE html>
 <html lang="fr">
@@ -18,17 +20,30 @@ echo '<!DOCTYPE html>
 
 echo '<body>';
 
-include 'php/menu-c.php';
 
-echo'
-<script src="../js/accueil.js"></script>
+if (isset($_SESSION['login']) && $_SESSION['login']) {
+    include 'php/menu-c.php';
 
-<div class="text-content">
-  <h1>Page en Construction</h1>
-  <br>
-  <p>Revenez dans deux semaines...</p>
-</div>
-';
+        echo'
+    <script src="../js/accueil.js"></script>
+    
+    <div class="text-content">
+      <h1>Page en Construction</h1>
+      <br>
+      <p>Revenez dans deux semaines...</p>
+    </div>
+    ';
+} else {
+    include 'php/menu-nc.php';
+    echo '
+    <div class="text-content">
+        <h1>Accès refusé</h1>
+        <br>
+        <p>Vous devez être authentifié afin d\'accéder à cette page</p>
+    </div>';
+}
+
+
 
 include 'php/footer.php';
 

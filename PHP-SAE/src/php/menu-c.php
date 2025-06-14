@@ -34,7 +34,7 @@ echo'
       </a>
       <div class="navlinks-container">
         <a href="compte.php">Mon Compte</a>
-        <a href="index.php" >Déconnexion</a>
+        <a href="deconnexion.php" >Déconnexion</a>
       </div>
     </div>
   </nav>
