@@ -30,7 +30,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
     <div class="text-content">
       <h1>Page en Construction</h1>
       <br>
-      <p>Revenez dans deux semaines...</p>
+      <p>En cours de développement</p>
     </div>
     ';
 } else {
