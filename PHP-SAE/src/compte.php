@@ -14,7 +14,6 @@ echo '<!DOCTYPE html>
   <title>Relax Maths</title>
   <link rel="stylesheet" href="css/index.css" />
   <link rel="stylesheet" href="css/general.css" />
-  <link rel="stylesheet" href="css/compte.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet">
