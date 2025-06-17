@@ -1,27 +1,20 @@
 <?php
+session_start();
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-$message_resultat = 'En attente de saisie de paramètres...'; // Déplacement de cette ligne en dehors du bloc POST
+$message_resultat = 'En attente de saisie de paramètres...';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-    // Vérification et récupération des valeurs
-    $message = ($_POST['message']) ;
-    $action = ($_POST['chiffrer_dechiffrer']) ;
-    $message_chiffre = '';
-
+    $message = isset($_POST['message']) ? $_POST['message'] : null;
+    $action = isset($_POST['chiffrer_dechiffrer']) ? $_POST['chiffrer_dechiffrer'] : null;
 
     if ($message !== null && $action !== null) {
-        if ($message !== null && $action == 'chiffrer') {
+        if ($action == 'chiffrer') {
             $message_chiffre = chiffrer($message);
             $message_resultat = "$message_chiffre est votre message chiffré.";
-        } else if ($message !== null && $action == 'dechiffrer') {
+        } else if ($action == 'dechiffrer') {
             $message_chiffre = dechiffrer($message);
             $message_resultat = "$message_chiffre est votre message de dechiffré.";
         }
-
     } else if ($message !== null && $action == null) {
         $message_resultat = "Erreur : vous n'avez pas selectionner l'action à effectuer sur votre message. ";
     } else {
@@ -30,10 +23,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 function chiffrer($message) {
+    $message = strtoupper($message);
+    $message = preg_replace('/[^A-Z0-9]/', '', $message);
+
     $lignes = ['A', 'D', 'F', 'G', 'V', 'X'];
     $colonnes = ['A', 'D', 'F', 'G', 'V', 'X'];
-
-    // Grille de l'énoncé (en minuscules pour cohérence)
     $grille = [
         ['G', 'E', 'H', 'I', 'M', 'S'],
         ['C', 'R', 'F', 'T', 'D', 'U'],
@@ -43,7 +37,6 @@ function chiffrer($message) {
         ['4', '5', '6', '7', '8', '9']
     ];
 
-    // Création de la table de substitution : lettre -> coordonnées ADFGVX
     $substitution = [];
     for ($i = 0; $i < 6; $i++) {
         for ($j = 0; $j < 6; $j++) {
@@ -52,11 +45,6 @@ function chiffrer($message) {
         }
     }
 
-    // Nettoyage du message : minuscules, suppression des caractères non valides
-    $message = strtolower($message);
-    $message = preg_replace('/[^a-z0-9]/', '', $message);  // on garde que a-z et 0-9
-
-    // Chiffrement
     $message_chiffre = '';
     $chars = str_split($message);
     foreach ($chars as $c) {
@@ -71,8 +59,6 @@ function chiffrer($message) {
 function dechiffrer($message) {
     $lignes = ['A', 'D', 'F', 'G', 'V', 'X'];
     $colonnes = ['A', 'D', 'F', 'G', 'V', 'X'];
-
-    // Grille de l'énoncé (en minuscules)
     $grille = [
         ['G', 'E', 'H', 'I', 'M', 'S'],
         ['C', 'R', 'F', 'T', 'D', 'U'],
@@ -82,7 +68,6 @@ function dechiffrer($message) {
         ['4', '5', '6', '7', '8', '9']
     ];
 
-    // Inversion de la grille : coord ADFGVX -> lettre
     $inverse = [];
     for ($i = 0; $i < 6; $i++) {
         for ($j = 0; $j < 6; $j++) {
@@ -91,30 +76,26 @@ function dechiffrer($message) {
         }
     }
 
-    // Nettoyage du code
     $message = strtoupper($message);
     $message = preg_replace('/[^ADFGVX]/', '', $message);
 
-    // Vérification de la longueur paire
     if (strlen($message) % 2 != 0) {
         return "Erreur : le code doit avoir un nombre pair de caractères.";
     }
 
-    // Déchiffrement
     $dechiffre = '';
     for ($i = 0; $i < strlen($message); $i += 2) {
         $pair = $message[$i] . $message[$i + 1];
         if (isset($inverse[$pair])) {
             $dechiffre .= $inverse[$pair];
         } else {
-            $dechiffre .= '?'; // symbole pour erreur de correspondance
+            $dechiffre .= '?';
         }
     }
 
     return $dechiffre;
 }
 
-// Mise en place du Header
 echo '<!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -130,52 +111,51 @@ echo '<!DOCTYPE html>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet">
 </head>';
 
-include 'php/menu-c.php';
+echo '<body>';
 
-echo '<body>
-<main class="crytpographie">
+if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
+    include 'php/menu-c.php';
+    echo '
+<main class="cryptographie">
     <div class="formulaire">
         <div class="titre">
             <h1>Module de Cryptographie</h1>
         </div>
-
         <div class="intro">
             <p>Entrez le message que vous souhaitez chiffrer à l\'aide du système ADFGVX.</p>
         </div>
-
-        <!-- Bloc du formulaire -->
         <div class="formulaire_crypto">
             <form id="formulaire_crypto" method="POST" action="">
-
                 <div class="form-group">
                     <label for="message">Message :</label>
-                    <input type="text" required placeholder="perdu">
+                    <input type="text" id="message" name="message" placeholder="Exemple : perdu" required>
                 </div>
-                
                 <div class="form-group">
                     <select id="chiffrer_dechiffrer" name="chiffrer_dechiffrer">
                         <option value="chiffrer">Chiffrer</option>
                         <option value="dechiffrer">Dechiffrer</option>
                     </select>
                 </div>
-                
                 <button type="submit" class="btn-submit">Valider</button>
             </form>
         </div>
     </div>
-
     <div class="resultat">
-        <p>';
-echo htmlspecialchars($message_resultat);
-echo '</p>
+        <p>' . htmlspecialchars($message_resultat) . '</p>
     </div>
 </main>
-
 <script src="js/accueil.js"></script>
-
-</body>
 ';
+    include 'php/footer.php';
+} else {
+    include 'php/menu-nc.php';
+    echo '
+    <div class="text-content">
+        <h1>Accès refusée</h1>
+        <br>
+        <p>Vous devez être authentifié afin d\'accéder à cette page</p>
+    </div>';
+    include 'php/footer.php';
+}
 
-include 'php/footer.php';
-
-
+echo '</body>';

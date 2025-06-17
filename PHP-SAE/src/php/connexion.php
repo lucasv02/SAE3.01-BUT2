@@ -1,33 +1,43 @@
 <?php
 session_start();
 
-$cnx = mysqli_connect("di2s6.myd.infomaniak.com", "di2s6_sae", "saqfy8-tutxus-xeDzaq");
-$bd = mysqli_select_db($cnx, "di2s6_sae");//ont choisi la base de donnée
-$table = "utilisateur"; //nom de table dans la BDD
+// Load environment variables from env.php
+require_once __DIR__ . '/env.php';
 
-if (isset($_POST['identifiant']) &&
+$db_host = getenv('DB_HOST');
+$db_user = getenv('DB_USER');
+$db_pass = getenv('DB_PASS');
+$db_name = getenv('DB_NAME');
+
+$cnx = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
+$table = "utilisateur";
+
+if (
+    isset($_POST['identifiant']) &&
     isset($_POST['password']) &&
     isset($_POST['captcha']) &&
     isset($_SESSION['captcha-result'])
 ) {
-    // Vérifie si le captcha est corretc
+    // Check captcha
     if ($_POST['captcha'] != $_SESSION['captcha-result']) {
         header("location: /login.php?erreur=2");
         exit();
     }
 
-
     $login = $_POST['identifiant'];
     $password = md5($_POST['password']);
 
-    $sql = "SELECT * FROM $table WHERE `login`='$login' AND `password`='$password'";
-    $resultat = mysqli_query($cnx, $sql);
+    // Use prepared statement to prevent SQL injection
+    $stmt = mysqli_prepare($cnx, "SELECT * FROM $table WHERE `login` = ? AND `password` = ?");
+    mysqli_stmt_bind_param($stmt, "ss", $login, $password);
+    mysqli_stmt_execute($stmt);
+    $resultat = mysqli_stmt_get_result($stmt);
 
     if (mysqli_num_rows($resultat) == 1) {
         $_SESSION["login"] = true;
         $_SESSION['identifiant'] = $login;
         $_SESSION['password'] = $password;
-        header('Location: /compte.php');
+        header('Location: /index.php');
         exit();
     } else {
         header('Location: /login.php?erreur=1');
