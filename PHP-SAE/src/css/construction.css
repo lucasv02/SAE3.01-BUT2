@@ -29,35 +29,38 @@ body {
     background-color: white;
 }
 
+/* Tableau étendu */
 .text-content table {
-    width: 90%;
-    margin: 20px auto;
+    width: 100%;
     border-collapse: collapse;
     font-size: 16px;
-    background-color: var(--bleu-clair);
-    border-radius: 8px;
-    overflow: hidden;
+    table-layout: auto;
 }
 
-.text-content th,
-.text-content td {
-    padding: 12px 15px;
-    border: 1px solid var(--bleu-roi);
-    text-align: left;
-}
-
+/* En-têtes */
 .text-content th {
     background-color: var(--bleu-roi);
     color: white;
-    font-weight: bold;
+    padding: 14px 18px;
+    text-align: left;
 }
 
+/* Cellules */
+.text-content td {
+    padding: 12px 18px;
+    border-bottom: 1px solid #ccc;
+    vertical-align: top;
+    word-break: break-word;
+}
+
+/* Lignes alternées */
 .text-content tbody tr:nth-child(even) {
-    background-color: #e6f0ff; /* bleu clair pour alternance */
+    background-color: #f1f8ff;
 }
 
+/* Survol */
 .text-content tbody tr:hover {
-    background-color: #cce0ff; /* survol plus clair */
+    background-color: #ddeeff;
 }
 
 
