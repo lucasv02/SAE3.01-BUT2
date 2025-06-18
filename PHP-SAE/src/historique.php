@@ -30,12 +30,14 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
 
     $id_utilisateur = $_SESSION['id']; // S'assurer que la session contient bien l'id
 
+    //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
     // Historique de Crypto
-    $sql_crypto = "SELECT * FROM historique WHERE user_id = ? AND module = 'crypto' ORDER BY date_action DESC";
-    $stmt_crypto = $conn->prepare($sql_crypto);
-    $stmt_crypto->bind_param("i", $id_utilisateur);
-    $stmt_crypto->execute();
-    $result_crypto = $stmt_crypto->get_result();
+    $sql_crypto = "SELECT * FROM historique WHERE user_id = ? AND module = 'crypto' ORDER BY date_action DESC"; // Requete SQL
+    $stmt_crypto = $conn->prepare($sql_crypto); // on prépare la requete dans la BDD
+    $stmt_crypto->bind_param("i", $id_utilisateur); // i pour integer / et on lie la varaible id_utilisateur à la requête préparée en remplacant "?" dans la requête
+    $stmt_crypto->execute(); // exécution de la requete avec la valeur liée "id_utilisateur"
+    $result_crypto = $stmt_crypto->get_result(); // on récupère le résultat sous la forme d'un objet résultat.
 
     echo '
     <script src="../js/accueil.js"></script>
@@ -68,6 +70,8 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
     echo '</div>';
     $stmt_crypto->close();
 
+
+    //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     // Historique de Probabilité
     $sql_proba = "SELECT * FROM historique WHERE user_id = ? AND module = 'probabilite' ORDER BY date_action DESC";
