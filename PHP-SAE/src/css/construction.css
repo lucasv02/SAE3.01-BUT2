@@ -20,13 +20,13 @@ body {
 
 /* Style pour le contenu texte */
 .text-content {
-    border: solid #F28D35 3px;
-    width: 33%;
+    width: 90%;
     margin: 150px auto 100px auto;
-    text-align: center;
+    padding: 20px;
+    border: solid #F28D35 3px;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.2);
-    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    background-color: white;
 }
 
 .text-content table {
