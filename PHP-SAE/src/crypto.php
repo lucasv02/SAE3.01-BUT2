@@ -11,10 +11,52 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($action == 'chiffrer') {
             $message_chiffre = chiffrer($message);
             $message_resultat = "$message_chiffre est votre message chiffré.";
+
+            // Enregistrer cette action dans la base de données
+            if(isset($_SESSION['id'])) {
+                $conn = new mysqli('localhost', 'nom_utilisateur', 'mot_de_passe', 'di2s6_sae');
+
+                if($conn->connect_error) {
+                    die("Erreur de connexion :" . $conn->connect_error);
+                }
+
+                $user_id = $_SESSION['id'];
+                $donnees = $conn->real_escape_string($message);
+                $resultat = $conn->real_escape_string($message_chiffre); // on stocke le vrai résultat
+                $module = 'crypto';
+                $date_action = date('Y-m-d H:i:s');
+
+                $sql = "INSERT INTO historique (user_id, date_action, module, message) VALUES ('$user_id', '$date_action', '$module', '$donnees', '$resultat')";
+
+                $conn->query($sql);
+                $conn->close();
+            }
+
         } else if ($action == 'dechiffrer') {
             $message_chiffre = dechiffrer($message);
             $message_resultat = "$message_chiffre est votre message de dechiffré.";
         }
+
+        //Enregistre dans la BDD historique
+        if(isset($_SESSION['id'])) {
+            $conn = new mysqli("localhost", "di2s6_sae", "Xipnep-keppa6-netxud", "dis26_sae");
+
+            if($conn->connect_error) {
+                die("Erreur de connexion :" . $conn->connect_error);
+            }
+
+            $user_id = $_SESSION['id'];
+            $donnees = $conn->real_escape_string($message); // le code chiffré saisi
+            $resultat = $conn->real_escape_string($message_chiffre); // message déchiffré
+            $module = 'crypto';
+            $date_action = date('Y-m-d H:i:s');
+
+            $sql = "INSERT INTO historique (user_id, date_action, module, donnees, resultat) VALUES ('$user_id', '$date_action', '$module', '$donnees', '$resultat')";
+
+            $conn->query($sql);
+            $conn->close();
+        }
+
     } else if ($message !== null && $action == null) {
         $message_resultat = "Erreur : vous n'avez pas selectionner l'action à effectuer sur votre message. ";
     } else {
