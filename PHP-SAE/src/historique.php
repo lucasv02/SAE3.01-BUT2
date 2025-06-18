@@ -30,18 +30,19 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
 
     $id_utilisateur = $_SESSION['id']; // S'assurer que la session contient bien l'id
 
-    $sql = "SELECT * FROM historique WHERE user_id = ? ORDER BY date_action DESC";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $id_utilisateur);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    // Historique de Crypto
+    $sql_crypto = "SELECT * FROM historique WHERE user_id = ? AND module = 'crypto' ORDER BY date_action DESC";
+    $stmt_crypto = $conn->prepare($sql_crypto);
+    $stmt_crypto->bind_param("i", $id_utilisateur);
+    $stmt_crypto->execute();
+    $result_crypto = $stmt_crypto->get_result();
 
     echo '
     <script src="../js/accueil.js"></script>
     <div class="text-content">
-      <h1>Historique des opérations</h1>';
+      <h1>Historique des opérations Cryptographie</h1>';
 
-    if ($result->num_rows > 0) {
+    if ($result_crypto->num_rows > 0) {
         echo '<table>
             <tr>
               <th>Type</th>
@@ -50,7 +51,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
               <th>Date</th>
             </tr>';
 
-        while ($row = $result->fetch_assoc()) {
+        while ($row = $result_crypto->fetch_assoc()) {
             echo "<tr>
                     <td>" . htmlspecialchars($row['module']) . "</td>
                     <td>" . htmlspecialchars($row['donnees']) . "</td>
@@ -65,8 +66,52 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
     }
 
     echo '</div>';
+    $stmt_crypto->close();
 
-    $stmt->close();
+
+    // Historique de Probabilité
+    $sql_proba = "SELECT * FROM historique WHERE user_id = ? AND module = 'probabilite' ORDER BY date_action DESC";
+    $stmt_proba = $conn->prepare($sql_proba);
+    $stmt_proba->bind_param("i", $id_utilisateur);
+    $stmt_proba->execute();
+    $result_proba = $stmt_proba->get_result();
+
+    echo '
+    <div class="text-content">
+      <h1>Historique des opérations Probabilité</h1>';
+
+    if ($result_proba->num_rows > 0) {
+        echo '<table>
+            <tr>
+              <th>Type</th>
+              <th>Données</th>
+              <th>Résultat</th>
+              <th>Date</th>
+            </tr>';
+
+        while ($row = $result_proba->fetch_assoc()) {
+            $donnees = json_decode($row['donnees'], true);
+            $moyenne = isset($donnees['moyenne']) ? htmlspecialchars($donnees['moyenne']) : '-';
+            $ecart_type = isset($donnees['ecart_type']) ? htmlspecialchars($donnees['ecart_type']) : '-';
+            $borne_sup = isset($donnees['borne_sup']) ? htmlspecialchars($donnees['borne_sup']) : '-';
+            $nb_rectangle = isset($donnees['nb_rectangle']) ? htmlspecialchars($donnees['nb_rectangle']) : '-';
+
+            echo "<tr>
+                    <td>" . htmlspecialchars($row['module']) . "</td>
+                    <td>$moyenne</td>
+                    <td>$ecart_type</td>
+                    <td>$borne_sup</td>
+                    <td>$nb_rectangle</td>
+                    <td>" . htmlspecialchars($row['resultat']) . "</td>
+                    <td>" . htmlspecialchars($row['date_action']) . "</td>
+                  </tr>";
+        }
+        echo '</table>';
+    } else {
+        echo "<p>Aucun historique enregistré pour la probabilité pour l'instant.</p>";
+    }
+    echo '</div>';
+    $stmt_proba->close();
     $conn->close();
 } else {
     include 'php/menu-nc.php';
