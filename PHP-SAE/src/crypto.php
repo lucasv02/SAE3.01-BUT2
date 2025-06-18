@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Enregistrer cette action dans la base de données
             if(isset($_SESSION['id'])) {
-                $conn = new mysqli('localhost', 'nom_utilisateur', 'mot_de_passe', 'di2s6_sae');
+                $conn = new mysqli("di2s6.myd.infomaniak.com", "di2s6_sae", "Xipnep-keppa6-netxud", "di2s6_sae");
 
                 if($conn->connect_error) {
                     die("Erreur de connexion :" . $conn->connect_error);
