@@ -23,10 +23,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $message_resultat = "Veuillez saisir un nombre de rectangles médians inférieur ou égal à 5 000 000.";
         } else {
             $resultat = methode_rectangles($moyenne, $ecart_type, $borne_sup, $nb_rectangle);
+
             // Vérification si le résultat est nul
-            if ($resultat !== null) {
+            if ($resultat !== null && $resultat !== "valeurs_non_cohérentes") {
                 $message_resultat = "Le résultat de l'intégrale est : " . $resultat;
+
+                if (isset($_SESSION['id'])) {
+                    $user_id = $_SESSION['id'];
+                    $date_action = date("Y-m-d H:i:s");
+                    $module = "probabilite";
+                    $donnees = json_encode([
+                        "moyenne" => $moyenne,
+                        "ecart_type" => $ecart_type,
+                        "borne_sup" => $borne_sup,
+                        "nb_rectangle" => $nb_rectangle
+                    ]);
+                    $resultat_str = (string)$resultat;
+
+                    $conn = new mysqli("di2s6.myd.infomaniak.com", "di2s6_sae", "Xipnep-keppa6-netxud", "di2s6_sae");
+                    if (!$conn->connect_error) {
+                        $stmt = $conn->prepare("INSERT INTO historique (user_id, date_action, module, donnees, resultat) VALUES (?, ?, ?, ?, ?)");
+                        $stmt->bind_param("issss", $user_id, $date_action, $module, $donnees, $resultat_str);
+                        $stmt->execute();
+                        $stmt->close();
+                        $conn->close();
+                    }
+                }
+
             }
+
             if ($resultat == "valeurs_non_cohérentes") {
                 $message_resultat = "Les valeurs saisies ne produisent pas de résultats mathématiques cohérents.\n Veuillez saisir de nouvelles valeurs plus adaptées.";
             }
