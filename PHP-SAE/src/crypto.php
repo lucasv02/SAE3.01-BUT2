@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $module = 'crypto';
                 $date_action = date('Y-m-d H:i:s');
 
-                $sql = "INSERT INTO historique (user_id, date_action, module, message) VALUES ('$user_id', '$date_action', '$module', '$donnees', '$resultat')";
+                $sql = "INSERT INTO historique (user_id, date_action, module, donnees, message) VALUES ('$user_id', '$date_action', '$module', '$donnees', '$resultat')";
 
                 $conn->query($sql);
                 $conn->close();
