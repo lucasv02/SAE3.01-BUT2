@@ -34,7 +34,10 @@ if (
     $resultat = mysqli_stmt_get_result($stmt);
 
     if (mysqli_num_rows($resultat) == 1) {
+        $row = mysqli_fetch_assoc($resultat);
+
         $_SESSION["login"] = true;
+        $_SESSION['id'] = $row['id'];
         $_SESSION['identifiant'] = $login;
         $_SESSION['password'] = $password;
         header('Location: /index.php');
