@@ -30,7 +30,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
 
     $id_utilisateur = $_SESSION['id']; // S'assurer que la session contient bien l'id
 
-    $sql = "SELECT * FROM historique WHERE user_id = ? ORDER BY date_creation DESC";
+    $sql = "SELECT * FROM historique WHERE user_id = ? ORDER BY date_action DESC";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id_utilisateur);
     $stmt->execute();
@@ -55,7 +55,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
                     <td>" . htmlspecialchars($row['type']) . "</td>
                     <td>" . htmlspecialchars($row['donnees']) . "</td>
                     <td>" . htmlspecialchars($row['resultat']) . "</td>
-                    <td>" . htmlspecialchars($row['date_creation']) . "</td>
+                    <td>" . htmlspecialchars($row['date_action']) . "</td>
                   </tr>";
         }
 
