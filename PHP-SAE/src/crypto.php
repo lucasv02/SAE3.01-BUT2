@@ -12,25 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $message_chiffre = chiffrer($message);
             $message_resultat = "$message_chiffre est votre message chiffré.";
 
-            // Enregistrer cette action dans la base de données
-            if(isset($_SESSION['id'])) {
-                $conn = new mysqli("di2s6.myd.infomaniak.com", "di2s6_sae", "Xipnep-keppa6-netxud", "di2s6_sae");
-
-                if($conn->connect_error) {
-                    die("Erreur de connexion :" . $conn->connect_error);
-                }
-
-                $user_id = $_SESSION['id'];
-                $donnees = $conn->real_escape_string($message);
-                $resultat = $conn->real_escape_string($message_chiffre); // on stocke le vrai résultat
-                $module = 'crypto';
-                $date_action = date('Y-m-d H:i:s');
-
-                $sql = "INSERT INTO historique (user_id, date_action, module, donnees, resultat) VALUES ('$user_id', '$date_action', '$module', '$donnees', '$resultat')";
-
-                $conn->query($sql);
-                $conn->close();
-            }
 
         } else if ($action == 'dechiffrer') {
             $message_chiffre = dechiffrer($message);
