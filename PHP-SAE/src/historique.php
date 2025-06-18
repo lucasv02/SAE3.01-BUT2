@@ -52,7 +52,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
 
         while ($row = $result->fetch_assoc()) {
             echo "<tr>
-                    <td>" . htmlspecialchars($row['type']) . "</td>
+                    <td>" . htmlspecialchars($row['module']) . "</td>
                     <td>" . htmlspecialchars($row['donnees']) . "</td>
                     <td>" . htmlspecialchars($row['resultat']) . "</td>
                     <td>" . htmlspecialchars($row['date_action']) . "</td>
