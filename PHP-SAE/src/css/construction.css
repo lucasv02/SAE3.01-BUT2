@@ -29,6 +29,37 @@ body {
     padding: 10px;
 }
 
+.text-content table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    font-size: 16px;
+    background-color: var(--bleu-clair);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.text-content th,
+.text-content td {
+    padding: 12px 15px;
+    border: 1px solid var(--bleu-roi);
+    text-align: left;
+}
+
+.text-content th {
+    background-color: var(--bleu-roi);
+    color: white;
+    font-weight: bold;
+}
+
+.text-content tbody tr:nth-child(even) {
+    background-color: #e6f0ff; /* bleu clair pour alternance */
+}
+
+.text-content tbody tr:hover {
+    background-color: #cce0ff; /* survol plus clair */
+}
+
 
 
 
