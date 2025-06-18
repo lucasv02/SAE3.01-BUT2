@@ -23,7 +23,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
     include 'php/menu-c.php';
 
     // Connexion à la BDD
-    $conn = new mysqli("localhost", "di2s6_sae", "Xipnep-keppa6-netxud", "dis26_sae");
+    $conn = new mysqli("di2s6.myd.infomaniak.com", "di2s6_sae", "Xipnep-keppa6-netxud", "dis26_sae");
     if ($conn->connect_error) {
         die("Erreur de connexion : " . $conn->connect_error);
     }
