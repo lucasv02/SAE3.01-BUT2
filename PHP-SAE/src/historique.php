@@ -30,7 +30,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
 
     $id_utilisateur = $_SESSION['id']; // S'assurer que la session contient bien l'id
 
-    $sql = "SELECT * FROM historique WHERE id_utilisateur = ? ORDER BY date_creation DESC";
+    $sql = "SELECT * FROM historique WHERE id = ? ORDER BY date_creation DESC";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id_utilisateur);
     $stmt->execute();
