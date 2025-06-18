@@ -8,11 +8,13 @@ $message_resultat = 'En attente de saisie de paramètres...'; // Déplacement de
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+
     // Vérification et récupération des valeurs
     $moyenne = ($_POST['moyenne']) ;
     $ecart_type = ($_POST['ecart_type']) ;
     $borne_sup = ($_POST['borne_sup']) ;
     $nb_rectangle = ($_POST['nb_rectangle']);
+
 
     if ($ecart_type !== null  && $borne_sup !== null && $nb_rectangle !== null) {
         if (($ecart_type <= 0)){
@@ -24,13 +26,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             $resultat = methode_rectangles($moyenne, $ecart_type, $borne_sup, $nb_rectangle);
             // Vérification si le résultat est nul
-            if ($resultat !== null) {
+            if ($resultat !== null && $resultat !== "valeurs_non_cohérentes") {
                 $message_resultat = "Le résultat de l'intégrale est : " . $resultat;
-            }
-            if ($resultat == "valeurs_non_cohérentes") {
-                $message_resultat = "Les valeurs saisies ne produisent pas de résultats mathématiques cohérents.\n Veuillez saisir de nouvelles valeurs plus adaptées.";
-            }
-            else if ($resultat == null) {
+
+                if(isset($_SESSION['id'])) {
+                    $conn = new mysqli("di2s6.myd.infomaniak.com", "di2s6_sae", "Xipnep-keppa6-netxud", "di2s6_sae");
+
+                    if($conn->connect_error) {
+                        error_log("Erreur de connexion :" . $conn->connect_error);
+                    } else {
+                        $module = "probabilite";
+                        $donnees = json_encode([
+                            "module" => $module,
+                            "ecart_type" => $ecart_type,
+                            "borne_sup" => $borne_sup,
+                            "nb_rectangle" => $nb_rectangle
+                        ]);
+
+                        $date_action = date('Y-m-d H:i:s');
+                        $stmt = $conn->prepare("INSERT INTO historique (user_id, date_action, module, donnees, resultat) VALUES (?, ?, ?, ?)");
+                        $stmt->bind_param("isss", $_SESSION['id'], $date_action, $module, $donnees, $resultat);
+                        $stmt->execute();
+                        $stmt->close();
+                        $conn->close();
+
+                    }
+
+                }
+
+            } else if ($resultat == "valeurs_non_cohérentes") {
+                $message_resultat = "Les valeurs saisies ne produisent pas de résultats mathématiques cohérents.\nVeuillez saisir de nouvelles valeurs plus adaptées.";
+            } else {
                 $message_resultat = "Erreur : Le calcul n'a pas pu être effectué.";
             }
         }
