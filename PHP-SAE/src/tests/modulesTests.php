@@ -12,9 +12,9 @@ function assertEquals($expected, $actual, $message = '', $delta = null) {
     }
 
     if ($success) {
-        echo "✅ $message\n";
+        echo " $message\n";
     } else {
-        echo "❌ $message - attendu: $expected, obtenu: $actual\n";
+        echo " $message - attendu: $expected, obtenu: $actual\n";
     }
 }
 

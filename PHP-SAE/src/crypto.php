@@ -1,99 +1,133 @@
 <?php
 session_start();
 
+
+require_once __DIR__ . '/php/env.php';
+
+$db_host = getenv('DB_HOST');
+$db_user = getenv('DB_USER');
+$db_pass = getenv('DB_PASS');
+$db_name = getenv('DB_NAME');
+
+$conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+if ($conn->connect_error) {
+  die("Erreur de connexion : " . $conn->connect_error);
+}
+
 $message_resultat = 'En attente de saisie de paramètres...';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $message = isset($_POST['message']) ? $_POST['message'] : null;
-    $action = isset($_POST['chiffrer_dechiffrer']) ? $_POST['chiffrer_dechiffrer'] : null;
+  $message = isset($_POST['message']) ? $_POST['message'] : null;
+  $action = isset($_POST['chiffrer_dechiffrer']) ? $_POST['chiffrer_dechiffrer'] : null;
 
-    if ($message !== null && $action !== null) {
-        if ($action == 'chiffrer') {
-            $message_chiffre = chiffrer($message);
-            $message_resultat = "$message_chiffre est votre message chiffré.";
-        } else if ($action == 'dechiffrer') {
-            $message_chiffre = dechiffrer($message);
-            $message_resultat = "$message_chiffre est votre message de dechiffré.";
-        }
-    } else if ($message !== null && $action == null) {
-        $message_resultat = "Erreur : vous n'avez pas selectionner l'action à effectuer sur votre message. ";
-    } else {
-        $message_resultat = "Erreur : aucun message n'est saisi.";
+  if ($message !== null && $action !== null) {
+    if ($action == 'chiffrer') {
+      $message_chiffre = chiffrer($message);
+      $message_resultat = "$message_chiffre est votre message chiffré.";
+
+
+    } else if ($action == 'dechiffrer') {
+      $message_chiffre = dechiffrer($message);
+      $message_resultat = "$message_chiffre est votre message de dechiffré.";
     }
+
+    //Enregistre dans la BDD historique
+    if(isset($_SESSION['id'])) {
+      $user_id = $_SESSION['id'];
+      $donnees = $conn->real_escape_string($message); // le code chiffré saisi
+      $resultat = $conn->real_escape_string($message_chiffre); // message déchiffré
+      $methode = $conn->real_escape_string($action);
+      $date_action = date('Y-m-d H:i:s');
+
+      $sql = "INSERT INTO historique_crypto (user_id, date_action, message, methode, resultat) VALUES (?, ?, ?, ?, ?)";
+
+      $stmt = $conn->prepare($sql);
+      $stmt->bind_param("issss", $user_id, $date_action, $donnees, $methode, $resultat);
+      $stmt->execute();
+      if ($stmt->error) {
+        echo "Erreur d'insertion : " . $stmt->error;
+      }
+
+    }
+  } else if ($message !== null && $action == null) {
+    $message_resultat = "Erreur : vous n'avez pas selectionner l'action à effectuer sur votre message. ";
+  } else {
+    $message_resultat = "Erreur : aucun message n'est saisi.";
+  }
 }
 
 function chiffrer($message) {
-    $message = strtoupper($message);
-    $message = preg_replace('/[^A-Z0-9]/', '', $message);
+  $message = strtoupper($message);
+  $message = preg_replace('/[^A-Z0-9]/', '', $message);
 
-    $lignes = ['A', 'D', 'F', 'G', 'V', 'X'];
-    $colonnes = ['A', 'D', 'F', 'G', 'V', 'X'];
-    $grille = [
-        ['G', 'E', 'H', 'I', 'M', 'S'],
-        ['C', 'R', 'F', 'T', 'D', 'U'],
-        ['N', 'K', 'A', 'B', 'J', 'L'],
-        ['O', 'P', 'Q', 'V', 'W', 'X'],
-        ['Y', 'Z', '0', '1', '2', '3'],
-        ['4', '5', '6', '7', '8', '9']
-    ];
+  $lignes = ['A', 'D', 'F', 'G', 'V', 'X'];
+  $colonnes = ['A', 'D', 'F', 'G', 'V', 'X'];
+  $grille = [
+    ['G', 'E', 'H', 'I', 'M', 'S'],
+    ['C', 'R', 'F', 'T', 'D', 'U'],
+    ['N', 'K', 'A', 'B', 'J', 'L'],
+    ['O', 'P', 'Q', 'V', 'W', 'X'],
+    ['Y', 'Z', '0', '1', '2', '3'],
+    ['4', '5', '6', '7', '8', '9']
+  ];
 
-    $substitution = [];
-    for ($i = 0; $i < 6; $i++) {
-        for ($j = 0; $j < 6; $j++) {
-            $lettre = $grille[$i][$j];
-            $substitution[$lettre] = $lignes[$i] . $colonnes[$j];
-        }
+  $substitution = [];
+  for ($i = 0; $i < 6; $i++) {
+    for ($j = 0; $j < 6; $j++) {
+      $lettre = $grille[$i][$j];
+      $substitution[$lettre] = $lignes[$i] . $colonnes[$j];
     }
+  }
 
-    $message_chiffre = '';
-    $chars = str_split($message);
-    foreach ($chars as $c) {
-        if (isset($substitution[$c])) {
-            $message_chiffre .= $substitution[$c];
-        }
+  $message_chiffre = '';
+  $chars = str_split($message);
+  foreach ($chars as $c) {
+    if (isset($substitution[$c])) {
+      $message_chiffre .= $substitution[$c];
     }
+  }
 
-    return $message_chiffre;
+  return $message_chiffre;
 }
 
 function dechiffrer($message) {
-    $lignes = ['A', 'D', 'F', 'G', 'V', 'X'];
-    $colonnes = ['A', 'D', 'F', 'G', 'V', 'X'];
-    $grille = [
-        ['G', 'E', 'H', 'I', 'M', 'S'],
-        ['C', 'R', 'F', 'T', 'D', 'U'],
-        ['N', 'K', 'A', 'B', 'J', 'L'],
-        ['O', 'P', 'Q', 'V', 'W', 'X'],
-        ['Y', 'Z', '0', '1', '2', '3'],
-        ['4', '5', '6', '7', '8', '9']
-    ];
+  $lignes = ['A', 'D', 'F', 'G', 'V', 'X'];
+  $colonnes = ['A', 'D', 'F', 'G', 'V', 'X'];
+  $grille = [
+    ['G', 'E', 'H', 'I', 'M', 'S'],
+    ['C', 'R', 'F', 'T', 'D', 'U'],
+    ['N', 'K', 'A', 'B', 'J', 'L'],
+    ['O', 'P', 'Q', 'V', 'W', 'X'],
+    ['Y', 'Z', '0', '1', '2', '3'],
+    ['4', '5', '6', '7', '8', '9']
+  ];
 
-    $inverse = [];
-    for ($i = 0; $i < 6; $i++) {
-        for ($j = 0; $j < 6; $j++) {
-            $coord = $lignes[$i] . $colonnes[$j];
-            $inverse[$coord] = $grille[$i][$j];
-        }
+  $inverse = [];
+  for ($i = 0; $i < 6; $i++) {
+    for ($j = 0; $j < 6; $j++) {
+      $coord = $lignes[$i] . $colonnes[$j];
+      $inverse[$coord] = $grille[$i][$j];
     }
+  }
 
-    $message = strtoupper($message);
-    $message = preg_replace('/[^ADFGVX]/', '', $message);
+  $message = strtoupper($message);
+  $message = preg_replace('/[^ADFGVX]/', '', $message);
 
-    if (strlen($message) % 2 != 0) {
-        return "Erreur : le code doit avoir un nombre pair de caractères.";
+  if (strlen($message) % 2 != 0) {
+    return "Erreur : le code doit avoir un nombre pair de caractères.";
+  }
+
+  $dechiffre = '';
+  for ($i = 0; $i < strlen($message); $i += 2) {
+    $pair = $message[$i] . $message[$i + 1];
+    if (isset($inverse[$pair])) {
+      $dechiffre .= $inverse[$pair];
+    } else {
+      $dechiffre .= '?';
     }
+  }
 
-    $dechiffre = '';
-    for ($i = 0; $i < strlen($message); $i += 2) {
-        $pair = $message[$i] . $message[$i + 1];
-        if (isset($inverse[$pair])) {
-            $dechiffre .= $inverse[$pair];
-        } else {
-            $dechiffre .= '?';
-        }
-    }
-
-    return $dechiffre;
+  return $dechiffre;
 }
 
 echo '<!DOCTYPE html>
@@ -114,8 +148,8 @@ echo '<!DOCTYPE html>
 echo '<body>';
 
 if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
-    include 'php/menu-c.php';
-    echo '
+  include 'php/menu-c.php';
+  echo '
 <main class="cryptographie">
     <div class="formulaire">
         <div class="titre">
@@ -146,16 +180,17 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
 </main>
 <script src="js/accueil.js"></script>
 ';
-    include 'php/footer.php';
+  include 'php/footer.php';
 } else {
-    include 'php/menu-nc.php';
-    echo '
+  include 'php/menu-nc.php';
+  echo '
     <div class="text-content">
-        <h1>Accès refusé</h1>
+        <h1>Accès refusée</h1>
         <br>
         <p>Vous devez être authentifié afin d\'accéder à cette page</p>
     </div>';
-    include 'php/footer.php';
+  include 'php/footer.php';
 }
 
-echo '</body>';
+echo '</div>
+</body>';
