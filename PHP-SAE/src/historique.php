@@ -1,6 +1,9 @@
 <?php
 session_start();
 
+require_once __DIR__ . '/env.php';
+
+
 // Mise en place du Header
 echo '<!DOCTYPE html>
 <html lang="fr">
@@ -22,8 +25,9 @@ echo '<body>';
 if (isset($_SESSION['login']) && $_SESSION['login']) {
   include 'php/menu-c.php';
 
-  // Connexion à la BDD
-  $conn = new mysqli("di2s6.myd.infomaniak.com", "di2s6_sae", "Xipnep-keppa6-netxud", "di2s6_sae");
+
+  // Connexion à la BDD à modifer comme formulaireBD
+  $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
   if ($conn->connect_error) {
     die("Erreur de connexion : " . $conn->connect_error);
   }
@@ -33,7 +37,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
   //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
   // Historique de Crypto
-  $sql_crypto = "SELECT * FROM historique_cryto WHERE user_id = ? ORDER BY date_action DESC"; // Requete SQL
+  $sql_crypto = "SELECT * FROM historique_crypto WHERE user_id = ? ORDER BY date_action DESC"; // Requete SQL
   $stmt_crypto = $conn->prepare($sql_crypto); // on prépare la requete dans la BDD
   $stmt_crypto->bind_param("i", $id_utilisateur); // i pour integer / et on lie la varaible id_utilisateur à la requête préparée en remplacant "?" dans la requête
   $stmt_crypto->execute(); // exécution de la requete avec la valeur liée "id_utilisateur"
