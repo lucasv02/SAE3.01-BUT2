@@ -124,4 +124,5 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
 
 include 'php/footer.php';
 
-echo '</body></html>';
+echo '</div>
+</body></html>';

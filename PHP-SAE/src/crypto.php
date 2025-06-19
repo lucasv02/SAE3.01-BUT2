@@ -1,9 +1,14 @@
 <?php
 session_start();
 
+
 require_once __DIR__ . '/env.php';
 
-$db_host = 
+$db_host = getenv('DB_HOST');
+$db_user = getenv('DB_USER');
+$db_pass = getenv('DB_PASS');
+$db_name = getenv('DB_NAME');
+
 
 $message_resultat = 'En attente de saisie de paramètres...';
 
@@ -36,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $methode = 'chiffrer_dechiffrer';
             $date_action = date('Y-m-d H:i:s');
 
-            $sql = "INSERT INTO historique_crypto (user_id, date_action, message, donnees, resultat) VALUES ('$user_id', '$date_action', '$methode', '$donnees', '$resultat')";
+            $sql = "INSERT INTO historique_crypto (user_id, date_action, methode, donnees, resultat) VALUES ('$user_id', '$date_action', '$methode', '$donnees', '$resultat')";
 
             $conn->query($sql);
             $conn->close();
@@ -138,9 +143,7 @@ echo '<!DOCTYPE html>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet">
 </head>';
 
-echo '<body>
-
-<div class="wrapper">';
+echo '<body>';
 
 if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
     include 'php/menu-c.php';
@@ -187,4 +190,5 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
     include 'php/footer.php';
 }
 
-echo '</body>';
+echo '</div>
+</body>';

@@ -58,6 +58,7 @@ echo '
             </form>
         </div>
     </div>
+</div>
 </body>';
 
 include 'php/footer.php';

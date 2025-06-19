@@ -64,7 +64,7 @@ echo'
 
 include 'php/footer.php';
 
-echo'
+echo'</div>
 </body>';
 
 

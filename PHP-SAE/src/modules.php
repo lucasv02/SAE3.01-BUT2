@@ -177,4 +177,6 @@ echo'
     include 'php/footer.php';
 }
 
-echo '</body>';
+echo '</div>
+
+</body>';

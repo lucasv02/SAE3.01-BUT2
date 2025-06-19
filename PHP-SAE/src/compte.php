@@ -30,11 +30,17 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
   <script src="/js/accueil.js"></script>
 
   <div class="text-content">
-    <h1>Bienvenue sur votre espace' . htmlspecialchars($_SESSION['identifiant']). '.!</h1>
+    <h1>Bienvenue sur votre espace ' . htmlspecialchars($_SESSION['identifiant']). '.!</h1>
       <br>
     <p>Revenez dans deux semaines, plus de features seront disponibles.</p>
     </div>
-  ';
+   
+   </div>';
+
+    include 'php/footer.php';
+
+    echo '</div>
+</body>';
 } else {
     header('Location: index.php');
 }
