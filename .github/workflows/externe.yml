@@ -3,7 +3,7 @@ name: Déploiement via SFTP - maden.sae.lucasvieira.fr
 on:
   push:
     branches:
-      - maden
+      - lucas
 
 jobs:
   deploy:
@@ -30,7 +30,7 @@ jobs:
           lftp -c "
           set sftp:auto-confirm yes;
           open -u ${{ secrets.FTP_USER }},${{ secrets.FTP_SECRET }} sftp://${{ secrets.FTP_HOST }};
-          cd sites/maden.sae.lucasvieira.fr/;
+          cd sites/lucas.sae.lucasvieira.fr/;
           glob -a rm -rf -- [^.]*
           bye
           "
@@ -40,6 +40,6 @@ jobs:
           lftp -c "
           set sftp:auto-confirm yes;
           open -u ${{ secrets.FTP_USER }},${{ secrets.FTP_SECRET }} sftp://${{ secrets.FTP_HOST }};
-          mirror -R --parallel=10 --exclude-glob .* PHP-SAE/src/ sites/maden.sae.lucasvieira.fr/
+          mirror -R --parallel=10 --exclude-glob .* PHP-SAE/src/ sites/lucas.sae.lucasvieira.fr/
           bye
           "
