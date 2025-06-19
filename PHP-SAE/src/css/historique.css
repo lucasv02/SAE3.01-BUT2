@@ -1,0 +1,101 @@
+:root {
+  --bleu-roi: #4169E1;
+  --bleu-clair: #DFF2FF;
+  --orange-accent: #F28D35;
+  --gris-clair: #f9f9f9;
+  --gris-bordure: #ccc;
+}
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Lexend', sans-serif;
+}
+
+
+.text-content {
+  width: 90%;
+  max-width: 900px;
+  margin: 120px auto 80px auto;
+  padding: 15px;
+  border: 3px solid var(--orange-accent);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2),
+  0 2px 4px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  text-align: center;
+}
+
+
+.histo_crypto,
+.histo_proba {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 14px;
+  color: var(--bleu-roi);
+}
+
+
+.histo_crypto th,
+.histo_proba th {
+  background-color: var(--bleu-clair);
+  color: var(--bleu-roi);
+  font-weight: 600;
+  padding: 10px 12px;
+  border: 1px solid var(--gris-bordure);
+  text-align: center;
+}
+
+
+.histo_crypto td,
+.histo_proba td {
+  border: 1px solid var(--gris-bordure);
+  padding: 8px 12px;
+  text-align: center;
+  vertical-align: middle;
+  word-wrap: break-word;
+  max-width: 220px;
+}
+
+
+.histo_crypto tr:nth-child(even),
+.histo_proba tr:nth-child(even) {
+  background-color: var(--gris-clair);
+}
+
+
+.histo_crypto tr:hover,
+.histo_proba tr:hover {
+  background-color: #e3ecff;
+  transition: background-color 0.3s ease;
+}
+
+
+@media (max-width: 768px) {
+  .text-content {
+    width: 95%;
+    margin: 80px auto 40px auto;
+    padding: 10px;
+  }
+  .histo_crypto,
+  .histo_proba {
+    font-size: 12px;
+  }
+  .histo_crypto th,
+  .histo_proba th,
+  .histo_crypto td,
+  .histo_proba td {
+    padding: 6px 8px;
+  }
+
+  .text-content {
+    overflow-x: auto;
+  }
+}
