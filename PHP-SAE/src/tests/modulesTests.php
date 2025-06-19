@@ -4,7 +4,8 @@ require_once '../modules.php';
 
 # Pour lancer les tests : php modulesTests.php dans le dossier src/tests
 
-function assertEquals($expected, $actual, $message = '', $delta = null) {
+function assertEquals($expected, $actual, $message = '', $delta = null)
+{
     if (is_float($expected) && $delta !== null) {
         $success = abs($expected - $actual) <= $delta;
     } else {
@@ -18,7 +19,6 @@ function assertEquals($expected, $actual, $message = '', $delta = null) {
     }
 }
 
-// === Tests ===
 
 echo "=== Tests de la loi normale ok===\n";
 $loiNormaleCas = [
