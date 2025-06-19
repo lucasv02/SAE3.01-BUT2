@@ -3,6 +3,10 @@ session_start();
 
 require_once __DIR__ . '/php/env.php';
 
+$db_host = getenv('DB_HOST');
+$db_user = getenv('DB_USER');
+$db_pass = getenv('DB_PASS');
+$db_name = getenv('DB_NAME');
 
 // Mise en place du Header
 echo '<!DOCTYPE html>
@@ -25,10 +29,10 @@ echo '<body>';
 if (isset($_SESSION['login']) && $_SESSION['login']) {
   include 'php/menu-c.php';
 
-  $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+  $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
 
   // Connexion à la BDD à modifer comme formulaireBD
-  $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+  $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
   if ($conn->connect_error) {
     die("Erreur de connexion : " . $conn->connect_error);
   }
