@@ -16,7 +16,7 @@ echo '<!DOCTYPE html>
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="img/logo.png" />
-  <title>Relax Maths - Historique</title>
+  <title>Relax Maths - Historique Admin</title>
   <link rel="stylesheet" href="css/construction.css" />
   <link rel="stylesheet" href="css/general.css" />
   <link rel="stylesheet" href="css/historique.css" />
@@ -32,48 +32,46 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
 
     $cnx = new mysqli($db_host, $db_user, $db_pass, $db_name);
 
+    if ($cnx->connect_error) {
+        die("Erreur de connexion : " . $cnx->connect_error);
+    }
 
-    //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    $sql_log = "SELECT al.idh, u.login, al.action, al.ip_adresse, al.date_action FROM admin_log al LEFT JOIN utilisateur u ON al.id_utilisateur = u.id ORDER BY al.date_action DESC";
 
-    // Historique de Crypto
-    $id_utilisateur = $_SESSION['id']; // ← récupération de l'id utilisateur depuis la session
-
-    $sql_crypto = "SELECT * FROM historique_crypto WHERE user_id = ? ORDER BY date_action DESC";
-    $stmt_crypto = $cnx->prepare($sql_crypto);
-    $stmt_crypto->bind_param("i", $id_utilisateur);
-    $stmt_crypto->execute();
-    $result_crypto = $stmt_crypto->get_result();
+    $stmt_log = $cnx->prepare($sql_log);
+    $stmt_log->execute();
+    $result_log = $stmt_log->get_result();
 
     echo '
     <script src="../js/accueil.js"></script>
     <div class="text-content">
-      <h1>Historique des opérations Cryptographie</h1>';
+      <h1>Historique des actions administratives</h1>';
 
-    if ($result_crypto->num_rows > 0) {
+    if ($result_log->num_rows > 0) {
         echo '<table class="histo_crypto">
             <tr>
-              <th>Méthode</th>
-              <th>Message</th>
-              <th>Résultat</th>
+              <th>Utilisateur</th>
+              <th>Action</th>
+              <th>Adresse IP</th>
               <th>Date</th>
             </tr>';
 
-        while ($row = $result_crypto->fetch_assoc()) {
+        while ($row = $result_log->fetch_assoc()) {
             echo "<tr>
-                    <td>" . htmlspecialchars($row['methode']) . "</td>
-                    <td>" . htmlspecialchars($row['message']) . "</td>
-                    <td>" . htmlspecialchars($row['resultat']) . "</td>
+                    <td>" . htmlspecialchars($row['login'] ?? 'Inconnu') . "</td>
+                    <td>" . htmlspecialchars($row['action']) . "</td>
+                    <td>" . htmlspecialchars($row['ip_adresse']) . "</td>
                     <td>" . htmlspecialchars($row['date_action']) . "</td>
                   </tr>";
         }
 
         echo '</table>';
     } else {
-        echo "<p>Aucun historique enregistré pour l'instant.</p>";
+        echo "<p>Aucun log enregistré dans la table admin_log.</p>";
     }
 
     echo '</div>';
-    $stmt_crypto->close();
+    $stmt_log->close();
 
 } else {
     include 'php/menu-nc.php';
