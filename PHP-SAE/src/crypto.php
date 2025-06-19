@@ -39,11 +39,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $methode = $conn->real_escape_string($action);
       $date_action = date('Y-m-d H:i:s');
 
-      $sql = "INSERT INTO historique_crypto (user_id, date_action, mesasge, methode, resultat) VALUES (?, ?, ?, ?, ?)";
+      $sql = "INSERT INTO historique_crypto (user_id, date_action, message, methode, resultat) VALUES (?, ?, ?, ?, ?)";
 
       $stmt = $conn->prepare($sql);
       $stmt->bind_param("issss", $user_id, $date_action, $donnees, $methode, $resultat);
       $stmt->execute();
+      if ($stmt->error) {
+        echo "Erreur d'insertion : " . $stmt->error;
+      }
 
     }
   } else if ($message !== null && $action == null) {
