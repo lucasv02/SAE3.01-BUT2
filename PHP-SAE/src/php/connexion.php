@@ -40,6 +40,7 @@ if (
         $_SESSION['id'] = $row['id'];
         $_SESSION['identifiant'] = $login;
         $_SESSION['password'] = $password;
+        $_SESSION['permission'] = $row['permission'];
         header('Location: /index.php');
         exit();
     } else {
