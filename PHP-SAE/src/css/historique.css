@@ -65,18 +65,6 @@ body {
 }
 
 
-.histo_crypto tr:nth-child(even),
-.histo_proba tr:nth-child(even) {
-  background-color: red;
-}
-
-
-.histo_crypto tr:hover,
-.histo_proba tr:hover {
-  background-color: blue;
-  transition: background-color 0.3s ease;
-}
-
 
 @media (max-width: 768px) {
   .text-content {
