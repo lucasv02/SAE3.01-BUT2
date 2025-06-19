@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once __DIR__ . 'php/env.php';
+require_once __DIR__ . '/php/env.php';
 
 
 // Mise en place du Header
