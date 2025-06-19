@@ -54,7 +54,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
       <h1>Historique des opérations Cryptographie</h1>';
 
   if ($result_crypto->num_rows > 0) {
-    echo '<table class="histo_crypto">
+    echo '<table>
             <tr>
               <th>Méthode</th>
               <th>Message</th>
