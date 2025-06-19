@@ -47,6 +47,7 @@ if (
         $action = "Connexion d'un utilisateur";
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'];
 
+        $id_utilisateur = $_SESSION['id'];
         // Insertion dans la table admin_log
         $stmtLog = mysqli_prepare($cnx, "INSERT INTO admin_log (id_utilisateur, action, ip_adresse) VALUES (?, ?, ?)");
         mysqli_stmt_bind_param($stmtLog, "iss", $id_utilisateur, $action, $ip);
