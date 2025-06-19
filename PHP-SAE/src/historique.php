@@ -20,104 +20,99 @@ echo '<!DOCTYPE html>
 echo '<body>';
 
 if (isset($_SESSION['login']) && $_SESSION['login']) {
-    include 'php/menu-c.php';
+  include 'php/menu-c.php';
 
-    // Connexion à la BDD
-    $conn = new mysqli("di2s6.myd.infomaniak.com", "di2s6_sae", "Xipnep-keppa6-netxud", "di2s6_sae");
-    if ($conn->connect_error) {
-        die("Erreur de connexion : " . $conn->connect_error);
-    }
+  // Connexion à la BDD
+  $conn = new mysqli("di2s6.myd.infomaniak.com", "di2s6_sae", "Xipnep-keppa6-netxud", "di2s6_sae");
+  if ($conn->connect_error) {
+    die("Erreur de connexion : " . $conn->connect_error);
+  }
 
-    $id_utilisateur = $_SESSION['id']; // S'assurer que la session contient bien l'id
+  $id_utilisateur = $_SESSION['id']; // S'assurer que la session contient bien l'id
 
-    //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    // Historique de Crypto
-    $sql_crypto = "SELECT * FROM historique WHERE user_id = ? AND module = 'crypto' ORDER BY date_action DESC"; // Requete SQL
-    $stmt_crypto = $conn->prepare($sql_crypto); // on prépare la requete dans la BDD
-    $stmt_crypto->bind_param("i", $id_utilisateur); // i pour integer / et on lie la varaible id_utilisateur à la requête préparée en remplacant "?" dans la requête
-    $stmt_crypto->execute(); // exécution de la requete avec la valeur liée "id_utilisateur"
-    $result_crypto = $stmt_crypto->get_result(); // on récupère le résultat sous la forme d'un objet résultat.
+  // Historique de Crypto
+  $sql_crypto = "SELECT * FROM historique_cryto WHERE user_id = ? ORDER BY date_action DESC"; // Requete SQL
+  $stmt_crypto = $conn->prepare($sql_crypto); // on prépare la requete dans la BDD
+  $stmt_crypto->bind_param("i", $id_utilisateur); // i pour integer / et on lie la varaible id_utilisateur à la requête préparée en remplacant "?" dans la requête
+  $stmt_crypto->execute(); // exécution de la requete avec la valeur liée "id_utilisateur"
+  $result_crypto = $stmt_crypto->get_result(); // on récupère le résultat sous la forme d'un objet résultat.
 
-    echo '
+  echo '
     <script src="../js/accueil.js"></script>
     <div class="text-content">
       <h1>Historique des opérations Cryptographie</h1>';
 
-    if ($result_crypto->num_rows > 0) {
-        echo '<table>
+  if ($result_crypto->num_rows > 0) {
+    echo '<table class="histo_crypto">
             <tr>
-              <th>Type</th>
-              <th>Données</th>
+              <th>Méthode</th>
+              <th>Message</th>
               <th>Résultat</th>
               <th>Date</th>
             </tr>';
 
-        while ($row = $result_crypto->fetch_assoc()) {
-            echo "<tr>
-                    <td>" . htmlspecialchars($row['module']) . "</td>
-                    <td>" . htmlspecialchars($row['donnees']) . "</td>
+    while ($row = $result_crypto->fetch_assoc()) {
+      echo "<tr>
+                    <td>" . htmlspecialchars($row['methode']) . "</td>
+                    <td>" . htmlspecialchars($row['message']) . "</td>
                     <td>" . htmlspecialchars($row['resultat']) . "</td>
                     <td>" . htmlspecialchars($row['date_action']) . "</td>
                   </tr>";
-        }
-
-        echo '</table>';
-    } else {
-        echo "<p>Aucun historique enregistré pour l'instant.</p>";
     }
 
-    echo '</div>';
-    $stmt_crypto->close();
-    //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    echo '</table>';
+  } else {
+    echo "<p>Aucun historique enregistré pour l'instant.</p>";
+  }
 
-    // Historique de Probabilité
-    $sql_proba = "SELECT * FROM historique WHERE user_id = ? AND module = 'probabilite' ORDER BY date_action DESC";
-    $stmt_proba = $conn->prepare($sql_proba);
-    $stmt_proba->bind_param("i", $id_utilisateur);
-    $stmt_proba->execute();
-    $result_proba = $stmt_proba->get_result();
+  echo '</div>';
+  $stmt_crypto->close();
+  //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    echo '
+  // Historique de Probabilité
+  $sql_proba = "SELECT * FROM historique_proba WHERE user_id = ? ORDER BY date_action DESC";
+  $stmt_proba = $conn->prepare($sql_proba);
+  $stmt_proba->bind_param("i", $id_utilisateur);
+  $stmt_proba->execute();
+  $result_proba = $stmt_proba->get_result();
+
+  echo '
     <div class="text-content">
       <h1>Historique des opérations Probabilité</h1>';
 
-    if ($result_proba->num_rows > 0) {
-        echo '<table>
+  if ($result_proba->num_rows > 0) {
+    echo '<table>
             <tr>
               <th>Type</th>
-              <th>Données</th>
+              <th>Moyenne</th>
+              <th>Ecart-Type</th>
+              <th>Borne supérieure</th>
+              <th>Nombre de Subdivision</th>
               <th>Résultat</th>
               <th>Date</th>
             </tr>';
 
-        while ($row = $result_proba->fetch_assoc()) {
-            $donnees = json_decode($row['donnees'], true);
-            $moyenne = isset($donnees['moyenne']) ? htmlspecialchars($donnees['moyenne']) : '-';
-            $ecart_type = isset($donnees['ecart_type']) ? htmlspecialchars($donnees['ecart_type']) : '-';
-            $borne_sup = isset($donnees['borne_sup']) ? htmlspecialchars($donnees['borne_sup']) : '-';
-            $nb_rectangle = isset($donnees['nb_rectangle']) ? htmlspecialchars($donnees['nb_rectangle']) : '-';
-
-            echo "<tr>
-                    <td>" . htmlspecialchars($row['module']) . "</td>
-                    <td>$moyenne</td>
-                    <td>$ecart_type</td>
-                    <td>$borne_sup</td>
-                    <td>$nb_rectangle</td>
+    echo "<tr>
+                    <td>" . htmlspecialchars($row['moyenne']) . "</td>
+                    <td>" . htmlspecialchars($row['ecrat_type']) . "</td>
+                    <td>" . htmlspecialchars($row['borne_sup']) . "</td>
+                    <td>" . htmlspecialchars($row['nb_subdivision']) . "</td>
                     <td>" . htmlspecialchars($row['resultat']) . "</td>
                     <td>" . htmlspecialchars($row['date_action']) . "</td>
                   </tr>";
-        }
-        echo '</table>';
-    } else {
-        echo "<p>Aucun historique enregistré pour la probabilité pour l'instant.</p>";
-    }
-    echo '</div>';
-    $stmt_proba->close();
-    $conn->close();
-} else {
-    include 'php/menu-nc.php';
-    echo '
+    echo '</table>';
+  } else {
+    echo "<p>Aucun historique enregistré pour la probabilité pour l'instant.</p>";
+  }
+  echo '</div>';
+  $stmt_proba->close();
+  $conn->close();
+
+} else {        /* if de connexion */
+  include 'php/menu-nc.php';
+  echo '
     <div class="text-content">
         <h1>Accès refusé</h1>
         <br>
