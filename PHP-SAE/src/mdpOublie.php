@@ -18,7 +18,9 @@ echo '<!DOCTYPE html>
 
 
 
-echo '<body>';
+echo '<body>
+
+<div class="wrapper">';
 
 include 'php/menu-nc.php';
 

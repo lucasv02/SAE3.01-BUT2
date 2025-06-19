@@ -31,21 +31,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 if (isset($_SESSION['id'])) { //vérification si l'utilisateur est connécté / si la variable id existe
                     $user_id = $_SESSION['id']; // on récupère l'id de l'utilisateur connecté et on le stocke dans la variable
                     $date_action = date("Y-m-d H:i:s"); // on récupère la date et l'heure de l'action
-                    $module = "probabilite"; // c'est grace à ca que le systeme sait que les données récupérer vont aller dans le tableau de proba dans historique.php
 
-                    // on regroupe tout les paramètre d'entrée dans le formulaire pour les convertir en chaine JSON.
-                    // Cela permet de stocket ceci dans la BDD dans la colonne "données" sous forme d'un seul élément, une chaine JSON avec les 4 paramètres
-                    $donnees = json_encode([
-                        "moyenne" => $moyenne,
-                        "ecart_type" => $ecart_type,
-                        "borne_sup" => $borne_sup,
-                        "nb_rectangle" => $nb_rectangle
-                    ]);
                     $resultat_str = (string)$resultat; // on convertir le résultat en chaine de caractère pour l'insérer facilement dans la base de données
 
                     $conn = new mysqli("di2s6.myd.infomaniak.com", "di2s6_sae", "Xipnep-keppa6-netxud", "di2s6_sae");
                     if (!$conn->connect_error) {
-                        $stmt = $conn->prepare("INSERT INTO historique (user_id, date_action, module, donnees, resultat) VALUES (?, ?, ?, ?, ?)");
+                        $stmt = $conn->prepare("INSERT INTO historique_proba (user_id, date_action, moyenne, ecart_type, borne_sup, nb_subdivision, resultat) VALUES (?, ?, ?, ?, ?, ?, ?)");
                         $stmt->bind_param("issss", $user_id, $date_action, $module, $donnees, $resultat_str);
                         $stmt->execute();
                         $stmt->close();
@@ -109,7 +100,9 @@ echo '<!DOCTYPE html>
 </head>
 ';
 
-echo '<body>';
+echo '<body>
+
+<div class="wrapper">';
 
 
 

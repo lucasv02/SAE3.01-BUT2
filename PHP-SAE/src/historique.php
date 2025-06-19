@@ -17,7 +17,9 @@ echo '<!DOCTYPE html>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet">
 </head>';
 
-echo '<body>';
+echo '<body>
+
+<div class="wrapper">';
 
 if (isset($_SESSION['login']) && $_SESSION['login']) {
     include 'php/menu-c.php';
@@ -47,8 +49,8 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
     if ($result_crypto->num_rows > 0) {
         echo '<table class="histo_crypto">
             <tr>
-              <th>Type</th>
-              <th>Données</th>
+              <th>Méthode</th>
+              <th>Message</th>
               <th>Résultat</th>
               <th>Date</th>
             </tr>';
@@ -72,7 +74,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     // Historique de Probabilité
-    $sql_proba = "SELECT * FROM historique WHERE user_id = ? AND module = 'probabilite' ORDER BY date_action DESC";
+    $sql_proba = "SELECT * FROM historique_proba WHERE user_id = ? ORDER BY date_action DESC";
     $stmt_proba = $conn->prepare($sql_proba);
     $stmt_proba->bind_param("i", $id_utilisateur);
     $stmt_proba->execute();
@@ -86,28 +88,22 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
         echo '<table>
             <tr>
               <th>Type</th>
-              <th>Données</th>
+              <th>Moyenne</th>
+              <th>Ecart-Type</th>
+              <th>Borne supérieure</th>
+              <th>Nombre de Subdivision</th>
               <th>Résultat</th>
               <th>Date</th>
             </tr>';
 
-        while ($row = $result_proba->fetch_assoc()) {
-            $donnees = json_decode($row['donnees'], true);
-            $moyenne = isset($donnees['moyenne']) ? htmlspecialchars($donnees['moyenne']) : '-';
-            $ecart_type = isset($donnees['ecart_type']) ? htmlspecialchars($donnees['ecart_type']) : '-';
-            $borne_sup = isset($donnees['borne_sup']) ? htmlspecialchars($donnees['borne_sup']) : '-';
-            $nb_rectangle = isset($donnees['nb_rectangle']) ? htmlspecialchars($donnees['nb_rectangle']) : '-';
-
             echo "<tr>
-                    <td>" . htmlspecialchars($row['module']) . "</td>
-                    <td>$moyenne</td>
-                    <td>$ecart_type</td>
-                    <td>$borne_sup</td>
-                    <td>$nb_rectangle</td>
+                    <td>" . htmlspecialchars($row['moyenne']) . "</td>
+                    <td>" . htmlspecialchars($row['ecrat_type']) . "</td>
+                    <td>" . htmlspecialchars($row['borne_sup']) . "</td>
+                    <td>" . htmlspecialchars($row['nb_subdivision']) . "</td>
                     <td>" . htmlspecialchars($row['resultat']) . "</td>
                     <td>" . htmlspecialchars($row['date_action']) . "</td>
                   </tr>";
-        }
         echo '</table>';
     } else {
         echo "<p>Aucun historique enregistré pour la probabilité pour l'instant.</p>";
@@ -115,7 +111,8 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
     echo '</div>';
     $stmt_proba->close();
     $conn->close();
-} else {
+
+} else {        /* if de connexion */
     include 'php/menu-nc.php';
     echo '
     <div class="text-content">

@@ -7,6 +7,8 @@ echo'
         <img src="../img/banniere_bas.svg" alt="Bannière basse">
     </div>
 </footer>
+
+</div>
 ';
 
 
