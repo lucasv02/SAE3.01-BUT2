@@ -29,10 +29,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $user_id = $_SESSION['id'];
             $donnees = $conn->real_escape_string($message); // le code chiffré saisi
             $resultat = $conn->real_escape_string($message_chiffre); // message déchiffré
-            $module = 'crypto';
+            $methode = 'chiffrer_dechiffrer';
             $date_action = date('Y-m-d H:i:s');
 
-            $sql = "INSERT INTO historique (user_id, date_action, module, donnees, resultat) VALUES ('$user_id', '$date_action', '$module', '$donnees', '$resultat')";
+            $sql = "INSERT INTO historique_crypto (user_id, date_action, methode, donnees, resultat) VALUES ('$user_id', '$date_action', '$methode', '$donnees', '$resultat')";
 
             $conn->query($sql);
             $conn->close();

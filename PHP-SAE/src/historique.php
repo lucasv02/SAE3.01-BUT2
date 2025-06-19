@@ -33,7 +33,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     // Historique de Crypto
-    $sql_crypto = "SELECT * FROM historique WHERE user_id = ? AND module = 'crypto' ORDER BY date_action DESC"; // Requete SQL
+    $sql_crypto = "SELECT * FROM historique_cryto WHERE user_id = ? ORDER BY date_action DESC"; // Requete SQL
     $stmt_crypto = $conn->prepare($sql_crypto); // on prépare la requete dans la BDD
     $stmt_crypto->bind_param("i", $id_utilisateur); // i pour integer / et on lie la varaible id_utilisateur à la requête préparée en remplacant "?" dans la requête
     $stmt_crypto->execute(); // exécution de la requete avec la valeur liée "id_utilisateur"
@@ -45,7 +45,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
       <h1>Historique des opérations Cryptographie</h1>';
 
     if ($result_crypto->num_rows > 0) {
-        echo '<table>
+        echo '<table class="histo_crypto">
             <tr>
               <th>Type</th>
               <th>Données</th>
@@ -55,8 +55,8 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
 
         while ($row = $result_crypto->fetch_assoc()) {
             echo "<tr>
-                    <td>" . htmlspecialchars($row['module']) . "</td>
-                    <td>" . htmlspecialchars($row['donnees']) . "</td>
+                    <td>" . htmlspecialchars($row['methode']) . "</td>
+                    <td>" . htmlspecialchars($row['message']) . "</td>
                     <td>" . htmlspecialchars($row['resultat']) . "</td>
                     <td>" . htmlspecialchars($row['date_action']) . "</td>
                   </tr>";
