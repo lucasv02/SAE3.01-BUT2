@@ -1,6 +1,19 @@
 <?php
 session_start();
 
+
+require_once __DIR__ . '/env.php';
+
+$db_host = getenv('DB_HOST');
+$db_user = getenv('DB_USER');
+$db_pass = getenv('DB_PASS');
+$db_name = getenv('DB_NAME');
+
+$conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+if ($conn->connect_error) {
+  die("Erreur de connexion : " . $conn->connect_error);
+}
+
 $message_resultat = 'En attente de saisie de paramètres...';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -20,24 +33,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     //Enregistre dans la BDD historique
     if(isset($_SESSION['id'])) {
-      $conn = new mysqli("di2s6.myd.infomaniak.com", "di2s6_sae", "Xipnep-keppa6-netxud", "di2s6_sae");
-
-      if($conn->connect_error) {
-        die("Erreur de connexion :" . $conn->connect_error);
-      }
-
       $user_id = $_SESSION['id'];
       $donnees = $conn->real_escape_string($message); // le code chiffré saisi
       $resultat = $conn->real_escape_string($message_chiffre); // message déchiffré
-      $methode = 'chiffrer_dechiffrer';
+      $methode = $conn->real_escape_string($action);
       $date_action = date('Y-m-d H:i:s');
 
-      $sql = "INSERT INTO historique_crypto (user_id, date_action, methode, donnees, resultat) VALUES ('$user_id', '$date_action', '$methode', '$donnees', '$resultat')";
+      $sql = "INSERT INTO historique_crypto (user_id, date_action, mesasge, methode, resultat) VALUES (?, ?, ?, ?, ?)";
 
-      $conn->query($sql);
-      $conn->close();
+      $stmt = $conn->prepare($sql);
+      $stmt->bind_param("issss", $user_id, $date_action, $donnees, $methode, $resultat);
+      $stmt->execute();
+
     }
-
   } else if ($message !== null && $action == null) {
     $message_resultat = "Erreur : vous n'avez pas selectionner l'action à effectuer sur votre message. ";
   } else {
@@ -181,4 +189,5 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
   include 'php/footer.php';
 }
 
-echo '</body>';
+echo '</div>
+</body>';
