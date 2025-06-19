@@ -56,7 +56,7 @@ if (isset($_POST['identifiant'], $_POST['password'])) {
 
             // Insertion dans la table admin_log
             $stmtLog = mysqli_prepare($cnx, "INSERT INTO admin_log (id_utilisateur, action, ip_adresse) VALUES (?, ?, ?)");
-            mysqli_stmt_bind_param($stmtLog, "iss", $id_utilisateur, $action, $ip_adresse);
+            mysqli_stmt_bind_param($stmtLog, "iss", $id_utilisateur, $action, $ip);
             mysqli_stmt_execute($stmtLog);
         }
 
