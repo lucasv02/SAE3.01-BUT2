@@ -42,6 +42,15 @@ if (
         $_SESSION['password'] = $password;
         $_SESSION['permission'] = $row['permission'];
         header('Location: /index.php');
+
+        // Préparation des données pour le log
+        $action = "Connexion d'un utilisateur";
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'];
+
+        // Insertion dans la table admin_log
+        $stmtLog = mysqli_prepare($cnx, "INSERT INTO admin_log (id_utilisateur, action, ip_adresse) VALUES (?, ?, ?)");
+        mysqli_stmt_bind_param($stmtLog, "iss", $id_utilisateur, $action, $ip);
+        mysqli_stmt_execute($stmtLog);
         exit();
     } else {
         header('Location: /login.php?erreur=1');
