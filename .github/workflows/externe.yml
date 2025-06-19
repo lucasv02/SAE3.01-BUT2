@@ -3,7 +3,7 @@ name: Déploiement via SFTP - seraphin.sae.lucasvieira.fr
 on:
   push:
     branches:
-      - lucas
+      - seraphin
 
 jobs:
   deploy:
