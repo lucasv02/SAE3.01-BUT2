@@ -94,7 +94,6 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
   if ($result_proba->num_rows > 0) {
     echo '<table>
             <tr>
-              <th>Type</th>
               <th>Moyenne</th>
               <th>Ecart-Type</th>
               <th>Borne supérieure</th>
@@ -103,18 +102,22 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
               <th>Date</th>
             </tr>';
 
-    echo "<tr>
-                    <td>" . htmlspecialchars($row['moyenne']) . "</td>
-                    <td>" . htmlspecialchars($row['ecrat_type']) . "</td>
-                    <td>" . htmlspecialchars($row['borne_sup']) . "</td>
-                    <td>" . htmlspecialchars($row['nb_subdivision']) . "</td>
-                    <td>" . htmlspecialchars($row['resultat']) . "</td>
-                    <td>" . htmlspecialchars($row['date_action']) . "</td>
-                  </tr>";
+    while ($row = $result_proba->fetch_assoc()) {
+      echo "<tr>
+                <td>" . htmlspecialchars($row['moyenne']) . "</td>
+                <td>" . htmlspecialchars($row['ecart_type']) . "</td>
+                <td>" . htmlspecialchars($row['borne_sup']) . "</td>
+                <td>" . htmlspecialchars($row['nb_subdivision']) . "</td>
+                <td>" . htmlspecialchars($row['resultat']) . "</td>
+                <td>" . htmlspecialchars($row['date_action']) . "</td>
+              </tr>";
+    }
+
     echo '</table>';
   } else {
     echo "<p>Aucun historique enregistré pour la probabilité pour l'instant.</p>";
   }
+
   echo '</div>';
   $stmt_proba->close();
   $conn->close();
