@@ -25,6 +25,8 @@ echo '<body>';
 if (isset($_SESSION['login']) && $_SESSION['login']) {
   include 'php/menu-c.php';
 
+  require_once '/php/env.php';
+  $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
   // Connexion à la BDD à modifer comme formulaireBD
   $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
