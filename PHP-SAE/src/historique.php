@@ -19,6 +19,7 @@ echo '<!DOCTYPE html>
   <title>Relax Maths - Historique</title>
   <link rel="stylesheet" href="css/construction.css" />
   <link rel="stylesheet" href="css/general.css" />
+  <link rel="stylesheet" href="css/historique.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet">
@@ -54,7 +55,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
       <h1>Historique des opérations Cryptographie</h1>';
 
   if ($result_crypto->num_rows > 0) {
-    echo '<table>
+    echo '<table class="histo_crypto">
             <tr>
               <th>Méthode</th>
               <th>Message</th>
@@ -92,7 +93,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
       <h1>Historique des opérations Probabilité</h1>';
 
   if ($result_proba->num_rows > 0) {
-    echo '<table>
+    echo '<table class="histo_proba">
             <tr>
               <th>Moyenne</th>
               <th>Ecart-Type</th>
