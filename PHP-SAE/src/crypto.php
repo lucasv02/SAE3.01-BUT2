@@ -3,6 +3,7 @@ session_start();
 
 $message_resultat = 'En attente de saisie de paramètres...';
 
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $message = isset($_POST['message']) ? $_POST['message'] : null;
     $action = isset($_POST['chiffrer_dechiffrer']) ? $_POST['chiffrer_dechiffrer'] : null;
@@ -22,7 +23,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-function chiffrer($message) {
+
+/*
+ * Méthode de chiffrement
+ * @message (string) : message saisi par l'utilisateur à chiffrer
+ * @return (string) : message chiffré
+ */
+function chiffrer($message)
+{
     $message = strtoupper($message);
     $message = preg_replace('/[^A-Z0-9]/', '', $message);
 
@@ -56,7 +64,14 @@ function chiffrer($message) {
     return $message_chiffre;
 }
 
-function dechiffrer($message) {
+
+/*
+ * Méthode de déchiffrement
+ * @message (string) : message saisi par l'utilisateur à déchiffrer
+ * @return (string) : message déchiffré
+ */
+function dechiffrer($message)
+{
     $lignes = ['A', 'D', 'F', 'G', 'V', 'X'];
     $colonnes = ['A', 'D', 'F', 'G', 'V', 'X'];
     $grille = [
@@ -76,6 +91,7 @@ function dechiffrer($message) {
         }
     }
 
+    // Met le message en majuscule
     $message = strtoupper($message);
     $message = preg_replace('/[^ADFGVX]/', '', $message);
 
