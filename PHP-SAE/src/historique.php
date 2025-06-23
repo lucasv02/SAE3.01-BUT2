@@ -25,7 +25,9 @@ echo '<!DOCTYPE html>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet">
 </head>';
 
-echo '<body>';
+echo '<body>
+
+<div class="wrapper">';
 
 if (isset($_SESSION['login']) && $_SESSION['login']) {
   include 'php/menu-c.php';
@@ -40,7 +42,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
 
   $id_utilisateur = $_SESSION['id']; // S'assurer que la session contient bien l'id
 
-  //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
   // Historique de Crypto
   $sql_crypto = "SELECT * FROM historique_crypto WHERE user_id = ? ORDER BY date_action DESC"; // Requete SQL
@@ -56,6 +58,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
 
   if ($result_crypto->num_rows > 0) {
     echo '<table class="histo_crypto">
+
             <tr>
               <th>Méthode</th>
               <th>Message</th>
@@ -65,6 +68,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
 
     while ($row = $result_crypto->fetch_assoc()) {
       echo "<tr>
+
                     <td>" . htmlspecialchars($row['methode']) . "</td>
                     <td>" . htmlspecialchars($row['message']) . "</td>
                     <td>" . htmlspecialchars($row['resultat']) . "</td>
@@ -81,12 +85,14 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
   $stmt_crypto->close();
   //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
   // Historique de Probabilité
   $sql_proba = "SELECT * FROM historique_proba WHERE user_id = ? ORDER BY date_action DESC";
   $stmt_proba = $conn->prepare($sql_proba);
   $stmt_proba->bind_param("i", $id_utilisateur);
   $stmt_proba->execute();
   $result_proba = $stmt_proba->get_result();
+
 
   echo '
     <div class="text-content">
@@ -95,6 +101,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
   if ($result_proba->num_rows > 0) {
     echo '<table class="histo_proba">
             <tr>
+              <th>Type</th>
               <th>Moyenne</th>
               <th>Ecart-Type</th>
               <th>Borne supérieure</th>
@@ -126,6 +133,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
 } else {        /* if de connexion */
   include 'php/menu-nc.php';
   echo '
+
     <div class="text-content">
         <h1>Accès refusé</h1>
         <br>
@@ -135,4 +143,5 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
 
 include 'php/footer.php';
 
-echo '</body></html>';
+echo '</div>
+</body></html>';

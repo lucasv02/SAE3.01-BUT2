@@ -19,7 +19,9 @@ echo '<!DOCTYPE html>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet">
 </head>';
 
-echo'<body>';
+echo'<body>
+
+<div class="wrapper">';
 
 if (isset($_SESSION['login']) && $_SESSION['login']) {
 
@@ -65,7 +67,7 @@ else {
 
 include 'php/footer.php';
 
-echo'
+echo'</div>
 
 </body>';
 
