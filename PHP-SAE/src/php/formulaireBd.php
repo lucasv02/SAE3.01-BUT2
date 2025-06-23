@@ -1,116 +1,64 @@
 <?php
 
-require_once ("fonctions.php");
 
-echo "<body>
-          <div class='conteneur-formulaire'>
-              <img id='logo' src='images/logo.jpeg' alt='logo représentant une calculatrice'>
-              <h1 id='titre-login'>Relax Maths</h1>
-              <p id='explicatif'>Connectez-vous à votre compte</p>
-                  <form action='../login.php' method='post'>
-                      <label for='email'>Adresse mail</label>
-                      <input type='email' name='email' id='email' placeholder='Adresse mail' required>
-                      <br>
-                      <label for='password'>Mot de passe</label>
-                      <input type='password' name='password' id='password' placeholder='Mot de passe' required>
-                      <a id='mdp-oublie' href='/reset-password'>Mot de passe oublié ?</a>
-                      <br>
-                      <button type='submit'>Connexion</button>
-                      <p id='copyright'>© 2024 Relax Maths</p>
-                  </form>
+require_once __DIR__ . '/env.php';
 
+$db_host = getenv('DB_HOST');
+$db_user = getenv('DB_USER');
+$db_pass = getenv('DB_PASS');
+$db_name = getenv('DB_NAME');
 
-          </div>
-      </body>";
+$cnx = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
+$table = "utilisateur";
 
-echo "<style>
-body {
-          background-color: #f5f6fa;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-          display: flex;
+if (isset($_POST['identifiant'], $_POST['password'])) {
+    session_start();
 
-      }
+    if (!isset($_POST['captcha']) || $_POST['captcha'] != $_SESSION['captcha-result']) {
+        header('Location: /inscription.php?erreur=2');
+        exit;
+    }
 
-      #titre-login {
-          margin-bottom: 5px;
-          font-family: Arial, Helvetica, sans-serif;
-      }
+    $login = $_POST['identifiant'];
+    $password = md5($_POST['password']);
 
-      #explicatif {
-          margin-top: 5px;
-          font-size: 22px;
-          font-family: Arial, Helvetica, sans-serif;
-      }
+    $stmt = mysqli_prepare($cnx, "SELECT `login`, `password` FROM $table WHERE `login` = ? AND `password` = ?");
+    mysqli_stmt_bind_param($stmt, "ss", $login, $password);
+    mysqli_stmt_execute($stmt);
+    $resultat = mysqli_stmt_get_result($stmt);
 
-      #copyright {
-          text-align: center;
-      }
+    if (!$resultat) {
+        error_log("Erreur lors de l'exécution de la requête SELECT: " . mysqli_error($cnx));
+        die("Erreur lors de l'exécution de la requête");
+    }
 
-      .conteneur-formulaire {
-          display: flex;
-          align-items: center;
-          flex-direction: column;
-          background-color: #ffffff;
-          padding-left: 60px;
-          padding-right: 60px;
-          padding-bottom: 10px;
-          padding-top: 15px;
-          border-radius: 10px;
-      }
+    if (mysqli_num_rows($resultat) == 1) {
+        header('Location: /inscription.php?erreur=1');
+    } else {
+        
+        $stmtInsert = mysqli_prepare($cnx, "INSERT INTO $table (`login`, `password`) VALUES (?, ?)");
+        mysqli_stmt_bind_param($stmtInsert, "ss", $login, $password);
+        mysqli_stmt_execute($stmtInsert);
+        header('Location: /inscription.php?ok=1');
 
-      form {
-          display: flex;
-          flex-direction: column;
-          width: 100%;
-          font-family: Arial, Helvetica, sans-serif;
-      }
+        // Récupération de l'id de l'utilisateur inscrit
+        $stmtGet = mysqli_prepare($cnx, "SELECT id FROM $table WHERE `login` = ? AND `password` = ?");
+        mysqli_stmt_bind_param($stmtGet, "ss", $login, $password);
+        mysqli_stmt_execute($stmtGet);
+        $resultat = mysqli_stmt_get_result($stmtGet);
 
-      input[type='email'], input[type='password'] {
-          border-radius: 5px;
-          background-color: #ffffff;
-          border: 1px solid #ccc;
-          padding: 5px;
-          margin-top: 10px;
-      }
+        if ($row = mysqli_fetch_assoc($resultat)) {
+            $id_utilisateur = $row['id'];
 
-      button[type='submit'] {
-          border-radius: 5px;
-          background-color: #d9824c;
-          border: 1px solid #ccc;
-          padding: 5px;
-          margin-top: 10px;
-          font-family: Arial, Helvetica, sans-serif;
-      }
-      #logo {
-          width: 100px;
-          height: auto;
+            // Préparation des données pour le log
+            $action = "Ajout d’un utilisateur";
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'];
 
-      }
+            // Insertion dans la table admin_log
+            $stmtLog = mysqli_prepare($cnx, "INSERT INTO admin_log (id_utilisateur, action, ip_adresse) VALUES (?, ?, ?)");
+            mysqli_stmt_bind_param($stmtLog, "iss", $id_utilisateur, $action, $ip);
+            mysqli_stmt_execute($stmtLog);
+        }
 
-      #mdp-oublie {
-          margin-top: 5px;
-          color: #000000;
-          text-align: right;
-          align-self: flex-end;
-          font-family: Arial, Helvetica, sans-serif;
-      }
-  </style>
-";
-
-$cnx=mysqli_connect("localhost","relax-user","HeLu2FGK#2J");
-$bd=mysqli_select_db($cnx,"auth");
-$table="relax";
-
-if (isset($_POST['email'],$_POST['password'])) {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    $sqlInser="INSERT INTO $table (email, password) VALUES ('$email', '$password')";
-    print_r($sqlInser);
-    mysqli_query($cnx,$sqlInser);
-
+    }
 }
-
-mysqli_close($cnx);

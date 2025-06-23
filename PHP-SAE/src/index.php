@@ -1,5 +1,8 @@
 <?php
 
+session_start();
+
+
 // Mise en place du Header
 echo '<!DOCTYPE html>
 <html lang="fr">
@@ -16,9 +19,34 @@ echo '<!DOCTYPE html>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet">
 </head>';
 
-include 'php/menu-nc.php';
+echo'<body>
 
-echo '<body>
+<div class="wrapper">';
+
+if (isset($_SESSION['login']) && $_SESSION['login']) {
+
+    include 'php/menu-c.php';
+    echo '
+  <script src="/js/accueil.js"></script>
+
+  <div class="content">
+    <div class="text-content">
+          <h1>Bienvenue ' . htmlspecialchars($_SESSION['identifiant']) . '.</h1>
+      <p>Une vidéo explicative de l\'application est consultable ci-dessous</p>
+    </div>
+
+    <div class ="video">
+      <video controls width="800">
+        <source src="../img/iut-velizy.mp4" type="video/mp4" />
+      </video>
+    </div>
+
+  </div>
+  ';
+}
+else {
+    include 'php/menu-nc.php';
+    echo '
   <script src="/js/accueil.js"></script>
 
   <div class="content">
@@ -34,7 +62,13 @@ echo '<body>
     </div>
 
   </div>
+  ';
+}
+
+include 'php/footer.php';
+
+echo'</div>
 
 </body>';
 
-include 'php/footer.php';
+

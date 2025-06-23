@@ -2,9 +2,20 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+session_start();
+require_once __DIR__ . '/php/env.php';
+
+
+$db_host = getenv('DB_HOST');
+$db_user = getenv('DB_USER');
+$db_pass = getenv('DB_PASS');
+$db_name = getenv('DB_NAME');
+
+
 $message_resultat = 'En attente de saisie de paramètres...'; // Déplacement de cette ligne en dehors du bloc POST
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
 
     // Vérification et récupération des valeurs
     $moyenne = ($_POST['moyenne']) ;
@@ -18,42 +29,97 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else if (($nb_rectangle <= 0)) {
             $message_resultat = "Erreur : Le nombre de rectangles médians est inférieur ou égal à 0, veuillez saisir une valeur positive.";
         } else if (($nb_rectangle > 5000000)) {
-            $message_resultat = "Pour le bien de l'application web, veuillez saisir un nombre de rectangles médians inférieur ou égal à 5 000 000.";
+            $message_resultat = "Veuillez saisir un nombre de rectangles médians inférieur ou égal à 5 000 000.";
         } else {
             $resultat = methode_rectangles($moyenne, $ecart_type, $borne_sup, $nb_rectangle);
+
             // Vérification si le résultat est nul
-            if ($resultat !== null) {
+            if ($resultat !== null && $resultat !== "valeurs_non_cohérentes") {
                 $message_resultat = "Le résultat de l'intégrale est : " . $resultat;
-            } else {
+
+                if (isset($_SESSION['id'])) { //vérification si l'utilisateur est connécté / si la variable id existe
+                    $user_id = $_SESSION['id']; // on récupère l'id de l'utilisateur connecté et on le stocke dans la variable
+                    $date_action = date("Y-m-d H:i:s"); // on récupère la date et l'heure de l'action
+
+                    $resultat_str = (string)$resultat; // on convertir le résultat en chaine de caractère pour l'insérer facilement dans la base de données
+
+                    $conn = new mysqli("di2s6.myd.infomaniak.com", "di2s6_sae", "Xipnep-keppa6-netxud", "di2s6_sae");
+                    if (!$conn->connect_error) {
+                        $stmt = $conn->prepare("INSERT INTO historique_proba (user_id, date_action, moyenne, ecart_type, borne_sup, nb_subdivision, resultat) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                        $stmt->bind_param("issss", $user_id, $date_action, $module, $donnees, $resultat_str);
+                        $stmt->execute();
+                        $stmt->close();
+                        $conn->close();
+                    }
+                }
+
+            }
+            if ($resultat == "valeurs_non_cohérentes") {
+                $message_resultat = "Les valeurs saisies ne produisent pas de résultats mathématiques cohérents.\n Veuillez saisir de nouvelles valeurs plus adaptées.";
+            }
+            else if ($resultat == null) {
                 $message_resultat = "Erreur : Le calcul n'a pas pu être effectué.";
             }
         }
     } else {
-        $message_resultat = "Erreur : certaines valeurs sont manquantes.";
+      $resultat = methode_rectangles($moyenne, $ecart_type, $borne_sup, $nb_rectangle);
+
+      // Vérification si le résultat est nul
+      if ($resultat !== null && $resultat !== "valeurs_non_cohérentes") {
+        $message_resultat = "Le résultat de l'intégrale est : " . $resultat;
+
+        if (isset($_SESSION['id'])) { //vérification si l'utilisateur est connécté / si la variable id existe
+          $user_id = $_SESSION['id']; // on récupère l'id de l'utilisateur connecté et on le stocke dans la variable
+          $date_action = date("Y-m-d H:i:s"); // on récupère la date et l'heure de l'action
+          $resultat_str = (string)$resultat; // on convertir le résultat en chaine de caractère pour l'insérer facilement dans la base de données
+
+          $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+          if (!$conn->connect_error) {
+            $stmt = $conn->prepare("INSERT INTO historique_proba (user_id, date_action, moyenne, ecart_type, borne_sup, nb_subdivision, resultat) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("issddis", $user_id, $date_action, $moyenne, $ecart_type, $borne_sup, $nb_rectangle, $resultat_str);
+            $stmt->execute();
+            $stmt->close();
+            $conn->close();
+          }
+        }
+
+      }
+      if ($resultat == "valeurs_non_cohérentes") {
+        $message_resultat = "Les valeurs saisies ne produisent pas de résultats mathématiques cohérents.\n Veuillez saisir de nouvelles valeurs plus adaptées.";
+      }
+      else if ($resultat == null) {
+        $message_resultat = "Erreur : Le calcul n'a pas pu être effectué.";
+      }
     }
+  } else {
+    $message_resultat = "Erreur : certaines valeurs sont manquantes.";
+  }
 }
 
 function loi_normale($point_median, $moyenne, $ecart_type) {
-    // Vérification que l'écart-type est positif
-    if ($ecart_type <= 0) {
-        return 0; // Si l'écart-type est incorrect, on retourne 0
-    }
+  // Vérification que l'écart-type est positif
+  if ($ecart_type <= 0) {
+    return 0; // Si l'écart-type est incorrect, on retourne 0
+  }
 
-    // Calcul de la loi normale
-    return (1/(sqrt(2 * pi()*$ecart_type))) * (exp(-(1/2)*((($point_median - $moyenne)/$ecart_type)**2)));  #SEPH
+  // Calcul de la loi normale
+  return (1/(sqrt(2 * pi()*$ecart_type))) * (exp(-(1/2)*((($point_median - $moyenne)/$ecart_type)**2)));  #SEPH
 
 }
-// Loi normale corrigée
-function methode_rectangles($moyenne, $ecart_type, $borne_sup, $nb_rectangle) {
-    $borne_inf = -5*$ecart_type;
-    $largeur_rect = ($borne_sup - $borne_inf) / $nb_rectangle;
-    $res = 0.0;
 
-    for ($i = 0; $i < $nb_rectangle; $i++) {
-        $point_median = $borne_inf + ($i + 0.5) * $largeur_rect;
-        $res += loi_normale($point_median, $moyenne, $ecart_type) * $largeur_rect;
-    }
-    return $res;
+function methode_rectangles($moyenne, $ecart_type, $borne_sup, $nb_rectangle) {
+  $borne_inf = -5*$ecart_type;
+  $largeur_rect = ($borne_sup - $borne_inf) / $nb_rectangle;
+  $res = 0.0;
+
+  for ($i = 0; $i < $nb_rectangle; $i++) {
+    $point_median = $borne_inf + ($i + 0.5) * $largeur_rect;
+    $res += loi_normale($point_median, $moyenne, $ecart_type) * $largeur_rect;
+  }
+  if ($res > 1) {
+    return "valeurs_non_cohérentes";
+  }
+  return $res;
 }
 
 
@@ -73,9 +139,18 @@ echo '<!DOCTYPE html>
 </head>
 ';
 
-include 'php/menu-c.php';
-
 echo '<body>
+
+<div class="wrapper">';
+
+
+
+if (isset($_SESSION['login']) || isset($_SESSION['login']) == true) {
+
+  include 'php/menu-c.php';
+
+  echo'
+
 <main class="modules-calcul">
     <div class="formulaire">
         <div class="titre">
@@ -97,7 +172,7 @@ echo '<body>
 
                 <div class="form-group">
                     <label for="ecart_type">Ecart type :</label>
-                    <input type="number" step="0.01" id="ecart_type" name="ecart_type" placeholder="Entrez la valeur de l\'écart type." required>
+                    <input type="number" min="0.1" step="0.01" id="ecart_type" name="ecart_type" placeholder="Entrez la valeur de l\'écart type." required>
                 </div>
 
                 <div class="form-group">
@@ -120,14 +195,28 @@ echo '<body>
 
     <div class="resultat">
         <p>';
-     echo htmlspecialchars($message_resultat);
-echo '</p>
+  echo htmlspecialchars($message_resultat);
+  echo '</p>
     </div>
 </main>
 
 <script src="js/accueil.js"></script>
-
-</body>
 ';
 
-include 'php/footer.php';
+  include 'php/footer.php';
+} else {
+  include 'php/menu-nc.php';
+  echo '
+    <div class="text-content">
+        <h1>Accès refusée</h1>
+        <br>
+        <p>Vous devez être authentifier afin d\'accéder à cette page</p>
+    </div>';
+
+  include 'php/footer.php';
+}
+
+
+echo '</div>
+
+</body>';

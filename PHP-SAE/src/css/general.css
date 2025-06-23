@@ -17,6 +17,13 @@ body {
     padding: 0;
 }
 
+/* Conteneur principal de la page */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 nav {
     position: fixed;
     width: 100%;
@@ -31,7 +38,6 @@ nav {
 .nav-icon {
     display: flex;
     align-items: center;
-    text-decoration: none;
     margin-right: 20px;
 }
 
@@ -55,7 +61,7 @@ nav {
 .navlinks-container a {
     margin: 5px;
     font-size: 24px;
-    text-decoration: solid; /* Sinon une ligne apparait en dessous */
+    text-decoration: none; /* Sinon une ligne apparait en dessous */
     position: relative;
     display: inline-block;
     color: #DFF2FF;/* couleur des onglets */
@@ -132,6 +138,11 @@ nav {
     border-radius: 15px; /* Arrondi encore plus prononcé */
     transform: scale(0.95); /*effet de réduction pour simuler un clic */
     transition: transform 0.1s ease-out, background-color 0.2s ease-out;
+}
+
+.sign-btns a {
+    text-decoration: none;
+    color: var(--bleu-clair);
 }
 
 .user-toggler {

@@ -23,18 +23,21 @@ echo'
       </button>
       <div class="navlinks-container">
         <a href="index.php">Accueil</a>
-        <a href="modules.php">Modules</a>
-        <a href="historique.php">Historique</a>
-      </div>
+        <a href="modules.php">Probabilité</a>
+        <a href="crypto.php">Crypto</a>
+        <a href="historique.php">Historique</a>';
+if (isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin') {
+    echo '<a href="admin.php">Administrateur</a>';
+}
+echo '    </div>
     </div>
     <div class="nav-authentication">
       <a href="login.php" class="user-toggler" aria-label="Page de connexion">
         <img src="../img/user.svg" alt="Icône utilisateur" >
       </a>
-      <div class="sign-btns">
-        <a href="index.php" type="button" aria-label="Deconnexion">
-          <button type="button" aria-label="Deconnecter">Déconnexion</button>
-        </a>
+      <div class="navlinks-container">
+        <a href="compte.php">Mon Compte</a>
+        <a href="deconnexion.php" >Déconnexion</a>
       </div>
     </div>
   </nav>

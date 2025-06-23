@@ -1,4 +1,16 @@
 <?php
+session_start();
+$message = "";
+if (isset($_GET["erreur"])) {
+    switch ($_GET["erreur"]) {
+        case 1:
+            $message = "Erreur de mot de passe ou compte inconnu.";
+            break;
+        case 2:
+            $message = "Erreur dans le captcha. Veuillez réessayer.";
+            break;
+    }
+}
 
 // Mise en place du Header
 echo '<!DOCTYPE html>
@@ -16,9 +28,15 @@ echo '<!DOCTYPE html>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet">
 </head>';
 
-include 'php/menu-nc.php';
+
 
 echo '<body>
+
+<div class="wrapper">';
+
+include 'php/menu-nc.php';
+
+echo'
 
     <div class="conteneur-formulaire">
         <div class="formulaire">
@@ -26,19 +44,28 @@ echo '<body>
             <h1 id="titre-login">Relax Maths</h1>
             <p id="explicatif">Connectez-vous à votre compte</p>
 
-            <form action="login.php" method="post">
-                <label for="email">Adresse email</label>
-                <input type="email" name="email" id="email" placeholder="Adresse mail" required>
+            <form action="/php/connexion.php" method="POST">
+                <label for="email">Identifiant</label>
+                <input type="text" name="identifiant" id="identifiant" placeholder="identifiant" required>
                 <br>
                 <label for="password">Mot de passe</label>
                 <input type="password" name="password" id="password" placeholder="Mot de passe" required>
                 <a id="mdp-oublie" href="mdpOublie.php">Mot de passe oublié ?</a>
+                <br>';
+include 'php/captcha.php';
+
+echo'                
+                <p class="message">'.$message.'</p>
                 <br>
                 <button class="button-connexion" type="submit">Connexion</button>
             </form>
         </div>
-    </div>
-
-</body>';
+    </div>';
 
 include 'php/footer.php';
+
+echo'</div>
+</body>';
+
+
+
