@@ -12,7 +12,6 @@ $db_name = getenv('DB_NAME');
 
 // Supression de l'historique par l'utilisateur via le bouton
 if (isset($_POST['delete_history']) && isset($_SESSION['id'])) {
-  snmp_set_oid_output_format
   $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
   if ($conn->connect_error) {
     die("Erreur de connexion : " . $conn->connect_error);
