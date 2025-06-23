@@ -8,8 +8,11 @@ $db_user = getenv('DB_USER');
 $db_pass = getenv('DB_PASS');
 $db_name = getenv('DB_NAME');
 
+
+
 // Supression de l'historique par l'utilisateur via le bouton
 if (isset($_POST['delete_history']) && isset($_SESSION['id'])) {
+  snmp_set_oid_output_format
   $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
   if ($conn->connect_error) {
     die("Erreur de connexion : " . $conn->connect_error);
@@ -149,7 +152,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
   }
 
   echo '
-<form method="post" action="historiques.php" class="delete-history-form" onsubmit="return confirm(\'Êtes-vous sûr de vouloir supprimer tout votre historique ? Cette action est irréversible.\');">
+<form method="post" action="historique.php" class="delete-history-form" onsubmit="return confirm(\'Êtes-vous sûr de vouloir supprimer tout votre historique ? Cette action est irréversible.\');">
   <button type="submit" name="delete_history" class="delete-history-btn">
     Supprimer tout l\'historique
   </button>
