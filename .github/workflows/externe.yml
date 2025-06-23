@@ -1,4 +1,4 @@
-name: Déploiement via SFTP
+name: Déploiement automatique
 
 on:
   push:
@@ -7,53 +7,79 @@ on:
       - lea
       - seraphin
       - maden
+      - dev
+      - prod
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ${{ github.ref_name == 'prod' && 'self-hosted' || 'ubuntu-latest' }}
 
     steps:
       - name: Récupération du code
         uses: actions/checkout@v4
 
-      - name: Déduction du répertoire cible en fonction de la branche
+      - name: Déduction du dossier de destination
         id: vars
         run: |
-          case "${GITHUB_REF##*/}" in
-            lucas) echo "TARGET_DIR=sites/lucas.sae.lucasvieira.fr/" >> $GITHUB_OUTPUT ;;
-            lea) echo "TARGET_DIR=sites/lea.sae.lucasvieira.fr/" >> $GITHUB_OUTPUT ;;
-            seraphin) echo "TARGET_DIR=sites/seraphin.sae.lucasvieira.fr/" >> $GITHUB_OUTPUT ;;
-            maden) echo "TARGET_DIR=sites/maden.sae.lucasvieira.fr/" >> $GITHUB_OUTPUT ;;
-            *) echo "Branche non gérée"; exit 1 ;;
-          esac
+          BRANCH="${GITHUB_REF##*/}"
 
-      - name: Création du fichier d'environnement PHP avec les secrets
+          if [ "$BRANCH" = "prod" ]; then
+            echo "TARGET_DIR=/var/www/html" >> $GITHUB_OUTPUT
+            echo "IS_PROD=true" >> $GITHUB_OUTPUT
+          else
+            case "$BRANCH" in
+              lucas) SUBDOMAIN="lucas" ;;
+              lea) SUBDOMAIN="lea" ;;
+              seraphin) SUBDOMAIN="seraphin" ;;
+              maden) SUBDOMAIN="maden" ;;
+              dev) SUBDOMAIN="sae" ;;
+              *) echo "Branche non gérée pour le déploiement."; exit 1 ;;
+            esac
+            echo "TARGET_DIR=sites/${SUBDOMAIN}.sae.lucasvieira.fr/" >> $GITHUB_OUTPUT
+            echo "IS_PROD=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Création du fichier d'environnement PHP
         run: |
-          echo "<?php
-          putenv('DB_HOST=${{ secrets.DB_HOST }}');
-          putenv('DB_USER=${{ secrets.DB_USER }}');
-          putenv('DB_PASS=${{ secrets.DB_PASS }}');
-          putenv('DB_NAME=${{ secrets.DB_NAME }}');
-          " > PHP-SAE/src/php/env.php
+          IS_PROD="${{ steps.vars.outputs.IS_PROD }}"
+          if [ "$IS_PROD" = "true" ]; then
+            echo "<?php
+            putenv('DB_HOST=${{ secrets.PDB_HOST }}');
+            putenv('DB_USER=${{ secrets.PDB_USER }}');
+            putenv('DB_PASS=${{ secrets.PDB_PASS }}');
+            putenv('DB_NAME=${{ secrets.PDB_NAME }}');
+            " > PHP-SAE/src/php/env.php
+          else
+            echo "<?php
+            putenv('DB_HOST=${{ secrets.DB_HOST }}');
+            putenv('DB_USER=${{ secrets.DB_USER }}');
+            putenv('DB_PASS=${{ secrets.DB_PASS }}');
+            putenv('DB_NAME=${{ secrets.DB_NAME }}');
+            " > PHP-SAE/src/php/env.php
+          fi
 
-      - name: Installation de lftp
-        run: sudo apt-get update && sudo apt-get install -y lftp
-
-      - name: Nettoyage du dossier distant (sans supprimer les fichiers cachés)
+      - name: Déploiement
         run: |
-          lftp -c "
-          set sftp:auto-confirm yes;
-          open -u ${{ secrets.FTP_USER }},${{ secrets.FTP_SECRET }} sftp://${{ secrets.FTP_HOST }};
-          cd ${{ steps.vars.outputs.TARGET_DIR }};
-          glob -a rm -rf -- [^.]*
-          bye
-          "
+          IS_PROD="${{ steps.vars.outputs.IS_PROD }}"
+          TARGET_DIR="${{ steps.vars.outputs.TARGET_DIR }}"
 
-      - name: Envoi des fichiers via SFTP
-        run: |
-          lftp -c "
-          set sftp:auto-confirm yes;
-          open -u ${{ secrets.FTP_USER }},${{ secrets.FTP_SECRET }} sftp://${{ secrets.FTP_HOST }};
-          mirror -R --parallel=10 --exclude-glob .* PHP-SAE/src/ ${{ steps.vars.outputs.TARGET_DIR }}
-          bye
-          "
+          if [ "$IS_PROD" = "true" ]; then
+            echo "Déploiement local sur /var/www/html"
+            sudo rm -rf $TARGET_DIR/*
+            sudo rsync -av --delete --exclude='.*' PHP-SAE/src/ $TARGET_DIR/
+            echo "Déploiement local terminé."
+          else
+            echo "Installation de lftp"
+            sudo apt-get update && sudo apt-get install -y lftp
+
+            echo "Déploiement SFTP vers $TARGET_DIR"
+            lftp -c "
+              set sftp:auto-confirm yes;
+              open -u ${{ secrets.FTP_USER }},${{ secrets.FTP_SECRET }} sftp://${{ secrets.FTP_HOST }};
+              cd $TARGET_DIR;
+              glob -a rm -rf -- [^.]*;
+              mirror -R --parallel=10 --exclude-glob .* PHP-SAE/src/ $TARGET_DIR;
+              bye
+            "
+            echo "Déploiement SFTP terminé."
+          fi
