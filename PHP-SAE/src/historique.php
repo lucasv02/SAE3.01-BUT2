@@ -8,6 +8,29 @@ $db_user = getenv('DB_USER');
 $db_pass = getenv('DB_PASS');
 $db_name = getenv('DB_NAME');
 
+// Supression de l'historique par l'utilisateur via le bouton
+if (isset($_POST['delete_history']) && isset($_SESSION['id'])) {
+  $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+  if ($conn->connect_error) {
+    die("Erreur de connexion : . $conn->connect_error");
+  }
+  $id_utilisateur = $_SESSION['id'];
+
+  //Pour supprimer Crypto dans la base de donn&es
+  $sql_delete_crypto = "DELETE FROM historique_crypto WHERE user_id = ?";
+  $stmt_delete_crypto = $conn->prepare($sql_delete_crypto);
+  $stmt_delete_crypto->bind_param("i", $id_utilisateur);
+  $stmt_delete_crypto->execute();
+  $stmt_delete_crypto->close();
+
+  //Pour supprimer Proba dans la BDD
+  $sql_delete_proba = "DELETE FROM historique_crypto WHERE user_id = ?";
+  $stmt_delete_proba = $conn->prepare($sql_delete_crypto);
+  $stmt_delete_proba->bind_param("i", $id_utilisateur);
+  $stmt_delete_proba->execute();
+  $stmt_delete_proba->close();
+}
+
 // Mise en place du Header
 echo '<!DOCTYPE html>
 <html lang="fr">
@@ -125,6 +148,14 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
   } else {
     echo "<p>Aucun historique enregistré pour la probabilité pour l'instant.</p>";
   }
+
+  echo '
+<form method="post" action="historiques.php" class="delete-history-form" onsubmit="return confirm(\'Êtes-vous sûr de vouloir supprimer tout votre historique ? Cette action est irréversible.\');">
+  <button type="submit" name="delete_history" class="delete-history-btn">
+    Supprimer tout l\'historique
+  </button>
+</form>
+';
 
   echo '</div>';
   $stmt_proba->close();
