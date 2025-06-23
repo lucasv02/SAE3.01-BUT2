@@ -15,20 +15,26 @@ $db_name = getenv('DB_NAME');
 $message_resultat = 'En attente de saisie de paramètres...'; // Déplacement de cette ligne en dehors du bloc POST
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($ecart_type !== null && $borne_sup !== null && $nb_rectangle !== null) {
+        if (($ecart_type <= 0)) {
+            $message_resultat = "Erreur : L'écart-type est inférieur ou égal à 0, veuillez saisir une valeur positive.";
+        } else if (($nb_rectangle <= 0)) {
+            $message_resultat = "Erreur : Le nombre de rectangles médians est inférieur ou égal à 0, veuillez saisir une valeur positive.";
+        } else if (($nb_rectangle > 5000000)) {
+            $message_resultat = "Veuillez saisir un nombre de rectangles médians inférieur ou égal à 5 000 000.";
+        } else {
+            $resultat = methode_rectangles($moyenne, $ecart_type, $borne_sup, $nb_rectangle);
+            // Vérification si le résultat est nul
+            if ($resultat !== null) {
+                $message_resultat = "Le résultat de l'intégrale est : " . $resultat;
+            }
+            if ($resultat == "valeurs_non_cohérentes") {
+                $message_resultat = "Les valeurs saisies ne produisent pas de résultats mathématiques cohérents.\n Veuillez saisir de nouvelles valeurs plus adaptées.";
+            } else if ($resultat == null) {
+                $message_resultat = "Erreur : Le calcul n'a pas pu être effectué.";
+            }
+        }
 
-  // Vérification et récupération des valeurs
-  $moyenne = ($_POST['moyenne']) ;
-  $ecart_type = ($_POST['ecart_type']) ;
-  $borne_sup = ($_POST['borne_sup']) ;
-  $nb_rectangle = ($_POST['nb_rectangle']);
-
-  if ($ecart_type !== null  && $borne_sup !== null && $nb_rectangle !== null) {
-    if (($ecart_type <= 0)){
-      $message_resultat = "Erreur : L'écart-type est inférieur ou égal à 0, veuillez saisir une valeur positive.";
-    } else if (($nb_rectangle <= 0)) {
-      $message_resultat = "Erreur : Le nombre de rectangles médians est inférieur ou égal à 0, veuillez saisir une valeur positive.";
-    } else if (($nb_rectangle > 5000000)) {
-      $message_resultat = "Veuillez saisir un nombre de rectangles médians inférieur ou égal à 5 000 000.";
     } else {
       $resultat = methode_rectangles($moyenne, $ecart_type, $borne_sup, $nb_rectangle);
 
@@ -64,30 +70,49 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
 }
 
-function loi_normale($point_median, $moyenne, $ecart_type) {
-  // Vérification que l'écart-type est positif
-  if ($ecart_type <= 0) {
-    return 0; // Si l'écart-type est incorrect, on retourne 0
-  }
 
-  // Calcul de la loi normale
-  return (1/(sqrt(2 * pi()*$ecart_type))) * (exp(-(1/2)*((($point_median - $moyenne)/$ecart_type)**2)));  #SEPH
+/*
+ * Méthode de calcul de la loi normale
+ * @point_median (float) : point médian
+ * @moyenne (float) : moyenne
+ * @ecart_type (float) : écart type
+ * @return (float) : résultat du calcul
+ */
+function loi_normale($point_median, $moyenne, $ecart_type)
+{
+    // Vérification que l'écart-type est positif
+    if ($ecart_type <= 0) {
+        return 0; // Si l'écart-type est incorrect, on retourne 0
+    }
+
+    // Calcul de la loi normale
+    return (1 / (sqrt(2 * pi() * $ecart_type))) * (exp(-(1 / 2) * ((($point_median - $moyenne) / $ecart_type) ** 2)));  #SEPH
 
 }
 
-function methode_rectangles($moyenne, $ecart_type, $borne_sup, $nb_rectangle) {
-  $borne_inf = -5*$ecart_type;
-  $largeur_rect = ($borne_sup - $borne_inf) / $nb_rectangle;
-  $res = 0.0;
 
-  for ($i = 0; $i < $nb_rectangle; $i++) {
-    $point_median = $borne_inf + ($i + 0.5) * $largeur_rect;
-    $res += loi_normale($point_median, $moyenne, $ecart_type) * $largeur_rect;
-  }
-  if ($res > 1) {
-    return "valeurs_non_cohérentes";
-  }
-  return $res;
+/*
+ * Méthode de calcul des rectangles
+ * @moyenne (float) : moyenne
+ * @ecart_type (float) : écart type
+ * @borne_sup (float) : borne supérieure
+ * @nb_rectangle (float) : nombre de rectangles
+ * @return (float) : résultat du calcul
+ */
+function methode_rectangles($moyenne, $ecart_type, $borne_sup, $nb_rectangle)
+{
+    $borne_inf = -5 * $ecart_type;
+    $largeur_rect = ($borne_sup - $borne_inf) / $nb_rectangle;
+    $res = 0.0;
+
+    for ($i = 0; $i < $nb_rectangle; $i++) {
+        $point_median = $borne_inf + ($i + 0.5) * $largeur_rect;
+        $res += loi_normale($point_median, $moyenne, $ecart_type) * $largeur_rect;
+    }
+    if ($res > 1) {
+        return "valeurs_non_cohérentes";
+    }
+    return $res;
 }
 
 
@@ -110,13 +135,13 @@ echo '<!DOCTYPE html>
 echo '<body>';
 
 
-
 if (isset($_SESSION['login']) || isset($_SESSION['login']) == true) {
 
   include 'php/menu-c.php';
 
   echo'
 
+    
 <main class="modules-calcul">
     <div class="formulaire">
         <div class="titre">
@@ -161,8 +186,10 @@ if (isset($_SESSION['login']) || isset($_SESSION['login']) == true) {
 
     <div class="resultat">
         <p>';
+
   echo htmlspecialchars($message_resultat);
   echo '</p>
+
     </div>
 </main>
 

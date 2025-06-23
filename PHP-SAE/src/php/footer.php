@@ -1,7 +1,7 @@
 <?php
 
 // Mise en place de la bannière du bas de la page
-echo'
+echo '
 <footer>
     <div class="banniere_bas">
         <img src="../img/banniere_bas.svg" alt="Bannière basse">
