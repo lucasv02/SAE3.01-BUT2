@@ -11,6 +11,7 @@ function assertEquals($expected, $actual, $message = '')
         : $expected === $actual;
 
     if ($success) {
+
         echo "✅  $message\n";
     } else {
         echo "❌  $message - attendu: $expected, obtenu: $actual\n";
