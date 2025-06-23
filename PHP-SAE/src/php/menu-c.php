@@ -25,8 +25,11 @@ echo'
         <a href="index.php">Accueil</a>
         <a href="modules.php">Probabilité</a>
         <a href="crypto.php">Crypto</a>
-        <a href="historique.php">Historique</a>
-      </div>
+        <a href="historique.php">Historique</a>';
+if (isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin') {
+    echo '<a href="admin.php">Administrateur</a>';
+}
+echo '    </div>
     </div>
     <div class="nav-authentication">
       <a href="login.php" class="user-toggler" aria-label="Page de connexion">
