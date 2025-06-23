@@ -12,23 +12,29 @@ $db_name = getenv('DB_NAME');
 if (isset($_POST['delete_history']) && isset($_SESSION['id'])) {
   $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
   if ($conn->connect_error) {
-    die("Erreur de connexion : . $conn->connect_error");
+    die("Erreur de connexion : " . $conn->connect_error);
   }
   $id_utilisateur = $_SESSION['id'];
 
-  //Pour supprimer Crypto dans la base de donn&es
+  // Supprimer historique cryptographie
   $sql_delete_crypto = "DELETE FROM historique_crypto WHERE user_id = ?";
   $stmt_delete_crypto = $conn->prepare($sql_delete_crypto);
   $stmt_delete_crypto->bind_param("i", $id_utilisateur);
   $stmt_delete_crypto->execute();
   $stmt_delete_crypto->close();
 
-  //Pour supprimer Proba dans la BDD
-  $sql_delete_proba = "DELETE FROM historique_crypto WHERE user_id = ?";
-  $stmt_delete_proba = $conn->prepare($sql_delete_crypto);
+  // Supprimer historique probabilité
+  $sql_delete_proba = "DELETE FROM historique_proba WHERE user_id = ?";
+  $stmt_delete_proba = $conn->prepare($sql_delete_proba);
   $stmt_delete_proba->bind_param("i", $id_utilisateur);
   $stmt_delete_proba->execute();
   $stmt_delete_proba->close();
+
+  $conn->close();
+
+  // Redirection pour éviter le repost du formulaire en rafraichissant la page
+  header("Location: historique.php?deleted=1");
+  exit;
 }
 
 // Mise en place du Header
