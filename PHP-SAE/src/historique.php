@@ -124,7 +124,6 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
   if ($result_proba->num_rows > 0) {
     echo '<table class="histo_proba">
             <tr>
-              <th>Type</th>
               <th>Moyenne</th>
               <th>Ecart-Type</th>
               <th>Borne supérieure</th>
