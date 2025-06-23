@@ -94,7 +94,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   } else {
     $message_resultat = "Erreur : certaines valeurs sont manquantes.";
   }
-}
 
 function loi_normale($point_median, $moyenne, $ecart_type) {
   // Vérification que l'écart-type est positif
