@@ -90,7 +90,7 @@ body {
 }
 
 /* bouton supprimer  */
-.delete-crypto-history-btn .delete-proba-history-btn {
+.delete-crypto-history-btn, .delete-proba-history-btn {
   display: inline-block;
   margin: 20px 0;
   padding: 10px 18px;
@@ -106,7 +106,7 @@ body {
   text-decoration: none;
 }
 
-.delete-crypto-history-btn .delete-proba-history-btn {
+.delete-crypto-history-btn, .delete-proba-history-btn {
   background-color: #c0392b; /* rouge plus foncé au survol */
 }
 
