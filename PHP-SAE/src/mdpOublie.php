@@ -17,12 +17,11 @@ echo '<!DOCTYPE html>
 </head>';
 
 
-
 echo '<body>';
 
 include 'php/menu-nc.php';
 
-echo'
+echo '
 <script src="../js/accueil.js"></script>
 
 <div class="text-content">
@@ -33,5 +32,5 @@ echo'
 
 include 'php/footer.php';
 
-echo'
+echo '
 </body>';
