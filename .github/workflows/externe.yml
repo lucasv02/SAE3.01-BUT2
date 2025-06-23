@@ -64,9 +64,9 @@ jobs:
           TARGET_DIR="${{ steps.vars.outputs.TARGET_DIR }}"
 
           if [ "$IS_PROD" = "true" ]; then
-            echo "Déploiement local sur /var/www/html"
-            sudo rm -rf $TARGET_DIR/*
-            sudo rsync -av --delete --exclude='.*' PHP-SAE/src/ $TARGET_DIR/
+            echo "Déploiement local sur $TARGET_DIR"
+            sudo rm -rf "$TARGET_DIR"/*
+            sudo rsync -av --delete --exclude='.*' PHP-SAE/src/ "$TARGET_DIR/"
             echo "Déploiement local terminé."
           else
             echo "Installation de lftp"
@@ -78,7 +78,8 @@ jobs:
               open -u ${{ secrets.FTP_USER }},${{ secrets.FTP_SECRET }} sftp://${{ secrets.FTP_HOST }};
               cd $TARGET_DIR;
               glob -a rm -rf -- [^.]*;
-              mirror -R --parallel=10 --exclude-glob .* PHP-SAE/src/ $TARGET_DIR;
+              lcd PHP-SAE/src/;
+              mirror -R --parallel=10 --exclude-glob .* ./ .;
               bye
             "
             echo "Déploiement SFTP terminé."
