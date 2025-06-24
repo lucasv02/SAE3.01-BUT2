@@ -32,6 +32,22 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
       <br>
     <p>Revenez dans deux semaines, plus de features seront disponibles.</p>
     </div>
+
+    <form action="changer_mdp.php" method="POST" class="form-changer-mdp">
+        <h2>Changer le mot de passe</h2>
+        <div class="form-group">
+            <label for="ancien_mdp">Ancien mot de passe :</label>
+            <input type="password" name="ancien_mdp" id="ancien_mdp" required>
+        </div>
+
+    <div class="form-group">
+        <label for="nouveau_mdp">Nouveau mot de passe :</label>
+        <input type="password" name="nouveau_mdp" id="nouveau_mdp" required>
+    </div>
+
+    <button type="submit" class="btn-submit">Changer</button>
+    </form>
+
   ';
 } else {
     header('Location: index.php');
