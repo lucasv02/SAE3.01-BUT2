@@ -36,6 +36,13 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
         die("Erreur de connexion : " . $cnx->connect_error);
     }
 
+    // Supprimer historique cryptographie
+    $sql_delete_log = "DELETE FROM admin_log WHERE user_id = ?";
+    $stmt_delete_log = $cnx->prepare($sql_delete_log);
+    $stmt_delete_log->bind_param("i", $id_utilisateur);
+    $stmt_delete_log->execute();
+    $stmt_delete_log->close();
+
     $sql_log = "SELECT al.idh, u.login, al.action, al.ip_adresse, al.date_action FROM admin_log al LEFT JOIN utilisateur u ON al.id_utilisateur = u.id ORDER BY al.date_action DESC";
 
     $stmt_log = $cnx->prepare($sql_log);
@@ -69,6 +76,13 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
     } else {
         echo "<p>Aucun log enregistré dans la table admin_log.</p>";
     }
+    echo '
+<form method="post" action="adminSys.php" onsubmit="return confirm(\'Êtes-vous sûr de vouloir supprimer tout votre historique ? Cette action est irréversible.\');">
+  <button type="submit" name="delete-log" class="delete-history-btn">
+    Supprimer tout l\'historique
+  </button>
+</form>
+';
 
     echo '</div>';
     $stmt_log->close();
