@@ -18,7 +18,7 @@ if (isset($_POST['delete_log']) && isset($_SESSION['id']) && isset($_SESSION['pe
     $id_utilisateur = $_SESSION['id'];
 
     //Pour supprimer l'historique du journal de log de l'admin
-    $sql_delete_user = "DELETE FROM utilisateur WHERE id = ?";
+    $sql_delete_user = "DELETE FROM admin_log WHERE id = ?";
     $sql_delete_user = $conn->prepare($sql_delete_user);
     $sql_delete_user->bind_param("i", $id_utilisateur);
     $sql_delete_user->execute();
