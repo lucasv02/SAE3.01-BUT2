@@ -59,9 +59,9 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
         while ($row = $result_log->fetch_assoc()) {
             echo "<tr>
                     <td>" . htmlspecialchars($row['login'] ?? 'Inconnu') . "</td>
-                    <td>" . htmlspecialchars($row['action']) . "</td>
-                    <td>" . htmlspecialchars($row['ip_adresse']) . "</td>
-                    <td>" . htmlspecialchars($row['date_action']) . "</td>
+                    <td>" . htmlspecialchars($row['action'] ?? 'Inconnu') . "</td>
+                    <td>" . htmlspecialchars($row['ip_adresse'] ?? 'Inconnu') . "</td>
+                    <td>" . htmlspecialchars($row['date_action'] ?? 'Inconnu') . "</td>
                   </tr>";
         }
 
@@ -86,3 +86,4 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
 include 'php/footer.php';
 
 echo '</body></html>';
+htmlspecialchars($_SESSION['...'] ?? '')
