@@ -18,6 +18,46 @@ $db_user = getenv('DB_USER');
 $db_pass = getenv('DB_PASS');
 $db_name = getenv('DB_NAME');
 
+// === Import CSV Utilisateurs ===
+if (
+    isset($_POST['import_csv']) &&
+    isset($_FILES['csv_file']) &&
+    $_FILES['csv_file']['error'] == UPLOAD_ERR_OK &&
+    isset($_SESSION['login']) &&
+    $_SESSION['permission'] === 'admin_web'
+) {
+    $fileTmp = $_FILES['csv_file']['tmp_name'];
+    $handle = fopen($fileTmp, 'r');
+
+    if ($handle !== false) {
+        $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+        if ($conn->connect_error) {
+            die("Erreur de connexion à la base de données : " . $conn->connect_error);
+        }
+
+        fgetcsv($handle, 1000, ','); // Ignore la première ligne
+
+        while (($data = fgetcsv($handle, 1000, ',')) !== false) {
+            $login = trim($data[0]);
+            $password = trim($data[1]);
+            $permission = isset($data[2]) ? trim($data[2]) : 'utilisateur';
+
+            if ($login && $password) {
+                $hashed_password = md5($password);
+                $stmt = $conn->prepare("INSERT INTO utilisateur (login, password, permission) VALUES (?, ?, ?)");
+                $stmt->bind_param("sss", $login, $hashed_password, $permission);
+                $stmt->execute();
+                $stmt->close();
+            }
+        }
+
+        fclose($handle);
+    }
+
+    header("Location: adminWeb.php?import=success");
+    exit();
+}
+
 
 // Méthode de suppression d'un compte utilisateur
 if (isset($_POST['delete_user']) && isset($_SESSION['id']) && isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin_web') {
@@ -97,6 +137,19 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
     <script src="../js/accueil.js"></script>
     <div class="text-content">
       <h1>Liste des utilisateurs</h1>';
+
+    if (isset($_GET['import']) && $_GET['import'] === 'success') {
+        echo "<p style='color: green;'>Importation réussie !</p>";
+    }
+
+    echo '
+    <form action="adminWeb.php" method="post" enctype="multipart/form-data">
+        <label for="csv_file">Importer des utilisateurs (CSV) :</label>
+        <input type="file" name="csv_file" accept=".csv" required>
+        <button type="submit" name="import_csv">Importer</button>
+    </form>
+    <br>';
+
 
     if ($result_log->num_rows > 0) {
         echo '<table class="histo_crypto">
