@@ -6,9 +6,6 @@ if (isset($_GET["erreur"])) {
         case 1:
             $message = "Erreur de mot de passe ou compte inconnu.";
             break;
-        case 2:
-            $message = "Erreur dans le captcha. Veuillez réessayer.";
-            break;
     }
 }
 
