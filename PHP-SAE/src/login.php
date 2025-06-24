@@ -6,9 +6,6 @@ if (isset($_GET["erreur"])) {
         case 1:
             $message = "Erreur de mot de passe ou compte inconnu.";
             break;
-        case 2:
-            $message = "Erreur dans le captcha. Veuillez réessayer.";
-            break;
     }
 }
 
@@ -52,8 +49,6 @@ echo'
                 <input type="password" name="password" id="password" placeholder="Mot de passe" required>
                 <a id="mdp-oublie" href="mdpOublie.php">Mot de passe oublié ?</a>
                 <br>';
-include 'php/captcha.php';
-
 echo'                
                 <p class="message">'.$message.'</p>
                 <br>

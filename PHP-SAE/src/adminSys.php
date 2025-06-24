@@ -8,6 +8,22 @@ $db_user = getenv('DB_USER');
 $db_pass = getenv('DB_PASS');
 $db_name = getenv('DB_NAME');
 
+
+// Méthode de suppression de l'historique du journal de log
+if (isset($_POST['delete_log']) && isset($_SESSION['id']) && isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin_sys') {
+    $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+    if ($conn->connect_error) {
+        die("Erreur de connexion : . $conn->connect_error");
+    }
+
+    //Pour supprimer l'historique du journal de log de l'admin
+    $sql_delete_user = "DELETE FROM admin_log";
+    $sql_delete_user = $conn->prepare($sql_delete_user);
+    $sql_delete_user->execute();
+    $sql_delete_user->close();
+}
+
+
 // Mise en place du Header
 echo '<!DOCTYPE html>
 <html lang="fr">
@@ -27,7 +43,7 @@ echo '<!DOCTYPE html>
 
 echo '<body>';
 
-if (isset($_SESSION['login']) && $_SESSION['login']) {
+if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin_sys') {
     include 'php/menu-c.php';
 
     $cnx = new mysqli($db_host, $db_user, $db_pass, $db_name);
@@ -45,7 +61,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
     echo '
     <script src="../js/accueil.js"></script>
     <div class="text-content">
-      <h1>Historique des actions administratives</h1>';
+      <h1>Journal de log</h1>';
 
     if ($result_log->num_rows > 0) {
         echo '<table class="histo_crypto">
@@ -59,16 +75,24 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
         while ($row = $result_log->fetch_assoc()) {
             echo "<tr>
                     <td>" . htmlspecialchars($row['login'] ?? 'Inconnu') . "</td>
-                    <td>" . htmlspecialchars($row['action']) . "</td>
-                    <td>" . htmlspecialchars($row['ip_adresse']) . "</td>
-                    <td>" . htmlspecialchars($row['date_action']) . "</td>
+                    <td>" . htmlspecialchars($row['action'] ?? 'Inconnu') . "</td>
+                    <td>" . htmlspecialchars($row['ip_adresse'] ?? 'Inconnu') . "</td>
+                    <td>" . htmlspecialchars($row['date_action'] ?? 'Inconnu') . "</td>
                   </tr>";
         }
 
         echo '</table>';
     } else {
-        echo "<p>Aucun log enregistré dans la table admin_log.</p>";
+        echo "<p>Aucun log enregistrés.</p>";
     }
+
+    echo '
+<form method="post" action="adminSys.php" onsubmit="return confirm(\'Êtes-vous sûr de vouloir supprimer tout votre historique ? Cette action est irréversible.\');">
+  <button type="submit" name="delete_log" class="delete-history-btn">
+    Supprimer tout l\'historique
+  </button>
+</form>
+';
 
     echo '</div>';
     $stmt_log->close();

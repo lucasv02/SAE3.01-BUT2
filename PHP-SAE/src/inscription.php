@@ -12,7 +12,7 @@ if (isset($_GET["erreur"])) {
 
 
 if(isset($_GET["ok"])) {
-    $message = "Votre compte a été crée avec succès";
+    $message = "Votre compte a été créé avec succès";
 }
 // Mise en place du Header
 echo '<!DOCTYPE html>

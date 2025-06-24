@@ -26,8 +26,11 @@ echo '
         <a href="modules.php">Probabilité</a>
         <a href="crypto.php">Crypto</a>
         <a href="historique.php">Historique</a>';
-if (isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin') {
-    echo '<a href="admin.php">Administrateur</a>';
+if (isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin_sys') {
+    echo '<a href="adminSys.php">Journal log</a>';
+}
+if (isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin_web') {
+    echo '<a href="adminWeb.php">Liste utilisateurs</a>';
 }
 echo '    </div>
     </div>

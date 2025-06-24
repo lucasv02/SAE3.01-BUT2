@@ -9,22 +9,22 @@ $db_pass = getenv('DB_PASS');
 $db_name = getenv('DB_NAME');
 
 
-
-// Supression de l'historique Crytpo par l'utilisateur via le bouton
-if (isset($_POST['delete-crypto-history']) && isset($_SESSION['id'])) {
+// Supression de l'historique par l'utilisateur via le bouton
+if (isset($_POST['delete_history']) && isset($_SESSION['id'])) {
   $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
   if ($conn->connect_error) {
-    die("Erreur de connexion : " . $conn->connect_error);
+    die("Erreur de connexion : . $conn->connect_error");
   }
-
   $id_utilisateur = $_SESSION['id'];
 
-  // Supprimer historique cryptographie
+  //Pour supprimer Crypto dans la base de donn&es
+
   $sql_delete_crypto = "DELETE FROM historique_crypto WHERE user_id = ?";
   $stmt_delete_crypto = $conn->prepare($sql_delete_crypto);
   $stmt_delete_crypto->bind_param("i", $id_utilisateur);
   $stmt_delete_crypto->execute();
   $stmt_delete_crypto->close();
+
 
   $conn->close();
 
@@ -54,6 +54,7 @@ if (isset($_POST['delete-proba-history']) && isset($_SESSION['id'])) {
   // Redirection pour éviter le repost du formulaire en rafraichissant la page
   header("Location: historique.php?deleted=1");
   exit;
+
 }
 
 // Mise en place du Header
@@ -157,7 +158,6 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
   if ($result_proba->num_rows > 0) {
     echo '<table class="histo_proba">
             <tr>
-              <th>Type</th>
               <th>Moyenne</th>
               <th>Ecart-Type</th>
               <th>Borne supérieure</th>
@@ -183,8 +183,10 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
   }
 
   echo '
+
 <form method="post" action="historique.php" class="delete-proba-history-form" onsubmit="return confirm(\'Êtes-vous sûr de vouloir supprimer tout votre historique ? Cette action est irréversible.\');">
   <button type="submit" name="delete-proba-history" class="delete-history-btn">
+
     Supprimer tout l\'historique
   </button>
 </form>
