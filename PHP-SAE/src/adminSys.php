@@ -86,4 +86,3 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
 include 'php/footer.php';
 
 echo '</body></html>';
-htmlspecialchars($_SESSION['...'] ?? '')
