@@ -15,9 +15,7 @@ $table = "utilisateur";
 
 if (
     isset($_POST['identifiant']) &&
-    isset($_POST['password']) &&
-    isset($_POST['captcha']) &&
-    isset($_SESSION['captcha-result'])
+    isset($_POST['password'])
 ) {
 
     $login = $_POST['identifiant'];
