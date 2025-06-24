@@ -149,7 +149,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
   }
 
   echo '
-<form method="post" action="historiques.php" class="delete-history-form" onsubmit="return confirm(\'Êtes-vous sûr de vouloir supprimer tout votre historique ? Cette action est irréversible.\');">
+<form method="post" action="historique.php" class="delete-history-form" onsubmit="return confirm(\'Êtes-vous sûr de vouloir cet historique ? Cette action est irréversible.\');">
   <button type="submit" name="delete_history" class="delete-history-btn">
     Supprimer tout l\'historique
   </button>
