@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 
@@ -21,10 +22,6 @@ if (
 
     $login = $_POST['identifiant'];
     $password = md5($_POST['password']);
-
-    print($password);
-    echo $_POST['password'];
-
 
     // Use prepared statement to prevent SQL injection
     $stmt = mysqli_prepare($cnx, "SELECT * FROM $table WHERE `login` = ? AND `password` = ?");
@@ -53,27 +50,6 @@ if (
         mysqli_stmt_execute($stmtLog);
         exit();
     } else {
-
-//        // Échec de connexion : log l'événement
-//        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'];
-//        $action = "Échec de connexion pour l'identifiant '$login'";
-//
-//        // Recherche d'un éventuel ID utilisateur connu (facultatif)
-//        $stmtUser = mysqli_prepare($cnx, "SELECT id FROM $table WHERE `login` = ?");
-//        mysqli_stmt_bind_param($stmtUser, "s", $login);
-//        mysqli_stmt_execute($stmtUser);
-//        $resultUser = mysqli_stmt_get_result($stmtUser);
-//        $id_utilisateur = null;
-//
-//        if ($rowUser = mysqli_fetch_assoc($resultUser)) {
-//            $id_utilisateur = $rowUser['id'];
-//        }
-//
-//        // Insertion dans admin_log même si id_utilisateur est null
-//        $stmtLog = mysqli_prepare($cnx, "INSERT INTO admin_log (id_utilisateur, action, ip_adresse) VALUES (?, ?, ?)");
-//        mysqli_stmt_bind_param($stmtLog, "iss", $id_utilisateur, $action, $ip);
-//        mysqli_stmt_execute($stmtLog);
-
         header('Location: /login.php?erreur=1');
         exit(0);
     }
