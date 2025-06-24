@@ -51,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           }
         }
 
+
       }
       if ($resultat == "valeurs_non_cohérentes") {
         $message_resultat = "Les valeurs saisies ne produisent pas de résultats mathématiques cohérents.\n Veuillez saisir de nouvelles valeurs plus adaptées.";
