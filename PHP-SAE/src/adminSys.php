@@ -8,6 +8,24 @@ $db_user = getenv('DB_USER');
 $db_pass = getenv('DB_PASS');
 $db_name = getenv('DB_NAME');
 
+
+// Méthode de suppression de l'historique du journal de log
+if (isset($_POST['delete_log']) && isset($_SESSION['id']) && isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin_web') {
+    $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+    if ($conn->connect_error) {
+        die("Erreur de connexion : . $conn->connect_error");
+    }
+    $id_utilisateur = $_SESSION['id'];
+
+    //Pour supprimer l'historique du journal de log de l'admin
+    $sql_delete_user = "DELETE FROM utilisateur WHERE id = ?";
+    $sql_delete_user = $conn->prepare($sql_delete_user);
+    $sql_delete_user->bind_param("i", $id_utilisateur);
+    $sql_delete_user->execute();
+    $sql_delete_user->close();
+}
+
+
 // Mise en place du Header
 echo '<!DOCTYPE html>
 <html lang="fr">
@@ -35,13 +53,6 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
     if ($cnx->connect_error) {
         die("Erreur de connexion : " . $cnx->connect_error);
     }
-
-    // Supprimer historique cryptographie
-    $sql_delete_log = "DELETE FROM admin_log WHERE user_id = ?";
-    $stmt_delete_log = $cnx->prepare($sql_delete_log);
-    $stmt_delete_log->bind_param("i", $id_utilisateur);
-    $stmt_delete_log->execute();
-    $stmt_delete_log->close();
 
     $sql_log = "SELECT al.idh, u.login, al.action, al.ip_adresse, al.date_action FROM admin_log al LEFT JOIN utilisateur u ON al.id_utilisateur = u.id ORDER BY al.date_action DESC";
 
@@ -74,8 +85,9 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
 
         echo '</table>';
     } else {
-        echo "<p>Aucun log enregistré dans la table admin_log.</p>";
+        echo "<p>Aucun log enregistrés.</p>";
     }
+
     echo '
 <form method="post" action="adminSys.php" onsubmit="return confirm(\'Êtes-vous sûr de vouloir supprimer tout votre historique ? Cette action est irréversible.\');">
   <button type="submit" name="delete_log" class="delete-history-btn">
