@@ -10,7 +10,7 @@ $db_name = getenv('DB_NAME');
 
 
 // Méthode de suppression de l'historique du journal de log
-if (isset($_POST['delete_log']) && isset($_SESSION['id']) && isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin_web') {
+if (isset($_POST['delete_log']) && isset($_SESSION['id']) && isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin_sys') {
     $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
     if ($conn->connect_error) {
         die("Erreur de connexion : . $conn->connect_error");
