@@ -30,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // md5 de l'ancien mdp saisi
         $ancien_mdp_hash = md5($ancien_mdp);
 
+
         // Vérifie que l'ancien mdp correspond à celui en BDD
         $stmt = mysqli_prepare($cnx, "SELECT password FROM $table WHERE login = ?");
         mysqli_stmt_bind_param($stmt, "s", $login);
