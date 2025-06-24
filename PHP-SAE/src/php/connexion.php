@@ -20,9 +20,11 @@ if (
 ) {
 
     $login = $_POST['identifiant'];
-    log($_POST['password']);
     $password = md5($_POST['password']);
-    log($password);
+
+    print($password);
+    echo $_POST['password'];
+
 
     // Use prepared statement to prevent SQL injection
     $stmt = mysqli_prepare($cnx, "SELECT * FROM $table WHERE `login` = ? AND `password` = ?");
