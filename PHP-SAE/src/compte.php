@@ -75,41 +75,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 <?php include 'php/menu-c.php'; ?>
 
+<div class="wrapper">
 
-echo '<body>
+    <div class="content">
+        <div class="text-content">
+            <h1>Bienvenue ' . htmlspecialchars($_SESSION['identifiant']) . '.</h1>
+            <p>Bienvenue sur votre compte !</p>
+        </div>
 
-<div class="wrapper">';
+    <form action="" method="POST" class="form-changer-mdp">
+        <h2>Changer le mot de passe</h2>
+        <div class="form-group">
+            <label for="ancien_mdp">Ancien mot de passe :</label>
+            <input type="password" name="ancien_mdp" id="ancien_mdp" required>
+        </div>
 
+        <div class="form-group">
+            <label for="nouveau_mdp">Nouveau mot de passe :</label>
+            <input type="password" name="nouveau_mdp" id="nouveau_mdp" required>
+        </div>
 
-<form action="" method="POST" class="form-changer-mdp">
-  <h2>Changer le mot de passe</h2>
-  <div class="form-group">
-    <label for="ancien_mdp">Ancien mot de passe :</label>
-    <input type="password" name="ancien_mdp" id="ancien_mdp" required>
-  </div>
+        <button type="submit" class="btn-submit">Changer</button>
+    </form>
 
-  <div class="form-group">
-    <label for="nouveau_mdp">Nouveau mot de passe :</label>
-    <input type="password" name="nouveau_mdp" id="nouveau_mdp" required>
-  </div>
+    <?php if ($message): ?>
+        <p style="text-align:center; margin-top:1rem; color: <?php echo (strpos($message, 'succès') !== false) ? 'green' : 'red'; ?>;">
+            <?php echo htmlspecialchars($message); ?>
+        </p>
+    <?php endif; ?>
 
+</div>
 
-  <button type="submit" class="btn-submit">Changer</button>
-</form>
+<?php include 'php/footer.php'; ?>
 
-<?php if ($message): ?>
-  <p style="text-align:center; margin-top:1rem; color: <?php echo (strpos($message, 'succès') !== false) ? 'green' : 'red'; ?>;">
-    <?php echo htmlspecialchars($message); ?>
-  </p>
-<?php endif; ?>
-
-
-    include 'php/footer.php';
-
-    echo '</div>
-</body>';
-
-} else {
-    header('Location: index.php');
-}
-
+</body>
+</html>
