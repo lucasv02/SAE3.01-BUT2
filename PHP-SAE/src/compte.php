@@ -75,11 +75,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 <?php include 'php/menu-c.php'; ?>
 
-<div class="text-content">
-  <h1>Bienvenue sur votre espace <?php echo htmlspecialchars($_SESSION['identifiant']); ?>.</h1>
-  <br>
-  <p>Revenez dans deux semaines, plus de features seront disponibles.</p>
-</div>
+
+echo '<body>
+
+<div class="wrapper">';
+
 
 <form action="" method="POST" class="form-changer-mdp">
   <h2>Changer le mot de passe</h2>
@@ -93,6 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <input type="password" name="nouveau_mdp" id="nouveau_mdp" required>
   </div>
 
+
   <button type="submit" class="btn-submit">Changer</button>
 </form>
 
@@ -102,5 +103,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </p>
 <?php endif; ?>
 
-</body>
-</html>
+
+    include 'php/footer.php';
+
+    echo '</div>
+</body>';
+
+} else {
+    header('Location: index.php');
+}
+

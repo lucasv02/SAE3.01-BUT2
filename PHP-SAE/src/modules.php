@@ -63,7 +63,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   } else {
     $message_resultat = "Erreur : certaines valeurs sont manquantes.";
   }
-}
 
 
 /*
@@ -127,7 +126,9 @@ echo '<!DOCTYPE html>
 </head>
 ';
 
-echo '<body>';
+echo '<body>
+
+<div class="wrapper">';
 
 
 
@@ -203,4 +204,7 @@ if (isset($_SESSION['login']) || isset($_SESSION['login']) == true) {
   include 'php/footer.php';
 }
 
-echo '</body>';
+
+echo '</div>
+
+</body>';
