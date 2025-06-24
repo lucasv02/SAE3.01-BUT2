@@ -27,7 +27,7 @@ echo '<!DOCTYPE html>
 
 echo '<body>';
 
-if (isset($_SESSION['login']) && $_SESSION['login']) {
+if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin_sys') {
     include 'php/menu-c.php';
 
     $cnx = new mysqli($db_host, $db_user, $db_pass, $db_name);
