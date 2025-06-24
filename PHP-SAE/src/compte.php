@@ -19,42 +19,47 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']) {
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  // Récupère l'ancien et nouveau mdp en vérifiant avec isset
-  $ancien_mdp = isset($_POST['ancien_mdp']) ? $_POST['ancien_mdp'] : '';
-  $nouveau_mdp = isset($_POST['nouveau_mdp']) ? $_POST['nouveau_mdp'] : '';
+    // Récupère l'ancien et nouveau mdp en vérifiant avec isset
+    $ancien_mdp = isset($_POST['ancien_mdp']) ? $_POST['ancien_mdp'] : '';
+    $nouveau_mdp = isset($_POST['nouveau_mdp']) ? $_POST['nouveau_mdp'] : '';
 
-  if ($ancien_mdp === '' || $nouveau_mdp === '') {
-    $message = 'Veuillez remplir tous les champs.';
-  } else {
-    $login = $_SESSION['identifiant'];
-    // md5 de l'ancien mdp saisi
-    $ancien_mdp_hash = md5($ancien_mdp);
-
-    // Vérifie que l'ancien mdp correspond à celui en BDD
-    $stmt = mysqli_prepare($cnx, "SELECT password FROM $table WHERE login = ?");
-    mysqli_stmt_bind_param($stmt, "s", $login);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    if ($row = mysqli_fetch_assoc($result)) {
-      if ($row['password'] === $ancien_mdp_hash) {
-        // ancien mdp ok, on met à jour
-        $nouveau_mdp_hash = md5($nouveau_mdp);
-        $stmt2 = mysqli_prepare($cnx, "UPDATE $table SET password = ? WHERE login = ?");
-        mysqli_stmt_bind_param($stmt2, "ss", $nouveau_mdp_hash, $login);
-        if (mysqli_stmt_execute($stmt2)) {
-          $message = "Mot de passe changé avec succès.";
-        } else {
-          $message = "Erreur lors de la mise à jour du mot de passe.";
-        }
-      } else {
-        $message = "Ancien mot de passe incorrect.";
-      }
+    if ($ancien_mdp === '' || $nouveau_mdp === '') {
+        $message = 'Veuillez remplir tous les champs.';
     } else {
-      $message = "Utilisateur non trouvé.";
-    }
-  }
-}
+        $login = $_SESSION['identifiant'];
+        // md5 de l'ancien mdp saisi
+        $ancien_mdp_hash = md5($ancien_mdp);
 
+        // Vérifie que l'ancien mdp correspond à celui en BDD
+        $stmt = mysqli_prepare($cnx, "SELECT password FROM $table WHERE login = ?");
+        mysqli_stmt_bind_param($stmt, "s", $login);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        if ($row = mysqli_fetch_assoc($result)) {
+            if ($row['password'] === $ancien_mdp_hash) {
+                $nouveau_mdp_hash = md5($nouveau_mdp);
+
+                if ($ancien_mdp_hash === $nouveau_mdp_hash) {
+                    // Nouveau mdp identique à l'ancien
+                    $message = "Le nouveau mot de passe ne peut pas être identique à l'ancien.";
+                } else {
+                    // ancien mdp ok et nouveau différent, on met à jour
+                    $stmt2 = mysqli_prepare($cnx, "UPDATE $table SET password = ? WHERE login = ?");
+                    mysqli_stmt_bind_param($stmt2, "ss", $nouveau_mdp_hash, $login);
+                    if (mysqli_stmt_execute($stmt2)) {
+                        $message = "Mot de passe changé avec succès.";
+                    } else {
+                        $message = "Erreur lors de la mise à jour du mot de passe.";
+                    }
+                }
+            } else {
+                $message = "Ancien mot de passe incorrect.";
+            }
+        } else {
+            $message = "Utilisateur non trouvé.";
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
