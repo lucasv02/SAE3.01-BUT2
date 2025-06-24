@@ -29,6 +29,9 @@ echo'
 if (isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin_sys') {
     echo '<a href="adminSys.php">Journal log</a>';
 }
+if (isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin_web') {
+    echo '<a href="adminWeb.php">Liste utilisateurs</a>';
+}
 echo '    </div>
     </div>
     <div class="nav-authentication">
