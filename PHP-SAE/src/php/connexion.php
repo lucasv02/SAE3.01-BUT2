@@ -51,8 +51,9 @@ if (
 
         // Échec de connexion → Tentative de log
         $action = "Échec de connexion pour l'identifiant '$login'";
-        $id_utilisateur = null;
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'];
 
+        $id_utilisateur = null;
         // Vérifie si l'utilisateur existe pour récupérer son ID
         $stmtUser = mysqli_prepare($cnx, "SELECT id FROM utilisateur WHERE `login` = ?");
         mysqli_stmt_bind_param($stmtUser, "s", $login);
