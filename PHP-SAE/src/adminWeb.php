@@ -18,6 +18,47 @@ $db_user = getenv('DB_USER');
 $db_pass = getenv('DB_PASS');
 $db_name = getenv('DB_NAME');
 
+
+// Méthode de suppression d'un compte utilisateur
+if (isset($_POST['delete_user']) && isset($_SESSION['id']) && isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin_web') {
+    $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+    if ($conn->connect_error) {
+        die("Erreur de connexion : . $conn->connect_error");
+    }
+    $id_utilisateur = isset($_POST['user_id_to_delete']) ? intval($_POST['user_id_to_delete']) : 0;
+
+    //Pour supprimer l'utilisateur de la base de donn&es
+    $sql_delete_user = "DELETE FROM utilisateur WHERE id = ?";
+    $sql_delete_user = $conn->prepare($sql_delete_user);
+    $sql_delete_user->bind_param("i", $id_utilisateur);
+    $sql_delete_user->execute();
+    $sql_delete_user->close();
+}
+
+
+// Méthode de suppression de l'historique de l'utilisateur
+if (isset($_POST['delete_historique']) && isset($_SESSION['id']) && isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin_web') {
+    $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+    if ($conn->connect_error) {
+        die("Erreur de connexion : . $conn->connect_error");
+    }
+    $id_utilisateur = isset($_POST['user_id_to_delete']) ? intval($_POST['user_id_to_delete']) : 0;
+
+    //Pour supprimer l'historique crypto de la base de donn&es
+    $sql_delete_crypto = "DELETE FROM historique_crypto WHERE user_id = ?";
+    $stmt_delete_crypto = $conn->prepare($sql_delete_crypto);
+    $stmt_delete_crypto->bind_param("i", $id_utilisateur);
+    $stmt_delete_crypto->execute();
+    $stmt_delete_crypto->close();
+
+    //Pour supprimer l'historique proba de la base de donn&es
+    $sql_delete_crypto = "DELETE FROM historique_proba WHERE user_id = ?";
+    $stmt_delete_crypto = $conn->prepare($sql_delete_crypto);
+    $stmt_delete_crypto->bind_param("i", $id_utilisateur);
+    $stmt_delete_crypto->execute();
+    $stmt_delete_crypto->close();
+}
+
 // Mise en place du Header
 echo '<!DOCTYPE html>
 <html lang="fr">
@@ -63,19 +104,35 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
               <th>ID</th>
               <th>Login</th>
               <th>Rôle</th>
+              <th>Suppression du compte</th>
+              <th>Suppression de l\'historique</th>
             </tr>';
 
         while ($row = $result_log->fetch_assoc()) {
             echo "<tr>
-                    <td>" . htmlspecialchars($row['id']) . "</td>
-                    <td>" . htmlspecialchars($row['login']) . "</td>
-                    <td>" . htmlspecialchars($row['permission']) . "</td>
+                    <td>" . htmlspecialchars($row['id'] ?? "Inconnu") . "</td>
+                    <td>" . htmlspecialchars($row['login'] ?? "Inconnu") . "</td>
+                    <td>" . htmlspecialchars($row['permission'] ?? "Inconnu") . "</td>
+                    <td> <form method='post' 
+                            action='adminWeb.php' 
+                            class='delete-history-form'
+                            onsubmit='return confirm(\"Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.\");'>
+                            <input type='hidden' name='user_id_to_delete' value='" . htmlspecialchars($row['id']) . "'>
+                            <button type='submit' name='delete_user' class='delete-history-btn'>Supprimer cet utilisateur</button>
+                </form></td>
+                    <td><form method='post' 
+                            action='adminWeb.php' 
+                            class='delete-history-form'
+                            onsubmit='return confirm(\"Êtes-vous sûr de vouloir supprimer cet historique ? Cette action est irréversible.\");'>
+                            <input type='hidden' name='user_id_to_delete' value='" . htmlspecialchars($row['id']) . "'>
+                            <button type='submit' name='delete_historique' class='delete-history-btn'>Supprimer l'historique</button>
+                </form></td>
                   </tr>";
         }
 
         echo '</table>';
     } else {
-        echo "<p>Aucun utilisateurs enregistré dans la base de donnée.</p>";
+        echo "<p>Aucun utilisateurs enregistrés dans la base de données.</p>";
     }
 
     echo '</div>';
