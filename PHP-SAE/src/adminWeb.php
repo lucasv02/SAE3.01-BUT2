@@ -46,7 +46,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
         die("Erreur de connexion : " . $cnx->connect_error);
     }
 
-    $sql_log = "SELECT u.id, u.login, u.permission FROM utilisateur u ORDER BY u.id DESC";
+    $sql_log = "SELECT u.id, u.login, u.permission FROM utilisateur u ORDER BY u.id";
 
     $stmt_log = $cnx->prepare($sql_log);
     $stmt_log->execute();
@@ -69,7 +69,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
             echo "<tr>
                     <td>" . htmlspecialchars($row['id']) . "</td>
                     <td>" . htmlspecialchars($row['login']) . "</td>
-                    <td>" . htmlspecialchars($row['permission'] ?? 'Inconnu') . "</td>
+                    <td>" . htmlspecialchars($row['permission']) . "</td>
                   </tr>";
         }
 
