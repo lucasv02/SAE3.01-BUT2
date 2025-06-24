@@ -8,6 +8,54 @@ $db_user = getenv('DB_USER');
 $db_pass = getenv('DB_PASS');
 $db_name = getenv('DB_NAME');
 
+
+
+// Supression de l'historique Crytpo par l'utilisateur via le bouton
+if (isset($_POST['delete-crypto-history']) && isset($_SESSION['id'])) {
+  $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+  if ($conn->connect_error) {
+    die("Erreur de connexion : " . $conn->connect_error);
+  }
+
+  $id_utilisateur = $_SESSION['id'];
+
+  // Supprimer historique cryptographie
+  $sql_delete_crypto = "DELETE FROM historique_crypto WHERE user_id = ?";
+  $stmt_delete_crypto = $conn->prepare($sql_delete_crypto);
+  $stmt_delete_crypto->bind_param("i", $id_utilisateur);
+  $stmt_delete_crypto->execute();
+  $stmt_delete_crypto->close();
+
+  $conn->close();
+
+  // Redirection pour éviter le repost du formulaire en rafraichissant la page
+  header("Location: historique.php?deleted=1");
+  exit;
+}
+
+// Supression de l'historique proba par l'utilisateur via le bouton
+if (isset($_POST['delete-proba-history']) && isset($_SESSION['id'])) {
+  $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+  if ($conn->connect_error) {
+    die("Erreur de connexion : " . $conn->connect_error);
+  }
+
+  $id_utilisateur = $_SESSION['id'];
+
+  // Supprimer historique probabilité
+  $sql_delete_proba = "DELETE FROM historique_proba WHERE user_id = ?";
+  $stmt_delete_proba = $conn->prepare($sql_delete_proba);
+  $stmt_delete_proba->bind_param("i", $id_utilisateur);
+  $stmt_delete_proba->execute();
+  $stmt_delete_proba->close();
+
+  $conn->close();
+
+  // Redirection pour éviter le repost du formulaire en rafraichissant la page
+  header("Location: historique.php?deleted=1");
+  exit;
+}
+
 // Mise en place du Header
 echo '<!DOCTYPE html>
 <html lang="fr">
@@ -81,6 +129,14 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
     echo "<p>Aucun historique enregistré pour l'instant.</p>";
   }
 
+  echo '
+<form method="post" action="historique.php" class="delete-crypto-history-form" onsubmit="return confirm(\'Êtes-vous sûr de vouloir supprimer tout votre historique ? Cette action est irréversible.\');">
+  <button type="submit" name="delete-crypto-history" class="delete-crypto-history-btn">
+    Supprimer tout l\'historique
+  </button>
+</form>
+';
+
   echo '</div>';
   $stmt_crypto->close();
   //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -125,6 +181,14 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
   } else {
     echo "<p>Aucun historique enregistré pour la probabilité pour l'instant.</p>";
   }
+
+  echo '
+<form method="post" action="historique.php" class="delete-proba-history-form" onsubmit="return confirm(\'Êtes-vous sûr de vouloir supprimer tout votre historique ? Cette action est irréversible.\');">
+  <button type="submit" name="delete-proba-history" class="delete-proba-history-btn">
+    Supprimer tout l\'historique
+  </button>
+</form>
+';
 
   echo '</div>';
   $stmt_proba->close();

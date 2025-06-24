@@ -16,7 +16,7 @@ echo "
 </fieldset>";
 
 //Affichage d'un message d'erreur en cas d'erreur
-if(isset($_GET['erreur']) && $_GET['erreur'] != 2) {
+if (isset($_GET['erreur']) && $_GET['erreur'] != 2) {
     echo '<p class="erreur">Erreur sur le captcha. Veuillez réessayer.</p>';
 }
 ?>

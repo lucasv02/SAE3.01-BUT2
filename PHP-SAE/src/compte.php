@@ -32,6 +32,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
   <div class="text-content">
 
     <h1>Bienvenue sur votre espace ' . htmlspecialchars($_SESSION['identifiant']). '.!</h1>
+
       <br>
     <p>Revenez dans deux semaines, plus de features seront disponibles.</p>
     </div>

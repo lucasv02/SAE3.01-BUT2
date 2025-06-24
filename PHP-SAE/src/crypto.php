@@ -71,26 +71,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
 }
 
-function chiffrer($message) {
-  $message = strtoupper($message);
-  $message = preg_replace('/[^A-Z0-9]/', '', $message);
 
-  $lignes = ['A', 'D', 'F', 'G', 'V', 'X'];
-  $colonnes = ['A', 'D', 'F', 'G', 'V', 'X'];
-  $grille = [
-    ['G', 'E', 'H', 'I', 'M', 'S'],
-    ['C', 'R', 'F', 'T', 'D', 'U'],
-    ['N', 'K', 'A', 'B', 'J', 'L'],
-    ['O', 'P', 'Q', 'V', 'W', 'X'],
-    ['Y', 'Z', '0', '1', '2', '3'],
-    ['4', '5', '6', '7', '8', '9']
-  ];
+/*
+ * Méthode de chiffrement
+ * @message (string) : message saisi par l'utilisateur à chiffrer
+ * @return (string) : message chiffré
+ */
+function chiffrer($message)
+{
+    $message = strtoupper($message);
+    $message = preg_replace('/[^A-Z0-9]/', '', $message);
 
-  $substitution = [];
-  for ($i = 0; $i < 6; $i++) {
-    for ($j = 0; $j < 6; $j++) {
-      $lettre = $grille[$i][$j];
-      $substitution[$lettre] = $lignes[$i] . $colonnes[$j];
+    $lignes = ['A', 'D', 'F', 'G', 'V', 'X'];
+    $colonnes = ['A', 'D', 'F', 'G', 'V', 'X'];
+    $grille = [
+        ['G', 'E', 'H', 'I', 'M', 'S'],
+        ['C', 'R', 'F', 'T', 'D', 'U'],
+        ['N', 'K', 'A', 'B', 'J', 'L'],
+        ['O', 'P', 'Q', 'V', 'W', 'X'],
+        ['Y', 'Z', '0', '1', '2', '3'],
+        ['4', '5', '6', '7', '8', '9']
+    ];
+
+    $substitution = [];
+    for ($i = 0; $i < 6; $i++) {
+        for ($j = 0; $j < 6; $j++) {
+            $lettre = $grille[$i][$j];
+            $substitution[$lettre] = $lignes[$i] . $colonnes[$j];
+        }
     }
   }
 
@@ -105,28 +113,41 @@ function chiffrer($message) {
   return $message_chiffre;
 }
 
-function dechiffrer($message) {
-  $lignes = ['A', 'D', 'F', 'G', 'V', 'X'];
-  $colonnes = ['A', 'D', 'F', 'G', 'V', 'X'];
-  $grille = [
-    ['G', 'E', 'H', 'I', 'M', 'S'],
-    ['C', 'R', 'F', 'T', 'D', 'U'],
-    ['N', 'K', 'A', 'B', 'J', 'L'],
-    ['O', 'P', 'Q', 'V', 'W', 'X'],
-    ['Y', 'Z', '0', '1', '2', '3'],
-    ['4', '5', '6', '7', '8', '9']
-  ];
+    
+   
+/*
+ * Méthode de déchiffrement
+ * @message (string) : message saisi par l'utilisateur à déchiffrer
+ * @return (string) : message déchiffré
+ */
+function dechiffrer($message)
+{
+    $lignes = ['A', 'D', 'F', 'G', 'V', 'X'];
+    $colonnes = ['A', 'D', 'F', 'G', 'V', 'X'];
+    $grille = [
+        ['G', 'E', 'H', 'I', 'M', 'S'],
+        ['C', 'R', 'F', 'T', 'D', 'U'],
+        ['N', 'K', 'A', 'B', 'J', 'L'],
+        ['O', 'P', 'Q', 'V', 'W', 'X'],
+        ['Y', 'Z', '0', '1', '2', '3'],
+        ['4', '5', '6', '7', '8', '9']
+    ];
 
-  $inverse = [];
-  for ($i = 0; $i < 6; $i++) {
-    for ($j = 0; $j < 6; $j++) {
-      $coord = $lignes[$i] . $colonnes[$j];
-      $inverse[$coord] = $grille[$i][$j];
+    $inverse = [];
+    for ($i = 0; $i < 6; $i++) {
+        for ($j = 0; $j < 6; $j++) {
+            $coord = $lignes[$i] . $colonnes[$j];
+            $inverse[$coord] = $grille[$i][$j];
+        }
+
     }
   }
 
-  $message = strtoupper($message);
-  $message = preg_replace('/[^ADFGVX]/', '', $message);
+      
+    // Met le message en majuscule
+    $message = strtoupper($message);
+    $message = preg_replace('/[^ADFGVX]/', '', $message);
+
 
   if (strlen($message) % 2 != 0) {
     return "Erreur : le code doit avoir un nombre pair de caractères.";
