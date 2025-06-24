@@ -18,16 +18,11 @@ if (
     isset($_POST['captcha']) &&
     isset($_SESSION['captcha-result'])
 ) {
-//    // Check captcha
-//    if ($_POST['captcha'] != $_SESSION['captcha-result']) {
-//        header("location: /login.php?erreur=2");
-//        exit();
-//    }
 
     $login = $_POST['identifiant'];
-    echo $_POST[password];
+    log($_POST['password']);
     $password = md5($_POST['password']);
-    echo $password;
+    log($password);
 
     // Use prepared statement to prevent SQL injection
     $stmt = mysqli_prepare($cnx, "SELECT * FROM $table WHERE `login` = ? AND `password` = ?");
