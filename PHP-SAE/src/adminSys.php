@@ -78,7 +78,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
     }
     echo '
 <form method="post" action="adminSys.php" onsubmit="return confirm(\'Êtes-vous sûr de vouloir supprimer tout votre historique ? Cette action est irréversible.\');">
-  <button type="submit" name="delete-log" class="delete-history-btn">
+  <button type="submit" name="delete_log" class="delete-history-btn">
     Supprimer tout l\'historique
   </button>
 </form>
