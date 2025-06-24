@@ -45,7 +45,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
     echo '
     <script src="../js/accueil.js"></script>
     <div class="text-content">
-      <h1>Historique des actions administratives</h1>';
+      <h1>Journal de log</h1>';
 
     if ($result_log->num_rows > 0) {
         echo '<table class="histo_crypto">
