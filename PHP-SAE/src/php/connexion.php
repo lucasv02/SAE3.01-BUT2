@@ -49,7 +49,7 @@ if (
         exit();
     } else {
 
-        // ❌ Échec de connexion → Tentative de log
+        // Échec de connexion → Tentative de log
         $action = "Échec de connexion pour l'identifiant '$login'";
         $id_utilisateur = null;
 
