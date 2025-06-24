@@ -30,64 +30,72 @@ body {
 }
 
 .form-changer-mdp {
-  max-width: 400px;
+  width: 400px;
   margin: 3rem auto;
-  padding: 2rem;
-  background-color: var(--bleu-clair);
-  border-radius: 15px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  font-family: 'Lexend', sans-serif;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: solid #F28D35 3px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .form-changer-mdp h2 {
-  text-align: center;
-  color: var(--bleu-roi);
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #4169E1;
 }
 
 .form-group {
-  margin-bottom: 1.2rem;
+  width: 100%;
+  margin-bottom: 15px;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 0.5rem;
   font-weight: 500;
+  font-size: 16px;
   color: #333;
+  margin-bottom: 5px;
 }
 
 .form-group input {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #bbb;
-  border-radius: 8px;
-  font-size: 1rem;
+  padding: 8px 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #ffffff;
   transition: border-color 0.3s ease;
 }
 
 .form-group input:focus {
-  border-color: var(--bleu-roi);
+  border-color: #4169E1;
   outline: none;
 }
 
 .btn-submit {
-  width: 100%;
-  padding: 10px;
-  background: linear-gradient(90deg, var(--bleu-roi) 70%, var(--bleu-clair));
+  background-color: #4169E1;
   color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 1rem;
+  border: 1px solid #ccc;
+  padding: 10px 20px;
+  font-size: 18px;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  border-radius: 15px;
+  width: 100%;
+  margin-top: 10px;
+  transition: background-color 0.3s ease-out, transform 0.2s ease;
 }
 
 .btn-submit:hover {
-  background: var(--bleu-roi);
-  transform: scale(1.02);
+  background-color: #F28D35;
+  box-shadow: 7px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .btn-submit:active {
-  transform: scale(0.97);
+  transform: scale(0.95);
+  box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.3);
 }
+
