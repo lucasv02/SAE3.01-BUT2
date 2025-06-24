@@ -18,13 +18,15 @@ echo '<!DOCTYPE html>
 
 
 
+
 echo '<body>
 
 <div class="wrapper">';
 
+
 include 'php/menu-nc.php';
 
-echo'
+echo '
 <script src="../js/accueil.js"></script>
 
 <div class="text-content">
@@ -35,5 +37,7 @@ echo'
 
 include 'php/footer.php';
 
+
 echo'</div>
+
 </body>';

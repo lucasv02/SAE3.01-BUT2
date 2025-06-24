@@ -2,7 +2,7 @@
 <?php
 session_start();
 
-// Load environment variables from env.php
+// Récupère les variables d'environnement de env.php
 require_once __DIR__ . '/env.php';
 
 $db_host = getenv('DB_HOST');
@@ -13,12 +13,14 @@ $db_name = getenv('DB_NAME');
 $cnx = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 $table = "utilisateur";
 
+
 if (
     isset($_POST['identifiant']) &&
     isset($_POST['password'])
 ) {
 
     $login = $_POST['identifiant'];
+    // chiffrement du mot de passe
     $password = md5($_POST['password']);
 
     // Use prepared statement to prevent SQL injection
