@@ -19,7 +19,9 @@ echo '<!DOCTYPE html>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet">
 </head>';
 
-echo '<body>';
+echo '<body>
+
+<div class="wrapper">';
 
 if (isset($_SESSION['login']) && $_SESSION['login']) {
 
@@ -28,11 +30,20 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
   <script src="/js/accueil.js"></script>
 
   <div class="text-content">
-    <h1>Bienvenue sur votre espace' . htmlspecialchars($_SESSION['identifiant']) . '.!</h1>
+
+    <h1>Bienvenue sur votre espace ' . htmlspecialchars($_SESSION['identifiant']). '.!</h1>
+
       <br>
     <p>Revenez dans deux semaines, plus de features seront disponibles.</p>
     </div>
-  ';
+   
+   </div>';
+
+    include 'php/footer.php';
+
+    echo '</div>
+</body>';
+
 } else {
     header('Location: index.php');
 }

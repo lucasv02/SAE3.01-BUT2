@@ -34,6 +34,8 @@ include 'php/menu-nc.php';
 
 echo '<body>
 
+<div class="wrapper">
+
     <div class="conteneur-formulaire">
         <div class="formulaire">
             <img id="logo" src="img/logo.png" alt="logo représentant une calculatrice">
@@ -56,6 +58,7 @@ echo '
             </form>
         </div>
     </div>
+</div>
 </body>';
 
 include 'php/footer.php';

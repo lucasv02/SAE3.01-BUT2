@@ -6,7 +6,6 @@ echo '
     <div class="banniere_bas">
         <img src="../img/banniere_bas.svg" alt="Bannière basse">
     </div>
-</footer>
-';
+</footer>';
 
 
