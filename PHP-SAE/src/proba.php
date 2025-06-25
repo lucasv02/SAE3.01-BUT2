@@ -112,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet"/>
-    <script src="/js/menu.js"></script>
+    <script src="/js/menu.js" defer></script>
 </head>
 <body>
 <div class="wrapper">
@@ -168,6 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php else: ?>
 
         <?php include 'php/menu-nc.php'; ?>
+        <script src="/js/menu.js" defer></script>
         <div class="text-content">
             <h1>Accès refusé</h1>
             <p style="margin-top: 1rem;">Vous devez être authentifié afin d'accéder à cette page.</p>

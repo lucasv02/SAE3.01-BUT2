@@ -30,13 +30,15 @@ echo '<!DOCTYPE html>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet">
-  <script src="/js/menu.js"></script>
+    <script src="/js/menu.js" defer></script>
 </head>
 <body>';
 
 include 'php/menu-nc.php';
 
-echo '<div class="wrapper">
+echo '
+  <script src="/js/menu.js" defer></script>
+<div class="wrapper">
     <div class="conteneur-formulaire">
         <div class="formulaire">
             <img id="logo" src="img/logo.png" alt="logo représentant une calculatrice" />

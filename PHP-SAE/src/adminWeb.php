@@ -105,7 +105,7 @@ echo '<!DOCTYPE html>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet" />
-  <script src="/js/menu.js"></script>
+  <script src="/js/menu.js" defer></script>
 </head>';
 
 echo '<body>';
@@ -181,6 +181,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
 } else {
     include 'php/menu-nc.php';
     echo '
+  <script src="/js/menu.js" defer></script>
     <div class="text-content">
         <h1>Accès refusé</h1>
         <br />
