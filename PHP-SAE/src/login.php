@@ -39,7 +39,7 @@ echo'
         <div class="formulaire">
             <img id="logo" src="img/logo.png" alt="logo représentant une calculatrice">
             <h1 id="titre-login">Relax Maths</h1>
-            <p id="explicatif">Connectez-vous à votre compte</p>
+            <h2 id="explicatif">Connectez-vous à votre compte</h2>
 
             <form action="/php/connexion.php" method="POST">
                 <label for="identifiant">Identifiant</label>

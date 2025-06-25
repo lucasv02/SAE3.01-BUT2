@@ -159,9 +159,9 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
     echo '<table class="histo_proba">
             <tr>
               <th>Moyenne</th>
-              <th>Ecart-Type</th>
+              <th>Ecart-type</th>
               <th>Borne supérieure</th>
-              <th>Nombre de Subdivision</th>
+              <th>Nombre de subdivisions</th>
               <th>Résultat</th>
               <th>Date</th>
             </tr>';
