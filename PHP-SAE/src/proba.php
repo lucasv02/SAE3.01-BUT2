@@ -38,7 +38,7 @@ function loi_normale($point_median, $moyenne, $ecart_type)
  */
 function methode_rectangles($moyenne, $ecart_type, $borne_sup, $nb_rectangle)
 {
-    $borne_inf = -5 * $ecart_type;
+    $borne_inf = $moyenne - (6 * $ecart_type);
     $largeur_rect = ($borne_sup - $borne_inf) / $nb_rectangle;
     $res = 0.0;
 
