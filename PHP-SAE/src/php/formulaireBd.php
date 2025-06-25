@@ -38,8 +38,9 @@ if (isset($_POST['identifiant'], $_POST['password'])) {
         header('Location: /inscription.php?erreur=1');
     } else {
 
-        $stmtInsert = mysqli_prepare($cnx, "INSERT INTO $table (`login`, `password`) VALUES (?, ?)");
-        mysqli_stmt_bind_param($stmtInsert, "ss", $login, $password);
+        $stmtInsert = mysqli_prepare($cnx, "INSERT INTO $table (`login`, `password`, `permission`) VALUES (?, ?, ?)");
+        $permission = 'utilisateur';
+        mysqli_stmt_bind_param($stmtInsert, "sss", $login, $password, $permission);
         mysqli_stmt_execute($stmtInsert);
         header('Location: /inscription.php?ok=1');
 

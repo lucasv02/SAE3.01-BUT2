@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 
@@ -12,18 +13,15 @@ $db_name = getenv('DB_NAME');
 $cnx = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 $table = "utilisateur";
 
+if (!$cnx) {
+    header('Location: /login.php?erreur=2');
+    exit();
+}
 
 if (
     isset($_POST['identifiant']) &&
-    isset($_POST['password']) &&
-    isset($_POST['captcha']) &&
-    isset($_SESSION['captcha-result'])
+    isset($_POST['password'])
 ) {
-    // Check captcha
-    if ($_POST['captcha'] != $_SESSION['captcha-result']) {
-        header("location: /login.php?erreur=2");
-        exit();
-    }
 
     $login = $_POST['identifiant'];
     // chiffrement du mot de passe
@@ -56,8 +54,28 @@ if (
         mysqli_stmt_execute($stmtLog);
         exit();
     } else {
+
+        // Échec de connexion → Tentative de log
+        $action = "Échec de connexion pour l'identifiant '$login'";
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'];
+
+        $id_utilisateur = null;
+        // Vérifie si l'utilisateur existe pour récupérer son ID
+        $stmtUser = mysqli_prepare($cnx, "SELECT id FROM utilisateur WHERE `login` = ?");
+        mysqli_stmt_bind_param($stmtUser, "s", $login);
+        mysqli_stmt_execute($stmtUser);
+        $resultUser = mysqli_stmt_get_result($stmtUser);
+
+        if ($rowUser = mysqli_fetch_assoc($resultUser)) {
+            $id_utilisateur = $rowUser['id'];
+        }
+
+        $stmtLog = mysqli_prepare($cnx, "INSERT INTO admin_log (id_utilisateur, action, ip_adresse) VALUES (?, ?, ?)");
+        mysqli_stmt_bind_param($stmtLog, "iss", $id_utilisateur, $action, $ip);
+        mysqli_stmt_execute($stmtLog);
+
         header('Location: /login.php?erreur=1');
-        exit(0);
+        exit();
     }
 } else {
     header('Location: /login.php?erreur=1');

@@ -1,10 +1,5 @@
 <?php
 
-// Style css
-// echo '<style>';
-// include("../css/general.css");
-// echo '</style>';
-
 // Mise en place de la bannière haute dans le menu
 echo '
 <header>
@@ -14,7 +9,7 @@ echo '
 ';
 
 // Barre de Navigation
-echo'
+echo '
   <nav>
     <a class="nav-icon" aria-label="Homepage" aria-current="page">
       <img src="../img/logo.png" alt="Logo Relax Maths" >
@@ -28,7 +23,7 @@ echo'
       </button>
       <div class="navlinks-container">
         <a href="index.php">Accueil</a>
-        <a href="modules.php">Probabilité</a>
+        <a href="proba.php">Probabilité</a>
         <a href="crypto.php">Crypto</a>
       </div>
     </div>

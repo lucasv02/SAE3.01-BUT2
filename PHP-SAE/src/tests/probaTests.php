@@ -1,8 +1,8 @@
 <?php
 
-require_once '../modules.php';
+require_once '../proba.php';
 
-# Pour lancer les tests : php modulesTests.php dans le dossier src/tests
+# Pour lancer les tests : php probaTests.php dans le dossier src/tests
 
 function assertEquals($expected, $actual, $message = '')
 {
