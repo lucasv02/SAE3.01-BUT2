@@ -6,6 +6,8 @@ if (isset($_GET["erreur"])) {
         case 1:
             $message = "Erreur de mot de passe ou compte inconnu.";
             break;
+        case 2:
+            $message = "Erreur de connexion à la base de données.";
     }
 }
 

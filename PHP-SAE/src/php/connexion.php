@@ -13,6 +13,10 @@ $db_name = getenv('DB_NAME');
 $cnx = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 $table = "utilisateur";
 
+if (!$cnx) {
+    header('Location: /login.php?erreur=2');
+    exit();
+}
 
 if (
     isset($_POST['identifiant']) &&
