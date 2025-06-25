@@ -197,7 +197,6 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
   <main>
     <div class="text-content">
       <h1>Accès refusé</h1>
-      <br />
       <p>Vous devez être authentifié afin d&apos;accéder à cette page</p>
     </div>
   </main>';
