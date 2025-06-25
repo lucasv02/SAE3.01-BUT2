@@ -24,7 +24,7 @@ function loi_normale($point_median, $moyenne, $ecart_type)
     if ($ecart_type <= 0) {
         return 0;
     }
-    return (1 / (sqrt(2 * pi() * $ecart_type))) * exp(-0.5 * pow(($point_median - $moyenne) / $ecart_type, 2));
+    return (1 / ($ecart_type * sqrt(2 * pi()))) * exp(-0.5 * pow(($point_median - $moyenne) / $ecart_type, 2));
 }
 
 
