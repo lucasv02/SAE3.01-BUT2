@@ -46,7 +46,7 @@ body {
 .histo_crypto th,
 .histo_proba th {
   background-color: var(--bleu-clair);
-  color: var(--bleu-roi);
+  color: black;
   font-weight: 600;
   padding: 10px 12px;
   border: 1px solid var(--gris-bordure);
