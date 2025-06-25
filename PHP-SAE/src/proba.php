@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="icon" href="img/logo.png" />
     <title>Relax Maths - Module Calcul</title>
     <link rel="stylesheet" href="css/general.css" />
-    <link rel="stylesheet" href="css/modules.css" />
+    <link rel="stylesheet" href="css/proba.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet" />

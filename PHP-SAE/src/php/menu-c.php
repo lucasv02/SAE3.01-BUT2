@@ -23,7 +23,7 @@ echo '
       </button>
       <div class="navlinks-container">
         <a href="index.php">Accueil</a>
-        <a href="modules.php">Probabilité</a>
+        <a href="proba.php">Probabilité</a>
         <a href="crypto.php">Crypto</a>
         <a href="historique.php">Historique</a>';
 if (isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin_sys') {
