@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="content">
         <div class="text-content">
-            <h1>Bienvenue ' . htmlspecialchars(<?php $_SESSION['identifiant'] ?>) . '.</h1>
+            <h1>Bienvenue <?php echo htmlspecialchars($_SESSION['identifiant']); ?>.</h1>
             <p>Bienvenue sur votre compte !</p>
         </div>
 
