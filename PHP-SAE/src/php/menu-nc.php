@@ -39,8 +39,3 @@ echo '
   </nav>
 </header>
 ';
-
-// Inclusion du fichier js de manière responsive
-echo '<script>';
-include '../js/menu.js';
-echo '</script>';
