@@ -148,8 +148,8 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
               <th>ID</th>
               <th>Login</th>
               <th>Rôle</th>
-              <th>Suppression du compte</th>
-              <th>Suppression de l\'historique</th>
+              <th>Action</th>
+              <!--<th>Suppression de l\'historique</th>-->
             </tr>';
 
         while ($row = $result_log->fetch_assoc()) {
@@ -163,14 +163,15 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
                             onsubmit='return confirm(\"Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.\");'>
                             <input type='hidden' name='user_id_to_delete' value='" . htmlspecialchars($row['id']) . "'>
                             <button type='submit' name='delete_user' class='delete-history-btn'>Supprimer cet utilisateur</button>
-                </form></td>
-                    <td><form method='post' 
-                            action='adminWeb.php' 
-                            class='delete-history-form'
-                            onsubmit='return confirm(\"Êtes-vous sûr de vouloir supprimer cet historique ? Cette action est irréversible.\");'>
-                            <input type='hidden' name='user_id_to_delete' value='" . htmlspecialchars($row['id']) . "'>
                             <button type='submit' name='delete_historique' class='delete-history-btn'>Supprimer l'historique</button>
-                </form></td>
+
+//          <!--      </form></td>
+//                    <td><form method='post' 
+//                            action='adminWeb.php' 
+//                            class='delete-history-form'
+//                            onsubmit='return confirm(\"Êtes-vous sûr de vouloir supprimer cet historique ? Cette action est irréversible.\");'>
+//                            <input type='hidden' name='user_id_to_delete' value='" . htmlspecialchars($row['id']) . "'>
+//                </form></td> -->
                   </tr>";
         }
 
