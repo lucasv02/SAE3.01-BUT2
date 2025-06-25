@@ -30,8 +30,9 @@ if ($conn->connect_error) {
 $message_resultat = 'En attente de saisie de paramètres...';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  $message = isset($_POST['message']) ? $_POST['message'] : null;
-  $action = isset($_POST['chiffrer_dechiffrer']) ? $_POST['chiffrer_dechiffrer'] : null;
+    $message = isset($_POST['message']) ? $_POST['message'] : null;
+    $action = isset($_POST['chiffrer_dechiffrer']) ? $_POST['chiffrer_dechiffrer'] : null;
+    $message_chiffre = null;
 
   if ($message !== null && $action !== null) {
     if ($action == 'chiffrer') {
