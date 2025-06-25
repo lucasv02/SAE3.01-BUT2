@@ -42,7 +42,7 @@ echo'
             <p id="explicatif">Connectez-vous à votre compte</p>
 
             <form action="/php/connexion.php" method="POST">
-                <label for="email">Identifiant</label>
+                <label for="identifiant">Identifiant</label>
                 <input type="text" name="identifiant" id="identifiant" placeholder="identifiant" required>
                 <br>
                 <label for="password">Mot de passe</label>
