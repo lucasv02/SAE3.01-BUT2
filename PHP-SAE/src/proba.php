@@ -119,7 +119,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php if (isset($_SESSION['login']) && $_SESSION['login'] === true): ?>
 
         <?php include 'php/menu-c.php'; ?>
-
         <main class="modules-calcul">
             <div class="formulaire">
                 <div class="titre">
@@ -168,8 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php include 'php/menu-nc.php'; ?>
         <div class="text-content">
             <h1>Accès refusé</h1>
-            <br />
-            <p>Vous devez être authentifié afin d'accéder à cette page.</p>
+            <p style="margin-top: 1rem;">Vous devez être authentifié afin d'accéder à cette page.</p>
         </div>
         <?php include 'php/footer.php'; ?>
 

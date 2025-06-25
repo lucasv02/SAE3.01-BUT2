@@ -9,7 +9,7 @@ if (isset($_GET["erreur"])) {
     }
 }
 
-// Mise en place du Header
+
 echo '<!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -49,7 +49,7 @@ echo'
                 <input type="password" name="password" id="password" placeholder="Mot de passe" required>
                 <a id="mdp-oublie" href="mdpOublie.php">Mot de passe oublié ?</a>
                 <br>';
-echo'                
+            echo'                
                 <p class="message">'.$message.'</p>
                 <br>
                 <button class="button-connexion" type="submit">Connexion</button>
@@ -59,7 +59,8 @@ echo'
 
 include 'php/footer.php';
 
-echo'</div>
+echo'
+</div>
 </body>';
 
 

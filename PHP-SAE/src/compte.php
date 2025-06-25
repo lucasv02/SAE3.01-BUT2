@@ -12,14 +12,13 @@ $cnx = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 $table = "utilisateur";
 
 if (!isset($_SESSION['login']) || !$_SESSION['login']) {
-  header('Location: index.php');
-  exit;
+    header('Location: index.php');
+    exit;
 }
 
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Récupère l'ancien et nouveau mdp en vérifiant avec isset
     $ancien_mdp = isset($_POST['ancien_mdp']) ? $_POST['ancien_mdp'] : '';
     $nouveau_mdp = isset($_POST['nouveau_mdp']) ? $_POST['nouveau_mdp'] : '';
 
@@ -27,11 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message = 'Veuillez remplir tous les champs.';
     } else {
         $login = $_SESSION['identifiant'];
-        // md5 de l'ancien mdp saisi
         $ancien_mdp_hash = md5($ancien_mdp);
 
-
-        // Vérifie que l'ancien mdp correspond à celui en BDD
         $stmt = mysqli_prepare($cnx, "SELECT password FROM $table WHERE login = ?");
         mysqli_stmt_bind_param($stmt, "s", $login);
         mysqli_stmt_execute($stmt);
@@ -41,10 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $nouveau_mdp_hash = md5($nouveau_mdp);
 
                 if ($ancien_mdp_hash === $nouveau_mdp_hash) {
-                    // Nouveau mdp identique à l'ancien
                     $message = "Le nouveau mot de passe ne peut pas être identique à l'ancien.";
                 } else {
-                    // ancien mdp ok et nouveau différent, on met à jour
                     $stmt2 = mysqli_prepare($cnx, "UPDATE $table SET password = ? WHERE login = ?");
                     mysqli_stmt_bind_param($stmt2, "ss", $nouveau_mdp_hash, $login);
                     if (mysqli_stmt_execute($stmt2)) {
@@ -62,57 +56,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" href="img/logo.png" />
-  <title>Relax Maths - Modifier mot de passe</title>
-  <link rel="stylesheet" href="css/index.css" />
-  <link rel="stylesheet" href="css/general.css" />
-  <link rel="stylesheet" href="css/compte.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="img/logo.png" />
+    <title>Relax Maths - Modifier mot de passe</title>
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/general.css" />
+    <link rel="stylesheet" href="css/compte.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet" />
 </head>
 <body>
 <?php include 'php/menu-c.php'; ?>
 
-<div class="wrapper">
-
-    <div class="content">
+<main class="wrapper">
+    <section class="content">
         <div class="text-content">
             <h1>Bienvenue <?php echo htmlspecialchars($_SESSION['identifiant']); ?>.</h1>
             <p>Voici votre espace personnel !</p>
         </div>
 
-    <form action="" method="POST" class="form-changer-mdp">
-        <h2>Changer votre mot de passe</h2>
-        <div class="form-group">
-            <label for="ancien_mdp">Ancien mot de passe :</label>
-            <input type="password" name="ancien_mdp" id="ancien_mdp" required>
-        </div>
+        <form action="" method="post" class="form-changer-mdp" novalidate>
+            <h2>Changer votre mot de passe</h2>
+            <div class="form-group">
+                <label for="ancien_mdp">Ancien mot de passe :</label>
+                <input type="password" name="ancien_mdp" id="ancien_mdp" required autocomplete="off" />
+            </div>
+            <div class="form-group">
+                <label for="nouveau_mdp">Nouveau mot de passe :</label>
+                <input type="password" name="nouveau_mdp" id="nouveau_mdp" required autocomplete="off" />
+            </div>
+            <button type="submit" class="btn-submit">Changer</button>
+        </form>
 
-        <div class="form-group">
-            <label for="nouveau_mdp">Nouveau mot de passe :</label>
-            <input type="password" name="nouveau_mdp" id="nouveau_mdp" required>
-        </div>
-
-        <button type="submit" class="btn-submit">Changer</button>
-    </form>
-
-    <?php if ($message): ?>
-        <p style="text-align:center; margin-top:1rem; color: <?php echo (strpos($message, 'succès') !== false) ? 'green' : 'red'; ?>;">
-            <?php echo htmlspecialchars($message); ?>
-        </p>
-    <?php endif; ?>
-
-</div>
+        <?php if ($message): ?>
+            <p style="text-align:center; margin-top:1rem; color: <?php echo (strpos($message, 'succès') !== false) ? 'green' : 'red'; ?>;">
+                <?php echo htmlspecialchars($message); ?>
+            </p>
+        <?php endif; ?>
+    </section>
+</main>
 
 <?php include 'php/footer.php'; ?>
-
 </body>
 </html>

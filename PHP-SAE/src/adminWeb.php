@@ -1,14 +1,5 @@
 <?php
 
-//Il n’y a qu’un seul administrateur web enregistré dans la base de données (login:adminweb,mdp: adminweb).
-//Ces identifiants sont obligatoires et ne doivent pas être changés.
-//• L’administrateur web se connecte
-//• L’administrateur web peut voir la liste des utilisateurs inscrits.
-//• Il peut créer des comptes utilisateurs à partir d’un fichier csv.
-//• Il peut supprimer des comptes utilisateurs et l’historique liés à ces comptes. Un fichier de log inhérent
-//à ces suppression est créé et consultatble ultérieurement.
-
-
 session_start();
 
 require_once __DIR__ . '/php/env.php';
@@ -99,7 +90,7 @@ if (isset($_POST['delete_historique']) && isset($_SESSION['id']) && isset($_SESS
     $stmt_delete_crypto->close();
 }
 
-// Mise en place du Header
+
 echo '<!DOCTYPE html>
 <html lang="fr">
 <head>

@@ -157,62 +157,64 @@ function dechiffrer($message)
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" href="img/logo.png" />
-  <title>Relax Maths</title>
-  <link rel="stylesheet" href="css/crypto.css" />
-  <link rel="stylesheet" href="css/general.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="img/logo.png" />
+    <title>Relax Maths</title>
+    <link rel="stylesheet" href="css/crypto.css" />
+    <link rel="stylesheet" href="css/general.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet" />
 </head>
 <body>
 
 <?php
 if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
-  include 'php/menu-c.php';
-  echo '
+    include 'php/menu-c.php';
+    echo '
 <main class="cryptographie">
-    <div class="formulaire">
-        <div class="titre">
-            <h1>Module de Cryptographie</h1>
-        </div>
-        <div class="intro">
-            <p>Entrez le message que vous souhaitez chiffrer à l\'aide du système ADFGVX.</p>
-        </div>
-        <div class="formulaire_crypto">
-            <form id="formulaire_crypto" method="POST" action="">
-                <div class="form-group">
-                    <label for="message">Message :</label>
-                    <input type="text" id="message" name="message" placeholder="Exemple : perdu" required>
-                </div>
-                <div class="form-group">
-                    <select id="chiffrer_dechiffrer" name="chiffrer_dechiffrer">
-                        <option value="chiffrer">Chiffrer</option>
-                        <option value="dechiffrer">Déchiffrer</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn-submit">Valider</button>
-            </form>
-        </div>
+  <div class="formulaire">
+    <div class="titre">
+      <h1>Module de Cryptographie</h1>
     </div>
-    <div class="resultat">
-        <p>' . htmlspecialchars($message_resultat) . '</p>
+    <div class="intro">
+      <p>Entrez le message que vous souhaitez chiffrer à l&apos;aide du système ADFGVX.</p>
     </div>
+    <div class="formulaire_crypto">
+      <form id="formulaire_crypto" method="post" action="">
+        <div class="form-group">
+          <label for="message">Message :</label>
+          <input type="text" id="message" name="message" placeholder="Exemple : perdu" required />
+        </div>
+        <div class="form-group">
+          <select id="chiffrer_dechiffrer" name="chiffrer_dechiffrer">
+            <option value="chiffrer">Chiffrer</option>
+            <option value="dechiffrer">Déchiffrer</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-submit">Valider</button>
+      </form>
+    </div>
+  </div>
+  <div class="resultat">
+    <p>' . (isset($message_resultat) ? htmlspecialchars($message_resultat) : '') . '</p>
+  </div>
 </main>
 <script src="js/accueil.js"></script>';
-  include 'php/footer.php';
+    include 'php/footer.php';
 } else {
-  include 'php/menu-nc.php';
-  echo '
+    include 'php/menu-nc.php';
+    echo '
+  <main>
     <div class="text-content">
-        <h1>Accès refusé</h1>
-        <br>
-        <p>Vous devez être authentifié afin d\'accéder à cette page</p>
-    </div>';
-  include 'php/footer.php';
+      <h1>Accès refusé</h1>
+      <br />
+      <p>Vous devez être authentifié afin d&apos;accéder à cette page</p>
+    </div>
+  </main>';
+    include 'php/footer.php';
 }
 ?>
 

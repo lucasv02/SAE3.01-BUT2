@@ -10,10 +10,10 @@ if (isset($_GET["erreur"])) {
     $typeMessage = "erreur";
 }
 
-
-if(isset($_GET["ok"])) {
+if (isset($_GET["ok"])) {
     $message = "Votre compte a été créé avec succès";
 }
+
 // Mise en place du Header
 echo '<!DOCTYPE html>
 <html lang="fr">
@@ -28,37 +28,37 @@ echo '<!DOCTYPE html>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet">
-</head>';
+</head>
+<body>';
 
 include 'php/menu-nc.php';
 
-echo '<body>
-
-<div class="wrapper">
-
+echo '<div class="wrapper">
     <div class="conteneur-formulaire">
         <div class="formulaire">
-            <img id="logo" src="img/logo.png" alt="logo représentant une calculatrice">
+            <img id="logo" src="img/logo.png" alt="logo représentant une calculatrice" />
             <h1 id="titre-login">Relax Maths</h1>
             <p id="explicatif">Inscription sur la plateforme</p>
 
             <form action="/php/formulaireBd.php" method="POST">
                 <label for="identifiant">Identifiant</label>
-                <input type="text" name="identifiant" id="identifiant" placeholder="identifiant" required>
-                <br>
+                <input type="text" name="identifiant" id="identifiant" placeholder="identifiant" required />
+
                 <label for="password">Mot de passe</label>
-                <input type="password" name="password" id="password" placeholder="Mot de passe" required>
-                <br>';
+                <input type="password" name="password" id="password" placeholder="Mot de passe" required />';
+
 include 'php/captcha.php';
 
 echo '
-                <p class="message">'.$message.'</p>
-                <br>
-                <button class="button-connexion" type="submit">S\'incrire</button>
+                <p class="message">' . htmlspecialchars($message) . '</p>
+                <button class="button-connexion" type="submit">S\'inscrire</button>
             </form>
         </div>
     </div>
-</div>
-</body>';
+</div>';
 
 include 'php/footer.php';
+
+echo '
+</body>
+</html>';
