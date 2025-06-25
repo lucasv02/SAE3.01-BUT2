@@ -43,7 +43,7 @@ echo '<body>
             <p id="explicatif">Inscription sur la plateforme</p>
 
             <form action="/php/formulaireBd.php" method="POST">
-                <label for="email">Identifiant</label>
+                <label for="identifiant">Identifiant</label>
                 <input type="text" name="identifiant" id="identifiant" placeholder="identifiant" required>
                 <br>
                 <label for="password">Mot de passe</label>
