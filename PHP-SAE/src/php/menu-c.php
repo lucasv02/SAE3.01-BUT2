@@ -9,7 +9,7 @@ echo '
 ';
 
 // Barre de Navigation
-echo'
+echo '
   <nav>
     <a class="nav-icon" aria-label="Homepage" aria-current="page">
       <img src="../img/logo.png" alt="Logo Relax Maths" >
@@ -23,11 +23,14 @@ echo'
       </button>
       <div class="navlinks-container">
         <a href="index.php">Accueil</a>
-        <a href="modules.php">Probabilité</a>
+        <a href="proba.php">Probabilité</a>
         <a href="crypto.php">Crypto</a>
         <a href="historique.php">Historique</a>';
-if (isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin') {
-    echo '<a href="admin.php">Administrateur</a>';
+if (isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin_sys') {
+    echo '<a href="adminSys.php">Journal log</a>';
+}
+if (isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin_web') {
+    echo '<a href="adminWeb.php">Liste utilisateurs</a>';
 }
 echo '    </div>
     </div>

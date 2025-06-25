@@ -28,14 +28,14 @@ jobs:
             echo "IS_PROD=true" >> $GITHUB_OUTPUT
           else
             case "$BRANCH" in
-              lucas) SUBDOMAIN="lucas" ;;
-              lea) SUBDOMAIN="lea" ;;
-              seraphin) SUBDOMAIN="seraphin" ;;
-              maden) SUBDOMAIN="maden" ;;
+              lucas) SUBDOMAIN="lucas.sae" ;;
+              lea) SUBDOMAIN="lea.sae" ;;
+              seraphin) SUBDOMAIN="seraphin.sae" ;;
+              maden) SUBDOMAIN="maden.sae" ;;
               dev) SUBDOMAIN="sae" ;;
               *) echo "Branche non gérée pour le déploiement."; exit 1 ;;
             esac
-            echo "TARGET_DIR=sites/${SUBDOMAIN}.sae.lucasvieira.fr/" >> $GITHUB_OUTPUT
+            echo "TARGET_DIR=sites/${SUBDOMAIN}.lucasvieira.fr/" >> $GITHUB_OUTPUT
             echo "IS_PROD=false" >> $GITHUB_OUTPUT
           fi
 

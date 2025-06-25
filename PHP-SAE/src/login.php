@@ -6,13 +6,10 @@ if (isset($_GET["erreur"])) {
         case 1:
             $message = "Erreur de mot de passe ou compte inconnu.";
             break;
-        case 2:
-            $message = "Erreur dans le captcha. Veuillez réessayer.";
-            break;
     }
 }
 
-// Mise en place du Header
+
 echo '<!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -45,16 +42,14 @@ echo'
             <p id="explicatif">Connectez-vous à votre compte</p>
 
             <form action="/php/connexion.php" method="POST">
-                <label for="email">Identifiant</label>
+                <label for="identifiant">Identifiant</label>
                 <input type="text" name="identifiant" id="identifiant" placeholder="identifiant" required>
                 <br>
                 <label for="password">Mot de passe</label>
                 <input type="password" name="password" id="password" placeholder="Mot de passe" required>
                 <a id="mdp-oublie" href="mdpOublie.php">Mot de passe oublié ?</a>
                 <br>';
-include 'php/captcha.php';
-
-echo'                
+            echo'                
                 <p class="message">'.$message.'</p>
                 <br>
                 <button class="button-connexion" type="submit">Connexion</button>
@@ -64,7 +59,8 @@ echo'
 
 include 'php/footer.php';
 
-echo'</div>
+echo'
+</div>
 </body>';
 
 
