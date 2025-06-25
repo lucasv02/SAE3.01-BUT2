@@ -106,7 +106,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
       <h1>Historique des opérations Cryptographie</h1>';
 
   if ($result_crypto->num_rows > 0) {
-    echo '<table class="histo">
+    echo '<table class="histo_crypto">
 
             <tr>
               <th>Méthode</th>
@@ -156,7 +156,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
       <h1>Historique des opérations Probabilité</h1>';
 
   if ($result_proba->num_rows > 0) {
-    echo '<table class="histo">
+    echo '<table class="histo_proba">
             <tr>
               <th>Moyenne</th>
               <th>Ecart-Type</th>

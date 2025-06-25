@@ -64,7 +64,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
       <h1>Journal de log</h1>';
 
     if ($result_log->num_rows > 0) {
-        echo '<table class="histo">
+        echo '<table class="histo_crypto">
             <tr>
               <th>Utilisateur</th>
               <th>Action</th>

@@ -152,7 +152,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
 
 
     if ($result_log->num_rows > 0) {
-        echo '<table class="histo">
+        echo '<table class="histo_crypto">
             <tr>
               <th>ID</th>
               <th>Login</th>
