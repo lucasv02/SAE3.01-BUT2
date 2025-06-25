@@ -12,6 +12,8 @@ if (isset($_GET["erreur"])) {
 
 if (isset($_GET["ok"])) {
     $message = "Votre compte a été créé avec succès";
+    header('Location: /login.php');
+    exit();
 }
 
 // Mise en place du Header
