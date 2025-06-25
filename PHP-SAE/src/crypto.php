@@ -7,9 +7,11 @@ $db_user = getenv('DB_USER');
 $db_pass = getenv('DB_PASS');
 $db_name = getenv('DB_NAME');
 
-$conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+// Test de connexion à la base sans bloquer l'exécution
+$db_available = true;
+$conn = @new mysqli($db_host, $db_user, $db_pass, $db_name);
 if ($conn->connect_error) {
-    die("Erreur de connexion : " . $conn->connect_error);
+    $db_available = false;
 }
 
 $message_resultat = 'En attente de saisie de paramètres...';
@@ -28,7 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $message_resultat = "$message_chiffre est votre message déchiffré.";
         }
 
-        if (isset($_SESSION['id'])) {
+        // Enregistrement dans la base uniquement si elle est disponible
+        if ($db_available && isset($_SESSION['id'])) {
             $user_id = $_SESSION['id'];
             $donnees = $conn->real_escape_string($message);
             $resultat = $conn->real_escape_string($message_chiffre);
@@ -37,11 +40,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $sql = "INSERT INTO historique_crypto (user_id, date_action, message, methode, resultat) VALUES (?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("issss", $user_id, $date_action, $donnees, $methode, $resultat);
-            $stmt->execute();
-
-            if ($stmt->error) {
-                echo "Erreur d'insertion : " . $stmt->error;
+            if ($stmt) {
+                $stmt->bind_param("issss", $user_id, $date_action, $donnees, $methode, $resultat);
+                $stmt->execute();
+                if ($stmt->error) {
+                    echo "Erreur d'insertion : " . $stmt->error;
+                }
+            } else {
+                echo "Erreur de préparation de requête.";
             }
         }
     } elseif ($message !== null && $action == null) {
@@ -51,11 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-/*
- * Méthode de chiffrement
- * @message (string) : message saisi par l'utilisateur à chiffrer
- * @return (string) : message chiffré
- */
 function chiffrer($message)
 {
     $message = strtoupper($message);
@@ -90,12 +91,6 @@ function chiffrer($message)
 
     return $message_chiffre;
 }
-
-/*
- * Méthode de déchiffrement
- * @message (string) : message saisi par l'utilisateur à déchiffrer
- * @return (string) : message déchiffré
- */
 
 function dechiffrer($message)
 {
@@ -137,7 +132,6 @@ function dechiffrer($message)
 
     return $dechiffre;
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -153,15 +147,14 @@ function dechiffrer($message)
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com"/>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet"/>
-    <script src="/js/menu.js" defer></script>
 </head>
 <body>
 
 <?php
 if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
     include 'php/menu-c.php';
+
     echo '
-<script src="/js/menu.js"></script>
 <main class="cryptographie">
   <div class="formulaire">
     <div class="titre">
@@ -169,15 +162,21 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
     </div>
     <div class="intro">
       <p>Entrez le message que vous souhaitez chiffrer à l&apos;aide du système ADFGVX.</p>
-    </div>
+    </div>';
+
+    if (!$db_available) {
+        echo '<div class="warning"><p style="color:red;">⚠️ La base de données est actuellement indisponible. Les résultats ne seront pas enregistrés.</p></div>';
+    }
+
+    echo '
     <div class="formulaire_crypto">
-      <form id="formulaire_crypto" method="post" action=".">
+      <form id="formulaire_crypto" method="post" action="">
         <div class="form-group">
           <label for="message">Message :</label>
           <input type="text" id="message" name="message" placeholder="Exemple : perdu" required />
         </div>
         <div class="form-group">
-        <label for="chiffrer_dechiffrer">Mode :</label>
+          <label for="chiffrer_dechiffrer">Mode :</label>
           <select id="chiffrer_dechiffrer" name="chiffrer_dechiffrer">
             <option value="chiffrer">Chiffrer</option>
             <option value="dechiffrer">Déchiffrer</option>
@@ -191,11 +190,11 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
     <p>' . (isset($message_resultat) ? htmlspecialchars($message_resultat) : '') . '</p>
   </div>
 </main>';
+
     include 'php/footer.php';
 } else {
     include 'php/menu-nc.php';
     echo '
-  <script src="/js/menu.js" defer></script>
   <main>
     <div class="text-content">
       <h1>Accès refusé</h1>
