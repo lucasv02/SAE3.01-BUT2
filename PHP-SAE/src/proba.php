@@ -24,7 +24,7 @@ function loi_normale($point_median, $moyenne, $ecart_type)
     if ($ecart_type <= 0) {
         return 0;
     }
-    return (1 / (sqrt(2 * pi() * $ecart_type))) * exp(-0.5 * pow(($point_median - $moyenne) / $ecart_type, 2));
+    return (1 / ($ecart_type * sqrt(2 * pi()))) * exp(-0.5 * pow(($point_median - $moyenne) / $ecart_type, 2));
 }
 
 
@@ -38,7 +38,7 @@ function loi_normale($point_median, $moyenne, $ecart_type)
  */
 function methode_rectangles($moyenne, $ecart_type, $borne_sup, $nb_rectangle)
 {
-    $borne_inf = -5 * $ecart_type;
+    $borne_inf = $moyenne - (6 * $ecart_type);
     $largeur_rect = ($borne_sup - $borne_inf) / $nb_rectangle;
     $res = 0.0;
 
@@ -96,22 +96,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $message_resultat = "Erreur : certaines valeurs sont manquantes.";
     }
 }
-
-// Maintenant la partie HTML
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="img/logo.png" />
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" href="img/logo.png"/>
     <title>Relax Maths - Module Calcul</title>
-    <link rel="stylesheet" href="css/general.css" />
-    <link rel="stylesheet" href="css/proba.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/general.css"/>
+    <link rel="stylesheet" href="css/proba.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <script src="/js/menu.js" defer></script>
 </head>
 <body>
 <div class="wrapper">
@@ -128,22 +128,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <p>Sélectionnez vos paramètres de calcul et obtenez vos résultats en un clic.</p>
                 </div>
                 <div class="formulaire_calc">
-                    <form id="formulaire_calc" method="POST" action="">
+                    <form id="formulaire_calc" method="POST" action=".">
                         <div class="form-group">
                             <label for="moyenne">Moyenne :</label>
-                            <input type="number" step="0.01" id="moyenne" name="moyenne" placeholder="Entrez la valeur de la moyenne." required />
+                            <input type="number" step="0.01" id="moyenne" name="moyenne"
+                                   placeholder="Entrez la valeur de la moyenne." required/>
                         </div>
                         <div class="form-group">
                             <label for="ecart_type">Ecart type :</label>
-                            <input type="number" min="0.1" step="0.01" id="ecart_type" name="ecart_type" placeholder="Entrez la valeur de l'écart type." required />
+                            <input type="number" min="0.1" step="0.01" id="ecart_type" name="ecart_type"
+                                   placeholder="Entrez la valeur de l'écart type." required/>
                         </div>
                         <div class="form-group">
                             <label for="borne_sup">Borne supérieure :</label>
-                            <input type="number" step="0.01" id="borne_sup" name="borne_sup" placeholder="Entrez la valeur de la borne supérieure." required />
+                            <input type="number" step="0.01" id="borne_sup" name="borne_sup"
+                                   placeholder="Entrez la valeur de la borne supérieure." required/>
                         </div>
                         <div class="form-group">
                             <label for="nb_rectangle">Nombre de subdivisions :</label>
-                            <input type="number" step="1" min="1" id="nb_rectangle" name="nb_rectangle" placeholder="Entrez le nombre de rectangles médians." required />
+                            <input type="number" step="1" min="1" id="nb_rectangle" name="nb_rectangle"
+                                   placeholder="Entrez le nombre de rectangles médians." required/>
                         </div>
                         <div class="form-group">
                             <p>Méthode des Rectangles</p>
@@ -158,13 +162,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
         </main>
 
-        <script src="js/accueil.js"></script>
-
-    <?php include 'php/footer.php'; ?>
+        <?php include 'php/footer.php'; ?>
 
     <?php else: ?>
 
-    <?php include 'php/menu-nc.php'; ?>
+        <?php include 'php/menu-nc.php'; ?>
+        <script src="/js/menu.js" defer></script>
         <div class="text-content">
             <h1>Accès refusé</h1>
             <p style="margin-top: 1rem;">Vous devez être authentifié afin d'accéder à cette page.</p>

@@ -6,6 +6,8 @@ if (isset($_GET["erreur"])) {
         case 1:
             $message = "Erreur de mot de passe ou compte inconnu.";
             break;
+        case 2:
+            $message = "Erreur de connexion à la base de données.";
     }
 }
 
@@ -23,6 +25,7 @@ echo '<!DOCTYPE html>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="/js/menu.js" defer></script>
 </head>';
 
 
@@ -34,12 +37,12 @@ echo '<body>
 include 'php/menu-nc.php';
 
 echo'
-
+  <script src="/js/menu.js" defer></script>
     <div class="conteneur-formulaire">
         <div class="formulaire">
             <img id="logo" src="img/logo.png" alt="logo représentant une calculatrice">
             <h1 id="titre-login">Relax Maths</h1>
-            <p id="explicatif">Connectez-vous à votre compte</p>
+            <h2 id="explicatif">Connectez-vous à votre compte</h2>
 
             <form action="/php/connexion.php" method="POST">
                 <label for="identifiant">Identifiant</label>

@@ -12,6 +12,8 @@ if (isset($_GET["erreur"])) {
 
 if (isset($_GET["ok"])) {
     $message = "Votre compte a été créé avec succès";
+    header('Location: /login.php');
+    exit();
 }
 
 // Mise en place du Header
@@ -28,17 +30,20 @@ echo '<!DOCTYPE html>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="/js/menu.js" defer></script>
 </head>
 <body>';
 
 include 'php/menu-nc.php';
 
-echo '<div class="wrapper">
+echo '
+  <script src="/js/menu.js" defer></script>
+<div class="wrapper">
     <div class="conteneur-formulaire">
         <div class="formulaire">
             <img id="logo" src="img/logo.png" alt="logo représentant une calculatrice" />
             <h1 id="titre-login">Relax Maths</h1>
-            <p id="explicatif">Inscription sur la plateforme</p>
+            <h2 id="explicatif">Inscription sur la plateforme</h2>
 
             <form action="/php/formulaireBd.php" method="POST">
                 <label for="identifiant">Identifiant</label>

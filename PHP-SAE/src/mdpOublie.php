@@ -12,6 +12,7 @@ echo '<!DOCTYPE html>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="/js/menu.js"></script>
 </head>
 <body>
 <div class="wrapper">';
@@ -22,9 +23,7 @@ echo '
 <div class="text-content">
   <h1>Page en Construction</h1>
   <p>Momentanément suspendu</p>
-</div>
-
-<script src="../js/accueil.js"></script>';
+</div>';
 
 include 'php/footer.php';
 

@@ -9,7 +9,7 @@ echo '
 ';
 
 // Barre de Navigation
-echo'
+echo '
   <nav>
     <a class="nav-icon" aria-label="Homepage" aria-current="page">
       <img src="../img/logo.png" alt="Logo Relax Maths" >

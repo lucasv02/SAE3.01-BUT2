@@ -14,9 +14,4 @@ echo "
 <label for='captcha'>Combien font $a + $b ?</label><br>
 <input type='number' name='captcha' placeholder='Entrez le réponse' id='captcha' required>
 </fieldset>";
-
-//Affichage d'un message d'erreur en cas d'erreur
-if (isset($_GET['erreur']) && $_GET['erreur'] != 2) {
-    echo '<p class="erreur">Erreur sur le captcha. Veuillez réessayer.</p>';
-}
 ?>
