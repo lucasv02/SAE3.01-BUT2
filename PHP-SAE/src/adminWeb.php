@@ -59,7 +59,7 @@ if (isset($_POST['delete_user']) && isset($_SESSION['id']) && isset($_SESSION['p
     $id_utilisateur = isset($_POST['user_id_to_delete']) ? intval($_POST['user_id_to_delete']) : 0;
 
     //Pour supprimer l'utilisateur de la base de donn&es
-    $sql_delete_user = "DELETE FROM utilisateur WHERE id = ?";
+    $sql_delete_user = "DELETE FROM utilisateur WHERE id = ? AND (permission != 'admin_web' OR permission != 'admin_sys')";
     $sql_delete_user = $conn->prepare($sql_delete_user);
     $sql_delete_user->bind_param("i", $id_utilisateur);
     $sql_delete_user->execute();
