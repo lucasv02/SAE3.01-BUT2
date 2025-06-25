@@ -96,9 +96,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $message_resultat = "Erreur : certaines valeurs sont manquantes.";
     }
 }
-
-// Maintenant la partie HTML
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -129,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <p>Sélectionnez vos paramètres de calcul et obtenez vos résultats en un clic.</p>
                 </div>
                 <div class="formulaire_calc">
-                    <form id="formulaire_calc" method="POST" action="">
+                    <form id="formulaire_calc" method="POST" action=".">
                         <div class="form-group">
                             <label for="moyenne">Moyenne :</label>
                             <input type="number" step="0.01" id="moyenne" name="moyenne"
