@@ -1,3 +1,9 @@
+:root {
+    --bleu-roi : #4169E1;
+    --bleu-clair : #DFF2FF;
+    --orange-fonce : #cf5d28;
+}
+
 #titre-login {
     margin-bottom: 5px;
 }
@@ -26,7 +32,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    border: solid #F28D35 3px;
+    border: solid var(--orange-fonce) 3px;
     border-radius: 7px;
     padding: 10px;
 }
@@ -56,7 +62,7 @@ input[type="text"], input[type="password"] {
 }
 
 .button-connexion:hover {
-    background-color: #F28D35; /* Couleur de survol */
+    background-color: var(--orange-fonce); /* Couleur de survol */
     box-shadow: 7px 4px 10px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease-out, color 0.3s ease-out;
 }

@@ -1,6 +1,7 @@
 :root {
     --bleu-roi : #4169E1;
     --bleu-clair : #DFF2FF;
+    --orange-fonce: #cf5d28;
 }
 
 *,
@@ -20,7 +21,7 @@ body {
 
 /* Style pour le contenu texte */
 .text-content {
-    border: solid #F28D35 3px;
+    border: solid var(--orange-fonce) 3px;
     width: 33%;
     margin: 150px auto 100px auto;
     text-align: center;

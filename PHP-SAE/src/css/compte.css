@@ -1,6 +1,7 @@
 :root {
     --bleu-roi : #4169E1;
     --bleu-clair : #DFF2FF;
+    --orange-fonce : #cf5d28;
 }
 
 *,
@@ -18,7 +19,7 @@ body {
 }
 
 .text-content {
-    border: solid #F28D35 3px;
+    border: solid var(--orange-fonce) 3px;
     width: 33%;
     margin: 50px auto 30px auto;
     text-align: center;
@@ -34,7 +35,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: solid #F28D35 3px;
+    border: solid var(--orange-fonce) 3px;
     border-radius: 10px;
     background-color: #fff;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -88,7 +89,7 @@ body {
 }
 
 .btn-submit:hover {
-  background-color: #F28D35;
+  background-color: var(--orange-fonce);
   box-shadow: 7px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
