@@ -149,7 +149,6 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
               <th>Login</th>
               <th>Rôle</th>
               <th>Action</th>
-              <!--<th>Suppression de l\'historique</th>-->
             </tr>';
 
         while ($row = $result_log->fetch_assoc()) {
@@ -164,14 +163,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
                             <input type='hidden' name='user_id_to_delete' value='" . htmlspecialchars($row['id']) . "'>
                             <button type='submit' name='delete_user' class='delete-history-btn'>Supprimer cet utilisateur</button>
                             <button type='submit' name='delete_historique' class='delete-history-btn'>Supprimer l'historique</button>
-
-//          <!--      </form></td>
-//                    <td><form method='post' 
-//                            action='adminWeb.php' 
-//                            class='delete-history-form'
-//                            onsubmit='return confirm(\"Êtes-vous sûr de vouloir supprimer cet historique ? Cette action est irréversible.\");'>
-//                            <input type='hidden' name='user_id_to_delete' value='" . htmlspecialchars($row['id']) . "'>
-//                </form></td> -->
+                    </form></td> 
                   </tr>";
         }
 
