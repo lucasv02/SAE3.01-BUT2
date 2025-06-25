@@ -58,12 +58,28 @@ if (isset($_POST['delete_user']) && isset($_SESSION['id']) && isset($_SESSION['p
     }
     $id_utilisateur = isset($_POST['user_id_to_delete']) ? intval($_POST['user_id_to_delete']) : 0;
 
-    //Pour supprimer l'utilisateur de la base de donn&es
-    $sql_delete_user = "DELETE FROM utilisateur WHERE id = ? AND (permission != 'admin_web' OR permission != 'admin_sys')";
-    $sql_delete_user = $conn->prepare($sql_delete_user);
-    $sql_delete_user->bind_param("i", $id_utilisateur);
-    $sql_delete_user->execute();
-    $sql_delete_user->close();
+    // Récupérer la permission de l'utilisateur ciblé
+    $sql_check_permission = "SELECT permission FROM utilisateur WHERE id = ?";
+    $stmt_check = $conn->prepare($sql_check_permission);
+    $stmt_check->bind_param("i", $id_utilisateur);
+    $stmt_check->execute();
+    $stmt_check->bind_result($permission);
+    $stmt_check->fetch();
+    $stmt_check->close();
+
+    // Vérifier si la permission interdit la suppression
+    if ($permission === 'admin_web' || $permission === 'sysadmin') {
+        echo "Erreur : Vous ne pouvez pas supprimer cet utilisateur (admin ou sysadmin).";
+    } else {
+        // Étape 3 : Supprimer l'utilisateur si autorisé
+        $sql_delete_user = "DELETE FROM utilisateur WHERE id = ?";
+        $stmt_delete = $conn->prepare($sql_delete_user);
+        $stmt_delete->bind_param("i", $id_utilisateur);
+        $stmt_delete->execute();
+        $stmt_delete->close();
+
+        echo "Utilisateur supprimé avec succès.";
+    }
 }
 
 
