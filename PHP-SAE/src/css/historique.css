@@ -33,8 +33,7 @@ body {
 }
 
 
-.histo_crypto,
-.histo_proba {
+.histo {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
@@ -43,8 +42,7 @@ body {
 }
 
 
-.histo_crypto th,
-.histo_proba th {
+.histo th {
   background-color: var(--bleu-clair);
   color: var(--bleu-roi);
   font-weight: 600;
@@ -54,8 +52,7 @@ body {
 }
 
 
-.histo_crypto td,
-.histo_proba td {
+.histo td {
   border: 1px solid var(--gris-bordure);
   padding: 8px 12px;
   text-align: center;
@@ -72,14 +69,10 @@ body {
     margin: 80px auto 40px auto;
     padding: 10px;
   }
-  .histo_crypto,
-  .histo_proba {
+  .histo {
     font-size: 12px;
   }
-  .histo_crypto th,
-  .histo_proba th,
-  .histo_crypto td,
-  .histo_proba td {
+  .histo th, td {
     padding: 6px 8px;
   }
 
