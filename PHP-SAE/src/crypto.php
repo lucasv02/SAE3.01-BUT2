@@ -175,7 +175,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
           <input type="text" id="message" name="message" placeholder="Exemple : perdu" required />
         </div>
         <div class="form-group">
-        <label for="chiffrer_dechiffrer" hidden="hidden">Mode :</label>
+        <label for="chiffrer_dechiffrer">Mode :</label>
           <select id="chiffrer_dechiffrer" name="chiffrer_dechiffrer">
             <option id="chiffrement" value="chiffrer">Chiffrer</option>
             <option id="chiffrement" value="dechiffrer">Déchiffrer</option>
