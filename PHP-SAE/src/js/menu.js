@@ -1,7 +1,7 @@
 const toggler = document.querySelector(".hamburger");
 const navLinksContainer = document.querySelector(".navlinks-container");
 
-const toggleNav = () => {
+const toggleNav = e => {
     // Animation du bouton
     toggler.classList.toggle("open");
 
