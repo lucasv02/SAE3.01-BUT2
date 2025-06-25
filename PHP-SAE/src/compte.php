@@ -86,11 +86,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="content">
         <div class="text-content">
             <h1>Bienvenue <?php echo htmlspecialchars($_SESSION['identifiant']); ?>.</h1>
-            <p>Bienvenue sur votre compte !</p>
+            <p>Voici votre espace personnel !</p>
         </div>
 
     <form action="" method="POST" class="form-changer-mdp">
-        <h2>Changer le mot de passe</h2>
+        <h2>Changer votre mot de passe</h2>
         <div class="form-group">
             <label for="ancien_mdp">Ancien mot de passe :</label>
             <input type="password" name="ancien_mdp" id="ancien_mdp" required>
