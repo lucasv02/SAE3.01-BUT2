@@ -68,7 +68,7 @@ if (isset($_POST['delete_user']) && isset($_SESSION['id']) && isset($_SESSION['p
     $stmt_check->close();
 
     // Vérifier si la permission interdit la suppression
-    if ($permission === 'admin_web' || $permission === 'sysadmin') {
+    if ($permission === 'admin_web' || $permission === 'admin_sys') {
         echo "Erreur : Vous ne pouvez pas supprimer cet utilisateur (admin ou sysadmin).";
     } else {
         // Étape 3 : Supprimer l'utilisateur si autorisé
