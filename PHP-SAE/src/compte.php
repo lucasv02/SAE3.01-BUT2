@@ -59,17 +59,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="img/logo.png" />
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" href="img/logo.png"/>
     <title>Relax Maths - Modifier mot de passe</title>
-    <link rel="stylesheet" href="css/index.css" />
-    <link rel="stylesheet" href="css/general.css" />
-    <link rel="stylesheet" href="css/compte.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/index.css"/>
+    <link rel="stylesheet" href="css/general.css"/>
+    <link rel="stylesheet" href="css/compte.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet"/>
 </head>
 <body>
 <?php include 'php/menu-c.php'; ?>
@@ -85,11 +85,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h2>Changer votre mot de passe</h2>
             <div class="form-group">
                 <label for="ancien_mdp">Ancien mot de passe :</label>
-                <input type="password" name="ancien_mdp" id="ancien_mdp" required autocomplete="off" />
+                <input type="password" name="ancien_mdp" id="ancien_mdp" required/>
             </div>
             <div class="form-group">
                 <label for="nouveau_mdp">Nouveau mot de passe :</label>
-                <input type="password" name="nouveau_mdp" id="nouveau_mdp" required autocomplete="off" />
+                <input type="password" name="nouveau_mdp" id="nouveau_mdp" required/>
             </div>
             <button type="submit" class="btn-submit">Changer</button>
         </form>

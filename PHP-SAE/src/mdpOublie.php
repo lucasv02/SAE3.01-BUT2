@@ -22,9 +22,7 @@ echo '
 <div class="text-content">
   <h1>Page en Construction</h1>
   <p>Momentanément suspendu</p>
-</div>
-
-<script src="../js/accueil.js"></script>';
+</div>';
 
 include 'php/footer.php';
 

@@ -22,8 +22,6 @@ echo '<!DOCTYPE html>
 if (isset($_SESSION['login']) && $_SESSION['login']) {
     include 'php/menu-c.php';
     echo '
-  <script src="js/accueil.js"></script>
-
   <div class="content">
     <div class="text-content">
       <h1>Bienvenue ' . htmlspecialchars($_SESSION['identifiant']) . '.</h1>
@@ -40,7 +38,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
 } else {
     include 'php/menu-nc.php';
     echo '
-  <script src="js/accueil.js"></script>
+  <script src="js/menu.js"></script>
 
   <div class="content">
     <div class="text-content">

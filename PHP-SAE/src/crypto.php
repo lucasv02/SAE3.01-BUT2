@@ -188,8 +188,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
   <div class="resultat">
     <p>' . (isset($message_resultat) ? htmlspecialchars($message_resultat) : '') . '</p>
   </div>
-</main>
-<script src="js/accueil.js"></script>';
+</main>';
     include 'php/footer.php';
 } else {
     include 'php/menu-nc.php';

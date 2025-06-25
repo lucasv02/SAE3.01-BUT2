@@ -24,18 +24,17 @@ if (isset($_POST['delete_log']) && isset($_SESSION['id']) && isset($_SESSION['pe
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="img/logo.png" />
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" href="img/logo.png"/>
     <title>Relax Maths - Historique Admin</title>
-    <link rel="stylesheet" href="css/construction.css" />
-    <link rel="stylesheet" href="css/general.css" />
-    <link rel="stylesheet" href="css/historique.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet" />
-    <script src="../js/accueil.js" defer></script>
+    <link rel="stylesheet" href="css/construction.css"/>
+    <link rel="stylesheet" href="css/general.css"/>
+    <link rel="stylesheet" href="css/historique.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet"/>
 </head>
 <body>
 <?php
@@ -83,7 +82,8 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
             <p>Aucun log enregistré.</p>
         <?php endif; ?>
 
-        <form method="post" action="adminSys.php" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer tout votre historique ? Cette action est irréversible.');">
+        <form method="post" action="adminSys.php"
+              onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer tout votre historique ? Cette action est irréversible.');">
             <button type="submit" name="delete_log" class="delete-history-btn">
                 Supprimer tout l'historique
             </button>
@@ -98,7 +98,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
     ?>
     <div class="text-content">
         <h1>Accès refusé</h1>
-        <br />
+        <br/>
         <p>Vous devez être authentifié afin d'accéder à cette page</p>
     </div>
     <?php
