@@ -107,25 +107,39 @@ echo '<!DOCTYPE html>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet">
 </head>';
 
+echo '<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="img/logo.png" />
+  <title>Relax Maths - Historique Admin</title>
+  <link rel="stylesheet" href="css/construction.css" />
+  <link rel="stylesheet" href="css/general.css" />
+  <link rel="stylesheet" href="css/historique.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet" />
+  <script src="../js/accueil.js" defer></script>
+</head>';
+
 echo '<body>';
 
 if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin_web') {
     include 'php/menu-c.php';
 
     $cnx = new mysqli($db_host, $db_user, $db_pass, $db_name);
-
     if ($cnx->connect_error) {
         die("Erreur de connexion : " . $cnx->connect_error);
     }
 
     $sql_log = "SELECT u.id, u.login, u.permission FROM utilisateur u ORDER BY u.id";
-
     $stmt_log = $cnx->prepare($sql_log);
     $stmt_log->execute();
     $result_log = $stmt_log->get_result();
 
     echo '
-    <script src="../js/accueil.js"></script>
     <div class="text-content">
       <h1>Liste des utilisateurs</h1>';
 
@@ -136,40 +150,45 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
     echo '
     <form action="adminWeb.php" method="post" enctype="multipart/form-data">
         <label for="csv_file">Importer des utilisateurs (CSV) :</label>
-        <input type="file" name="csv_file" accept=".csv" required>
+        <input type="file" name="csv_file" id="csv_file" accept=".csv" required />
         <button type="submit" name="import_csv">Importer</button>
     </form>
-    <br>';
-
+    <br />';
 
     if ($result_log->num_rows > 0) {
         echo '<table class="histo_crypto">
-            <tr>
-              <th>ID</th>
-              <th>Login</th>
-              <th>Rôle</th>
-              <th>Action</th>
-            </tr>';
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Login</th>
+                <th>Rôle</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>';
 
         while ($row = $result_log->fetch_assoc()) {
+            $id = htmlspecialchars($row['id'] ?? "Inconnu");
+            $login = htmlspecialchars($row['login'] ?? "Inconnu");
+            $perm = htmlspecialchars($row['permission'] ?? "Inconnu");
+
             echo "<tr>
-                    <td>" . htmlspecialchars($row['id'] ?? "Inconnu") . "</td>
-                    <td>" . htmlspecialchars($row['login'] ?? "Inconnu") . "</td>
-                    <td>" . htmlspecialchars($row['permission'] ?? "Inconnu") . "</td>
-                    <td> <form method='post' 
-                            action='adminWeb.php' 
-                            class='delete-history-form'
-                            onsubmit='return confirm(\"Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.\");'>
-                            <input type='hidden' name='user_id_to_delete' value='" . htmlspecialchars($row['id']) . "'>
-                            <button type='submit' name='delete_user' class='delete-history-btn'>Supprimer cet utilisateur</button>
-                            <button type='submit' name='delete_historique' class='delete-history-btn'>Supprimer l'historique</button>
-                    </form></td> 
+                    <td>$id</td>
+                    <td>$login</td>
+                    <td>$perm</td>
+                    <td>
+                      <form method='post' action='adminWeb.php' class='delete-history-form' onsubmit='return confirm(\"Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.\");'>
+                        <input type='hidden' name='user_id_to_delete' value='$id' />
+                        <button type='submit' name='delete_user' class='delete-history-btn'>Supprimer cet utilisateur</button>
+                        <button type='submit' name='delete_historique' class='delete-history-btn'>Supprimer l&apos;historique</button>
+                      </form>
+                    </td>
                   </tr>";
         }
 
-        echo '</table>';
+        echo '</tbody></table>';
     } else {
-        echo "<p>Aucun utilisateurs enregistrés dans la base de données.</p>";
+        echo "<p>Aucun utilisateur enregistré dans la base de données.</p>";
     }
 
     echo '</div>';
@@ -180,11 +199,10 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
     echo '
     <div class="text-content">
         <h1>Accès refusé</h1>
-        <br>
-        <p>Vous devez être authentifié afin d\'accéder à cette page</p>
+        <br />
+        <p>Vous devez être authentifié afin d&apos;accéder à cette page.</p>
     </div>';
 }
 
 include 'php/footer.php';
-
 echo '</body></html>';
