@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p>Voici votre espace personnel !</p>
         </div>
 
-        <form action="." method="post" class="form-changer-mdp" novalidate>
+        <form action=" " method="post" class="form-changer-mdp" novalidate>
             <h2>Changer votre mot de passe</h2>
             <div class="form-group">
                 <label for="ancien_mdp">Ancien mot de passe :</label>

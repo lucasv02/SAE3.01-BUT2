@@ -171,7 +171,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
       <p>Entrez le message que vous souhaitez chiffrer à l&apos;aide du système ADFGVX.</p>
     </div>
     <div class="formulaire_crypto">
-      <form id="formulaire_crypto" method="post" action=".">
+      <form id="formulaire_crypto" method="post" action=" ">
         <div class="form-group">
           <label for="message">Message :</label>
           <input type="text" id="message" name="message" placeholder="Exemple : perdu" required />
