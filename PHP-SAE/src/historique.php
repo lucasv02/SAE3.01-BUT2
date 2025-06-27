@@ -8,6 +8,43 @@ $db_user = getenv('DB_USER');
 $db_pass = getenv('DB_PASS');
 $db_name = getenv('DB_NAME');
 
+// Supprimer une ligne de l'historique crypto
+if (isset($_POST['delete-crypto-entry']) && isset($_SESSION['id'])) {
+    $entry_id = intval($_POST['delete-crypto-entry']);
+    $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+    if ($conn->connect_error) {
+        die("Erreur de connexion : " . $conn->connect_error);
+    }
+    $id_utilisateur = $_SESSION['id'];
+    $sql_delete_entry = "DELETE FROM historique_crypto WHERE id = ? AND user_id = ?";
+    $stmt = $conn->prepare($sql_delete_entry);
+    $stmt->bind_param("ii", $entry_id, $id_utilisateur);
+    $stmt->execute();
+    $stmt->close();
+    $conn->close();
+    header("Location: historique.php?deleted=1");
+    exit;
+}
+
+// Supprimer une ligne de l'historique proba
+if (isset($_POST['delete-proba-entry']) && isset($_SESSION['id'])) {
+    $entry_id = intval($_POST['delete-proba-entry']);
+    $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+    if ($conn->connect_error) {
+        die("Erreur de connexion : " . $conn->connect_error);
+    }
+    $id_utilisateur = $_SESSION['id'];
+    $sql_delete_entry = "DELETE FROM historique_proba WHERE id = ? AND user_id = ?";
+    $stmt = $conn->prepare($sql_delete_entry);
+    $stmt->bind_param("ii", $entry_id, $id_utilisateur);
+    $stmt->execute();
+    $stmt->close();
+    $conn->close();
+    header("Location: historique.php?deleted=1");
+    exit;
+}
+
+
 // Supprimer l'historique crypto
 if (isset($_POST['delete-crypto-history']) && isset($_SESSION['id'])) {
     $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
@@ -95,6 +132,7 @@ if (isset($_POST['delete-proba-history']) && isset($_SESSION['id'])) {
           <th>Message</th>
           <th>Résultat</th>
           <th>Date</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>';
@@ -105,6 +143,12 @@ if (isset($_POST['delete-proba-history']) && isset($_SESSION['id'])) {
         <td>' . htmlspecialchars($row['message']) . '</td>
         <td>' . htmlspecialchars($row['resultat']) . '</td>
         <td>' . htmlspecialchars($row['date_action']) . '</td>
+        <td>
+          <form method="post" action="historique.php" onsubmit="return confirm(\'Supprimer cette entrée ?\');">
+            <input type="hidden" name="delete-crypto-entry" value="' . intval($row['id']) . '">
+            <button type="submit" class="delete-row-btn">Supprimer</button>
+          </form>
+        </td>
       </tr>';
             }
 
@@ -143,6 +187,7 @@ if (isset($_POST['delete-proba-history']) && isset($_SESSION['id'])) {
           <th>Nombre de subdivisions</th>
           <th>Résultat</th>
           <th>Date</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>';
@@ -155,6 +200,12 @@ if (isset($_POST['delete-proba-history']) && isset($_SESSION['id'])) {
         <td>' . htmlspecialchars($row['nb_subdivision']) . '</td>
         <td>' . htmlspecialchars($row['resultat']) . '</td>
         <td>' . htmlspecialchars($row['date_action']) . '</td>
+        <td>
+          <form method="post" action="historique.php" onsubmit="return confirm(\'Supprimer cette entrée ?\');">
+            <input type="hidden" name="delete-proba-entry" value="' . intval($row['id']) . '">
+            <button type="submit" class="delete-row-btn">Supprimer</button>
+          </form>
+        </td>
       </tr>';
             }
 
