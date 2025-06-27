@@ -29,7 +29,7 @@ if (isset($_POST['delete_line']) && isset($_SESSION['id']) && isset($_SESSION['p
 
     $id_line = isset($_POST['id_to_delete']) ? intval($_POST['id_to_delete']) : 0;
 
-    $sql_delete_log = "DELETE FROM admin_log WHERE id = ?";
+    $sql_delete_log = "DELETE FROM admin_log WHERE idh = ?";
     $sql_delete_log = $conn->prepare($sql_delete_log);
     $sql_delete_log->bind_param("i", $id_line);
     $sql_delete_log->execute();
