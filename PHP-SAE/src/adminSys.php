@@ -14,10 +14,26 @@ if (isset($_POST['delete_all_log']) && isset($_SESSION['id']) && isset($_SESSION
         die("Erreur de connexion : " . $conn->connect_error);
     }
 
-    $sql_delete_user = "DELETE FROM admin_log";
-    $sql_delete_user = $conn->prepare($sql_delete_user);
-    $sql_delete_user->execute();
-    $sql_delete_user->close();
+    $id_line = isset($_POST['id_to_delete']) ? intval($_POST['id_to_delete']) : 0;
+
+    $sql_delete_log = "DELETE FROM admin_log";
+    $sql_delete_log = $conn->prepare($sql_delete_log);
+    $sql_delete_log->execute();
+    $sql_delete_log->close();
+}
+
+// Suppression de l'historique ligne par ligne
+if (isset($_POST['delete_log']) && isset($_SESSION['id']) && isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin_sys') {
+    $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+    if ($conn->connect_error) {
+        die("Erreur de connexion : " . $conn->connect_error);
+    }
+
+    $sql_delete_log = "DELETE FROM admin_log WHERE id = ?";
+    $sql_delete_log = $conn->prepare($sql_delete_log);
+    $sql_delete_log->bind_param("i", $id_line);
+    $sql_delete_log->execute();
+    $sql_delete_log->close();
 }
 
 ?>
@@ -70,7 +86,9 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
                 </tr>
                 </thead>
                 <tbody>
-                <?php while ($row = $result_log->fetch_assoc()): ?>
+                <?php while ($row = $result_log->fetch_assoc()):
+                    $id = htmlspecialchars($row['id'] ?? "Inconnu");?>
+
                     <tr>
                         <td><?= htmlspecialchars($row['login'] ?? 'Inconnu') ?></td>
                         <td><?= htmlspecialchars($row['action'] ?? 'Inconnu') ?></td>
@@ -78,7 +96,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
                         <td><?= htmlspecialchars($row['date_action'] ?? 'Inconnu') ?></td>
                         <td>
                             <form method='post' action='adminSys.php' class='delete-history-form' onsubmit='return confirm(\"Êtes-vous sûr de vouloir supprimer cette ligne ? Cette action est irréversible.\");'>
-                                <input type='hidden' name='id_to_delete' value='$id' />
+                                <input type='hidden' name='id_to_delete' value=<?=$id?> />
                                 <button type='submit' name='delete_line' class='delete-history-btn'>Supprimer</button>
                             </form>
                         </td>
