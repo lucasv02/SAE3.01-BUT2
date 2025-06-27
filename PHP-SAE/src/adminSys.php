@@ -8,7 +8,7 @@ $db_pass = getenv('DB_PASS');
 $db_name = getenv('DB_NAME');
 
 // Suppression de l'historique
-if (isset($_POST['delete_log']) && isset($_SESSION['id']) && isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin_sys') {
+if (isset($_POST['delete_all_log']) && isset($_SESSION['id']) && isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin_sys') {
     $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
     if ($conn->connect_error) {
         die("Erreur de connexion : " . $conn->connect_error);
@@ -76,6 +76,12 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
                         <td><?= htmlspecialchars($row['action'] ?? 'Inconnu') ?></td>
                         <td><?= htmlspecialchars($row['ip_adresse'] ?? 'Inconnu') ?></td>
                         <td><?= htmlspecialchars($row['date_action'] ?? 'Inconnu') ?></td>
+                        <td>
+                            <form method='post' action='adminSys.php' class='delete-history-form' onsubmit='return confirm(\"Êtes-vous sûr de vouloir supprimer cette ligne ? Cette action est irréversible.\");'>
+                                <input type='hidden' name='id_to_delete' value='$id' />
+                                <button type='submit' name='delete_line' class='delete-history-btn'>Supprimer</button>
+                            </form>
+                        </td>
                     </tr>
                 <?php endwhile; ?>
                 </tbody>
@@ -86,7 +92,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
 
         <form method="post" action="adminSys.php"
               onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer tout votre historique ? Cette action est irréversible.');">
-            <button type="submit" name="delete_log" class="delete-history-btn">
+            <button type="submit" name="delete_all_log" class="delete-history-btn">
                 Supprimer tout l'historique
             </button>
         </form>
