@@ -88,7 +88,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
                 </thead>
                 <tbody>
                 <?php while ($row = $result_log->fetch_assoc()):
-                    $id = htmlspecialchars($row['id'] ?? "Inconnu");?>
+                    $id = htmlspecialchars($row['idh'] ?? "Inconnu");?>
 
                     <tr>
                         <td><?= htmlspecialchars($row['login'] ?? 'Inconnu') ?></td>
