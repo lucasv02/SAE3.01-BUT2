@@ -26,6 +26,7 @@ if (isset($_POST['delete-crypto-history']) && isset($_SESSION['id'])) {
     exit;
 }
 
+
 // Supprimer l'historique proba
 if (isset($_POST['delete-proba-history']) && isset($_SESSION['id'])) {
     $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
