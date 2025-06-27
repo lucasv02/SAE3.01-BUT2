@@ -14,8 +14,6 @@ if (isset($_POST['delete_all_log']) && isset($_SESSION['id']) && isset($_SESSION
         die("Erreur de connexion : " . $conn->connect_error);
     }
 
-    $id_line = isset($_POST['id_to_delete']) ? intval($_POST['id_to_delete']) : 0;
-
     $sql_delete_log = "DELETE FROM admin_log";
     $sql_delete_log = $conn->prepare($sql_delete_log);
     $sql_delete_log->execute();
@@ -23,11 +21,13 @@ if (isset($_POST['delete_all_log']) && isset($_SESSION['id']) && isset($_SESSION
 }
 
 // Suppression de l'historique ligne par ligne
-if (isset($_POST['delete_log']) && isset($_SESSION['id']) && isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin_sys') {
+if (isset($_POST['delete_line']) && isset($_SESSION['id']) && isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin_sys') {
     $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
     if ($conn->connect_error) {
         die("Erreur de connexion : " . $conn->connect_error);
     }
+
+    $id_line = isset($_POST['id_to_delete']) ? intval($_POST['id_to_delete']) : 0;
 
     $sql_delete_log = "DELETE FROM admin_log WHERE id = ?";
     $sql_delete_log = $conn->prepare($sql_delete_log);
@@ -83,6 +83,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
                     <th>Action</th>
                     <th>Adresse IP</th>
                     <th>Date</th>
+                    <th>Supprimer</th>
                 </tr>
                 </thead>
                 <tbody>
