@@ -146,7 +146,7 @@ if (isset($_POST['delete-proba-history']) && isset($_SESSION['id'])) {
         <td>
           <form method="post" action="historique.php" onsubmit="return confirm(\'Supprimer cette entrée ?\');">
             <input type="hidden" name="delete-crypto-entry" value="' . intval($row['id']) . '">
-            <button type="submit" class="delete-row-btn">Supprimer</button>
+            <button type="submit" class="delete-history-btn">Supprimer</button>
           </form>
         </td>
       </tr>';
@@ -203,7 +203,7 @@ if (isset($_POST['delete-proba-history']) && isset($_SESSION['id'])) {
         <td>
           <form method="post" action="historique.php" onsubmit="return confirm(\'Supprimer cette entrée ?\');">
             <input type="hidden" name="delete-proba-entry" value="' . intval($row['id']) . '">
-            <button type="submit" class="delete-row-btn">Supprimer</button>
+            <button type="submit" class="delete-history-btn">Supprimer</button>
           </form>
         </td>
       </tr>';
