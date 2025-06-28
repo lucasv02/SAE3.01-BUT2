@@ -116,6 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
 <div class="wrapper">
 
+
     <?php if (isset($_SESSION['login']) && $_SESSION['login'] === true): ?>
 
         <?php include 'php/menu-c.php'; ?>
