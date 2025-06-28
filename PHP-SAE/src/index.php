@@ -15,13 +15,16 @@ echo '<!DOCTYPE html>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet">
-  <script src="/js/menu.js" defer></script>
+  <script src="/js/menu.js" defer></script> <!--  Téléchargement du JS en mm temps que les pages-->
 </head>
 <body>
-<div class="wrapper">';
 
-if (isset($_SESSION['login']) && $_SESSION['login']) {
+<div class="wrapper">';
+// Vérification si un utilisateur est connecté, si oui, le menu connecté apparait, sinon le menu non connecté
+if (isset($_SESSION['login']) && $_SESSION['login']) { // isset permet de vérifer si la variable existe dans la session
     include 'php/menu-c.php';
+
+    // Menu personnalisé avec le nom de l'utilsiateur
     echo '
   <div class="content">
     <div class="text-content">
@@ -29,6 +32,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
       <p>Une vidéo de présentation de notre IUT ci-dessous !</p>
     </div>
 
+    <!-- Video -->
     <div class="video">
       <video controls width="800">
         <source src="../img/iut-velizy.mp4" type="video/mp4" />
@@ -37,10 +41,11 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
     </div>
   </div>';
 } else {
-    include 'php/menu-nc.php';
+    include 'php/menu-nc.php';// Inclusion du menu non connectée (visiteur)
     echo '
   <script src="js/menu.js"></script>
 
+    <!-- Message pour les visiteurs-->
   <div class="content">
     <div class="text-content">
       <h1>Bienvenue sur Relax Maths</h1>
@@ -56,7 +61,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']) {
   </div>';
 }
 
-include 'php/footer.php';
+include 'php/footer.php'; // Bannière bas du site web
 
 echo '</div>
 </body>
