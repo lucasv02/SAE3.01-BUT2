@@ -1,15 +1,21 @@
 <?php
+// Affiche les erreurs PHP sur la page
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+// démarrage de session pour gérer l'utilisateur connecté
 session_start();
+
+// Chargement des varaibles pour la connexion à la base de données
 require_once __DIR__ . '/php/env.php';
 
+// Récupération des paramètres de connexion à la BDD avec getenv
 $db_host = getenv('DB_HOST');
 $db_user = getenv('DB_USER');
 $db_pass = getenv('DB_PASS');
 $db_name = getenv('DB_NAME');
 
+// message qui s'affiche lorsque l'utilsiateur arrive sur la page
 $message_resultat = 'En attente de saisie de paramètres...';
 
 /*
@@ -22,8 +28,9 @@ $message_resultat = 'En attente de saisie de paramètres...';
 function loi_normale($point_median, $moyenne, $ecart_type)
 {
     if ($ecart_type <= 0) {
-        return 0;
+        return 0; // cas non valide
     }
+    // formule de la fonction de densité de loi normale et "pow" = puissance
     return (1 / ($ecart_type * sqrt(2 * pi()))) * exp(-0.5 * pow(($point_median - $moyenne) / $ecart_type, 2));
 }
 
@@ -38,27 +45,37 @@ function loi_normale($point_median, $moyenne, $ecart_type)
  */
 function methode_rectangles($moyenne, $ecart_type, $borne_sup, $nb_rectangle)
 {
+    // borne inférieure basse pour couvrir presque toute la loi normale
     $borne_inf = $moyenne - (6 * $ecart_type);
     $largeur_rect = ($borne_sup - $borne_inf) / $nb_rectangle;
     $res = 0.0;
 
+    // somme des aires des rectangles
     for ($i = 0; $i < $nb_rectangle; $i++) {
+
+        // point médian de chaque rectangle
         $point_median = $borne_inf + ($i + 0.5) * $largeur_rect;
+
+        // hauteur * largeur (ddensité * largeur)
         $res += loi_normale($point_median, $moyenne, $ecart_type) * $largeur_rect;
     }
+
+    // si le résultat est supérieur à 1, c'est pas bon
     if ($res > 1) {
         return "valeurs_non_cohérentes";
     }
     return $res;
 }
 
+// Si la requête HTTP est de type POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Récupération et validation
+    // Récupération des valeurs et validation via le "name" dans le form
     $moyenne = $_POST['moyenne'];
     $ecart_type = $_POST['ecart_type'];
     $borne_sup = $_POST['borne_sup'];
     $nb_rectangle = $_POST['nb_rectangle'];
 
+    // Vérification que toutes les valeurs sont présentes
     if ($ecart_type !== null && $borne_sup !== null && $nb_rectangle !== null) {
         if ($ecart_type <= 0) {
             $message_resultat = "Erreur : L'écart-type doit être positif.";
@@ -67,21 +84,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } elseif ($nb_rectangle > 5000000) {
             $message_resultat = "Erreur : Le nombre de rectangles doit être inférieur ou égal à 5 000 000.";
         } else {
+            // Appel de la fonction avec les valeurs récup
             $resultat = methode_rectangles($moyenne, $ecart_type, $borne_sup, $nb_rectangle);
 
+            // Si le calcul se passe bien, il y a un résultat
             if ($resultat !== null && $resultat !== "valeurs_non_cohérentes") {
                 $message_resultat = "Le résultat de l'intégrale est : " . $resultat;
 
+                // Si un utilisateur est connécté, on sauvegarde dans la BDD
                 if (isset($_SESSION['id'])) {
-                    $user_id = $_SESSION['id'];
-                    $date_action = date("Y-m-d H:i:s");
-                    $resultat_str = (string)$resultat;
+                    $user_id = $_SESSION['id']; // on stocke l'id dans la session
+                    $date_action = date("Y-m-d H:i:s"); // stocke la date
+                    $resultat_str = (string)$resultat; // Stocke le résultat
 
+                    // Crée une connexion à la BDD avec les paramètres récup, hote, user, mdp et name BDD
                     $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
-                    if (!$conn->connect_error) {
+                    if (!$conn->connect_error) { // si la connexion génère une erreur, on entre pas dans le if
                         $stmt = $conn->prepare("INSERT INTO historique_proba (user_id, date_action, moyenne, ecart_type, borne_sup, nb_subdivision, resultat) VALUES (?, ?, ?, ?, ?, ?, ?)");
+
+                        // Lie les variables PHP aux paramètres de la requête préparée.
                         $stmt->bind_param("issddis", $user_id, $date_action, $moyenne, $ecart_type, $borne_sup, $nb_rectangle, $resultat_str);
-                        $stmt->execute();
+                        $stmt->execute(); // Exécute la requête SQL
+
+                        // Ferme la requete SQL puis la connexion à la BDD
                         $stmt->close();
                         $conn->close();
                     }
@@ -116,7 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
 <div class="wrapper">
 
-
+    <!-- Vérifie si un utilisateur est connecté-->
     <?php if (isset($_SESSION['login']) && $_SESSION['login'] === true): ?>
 
         <?php include 'php/menu-c.php'; ?>
