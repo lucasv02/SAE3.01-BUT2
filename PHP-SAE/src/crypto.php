@@ -14,10 +14,15 @@ if ($conn->connect_error) {
 
 $message_resultat = 'En attente de saisie de paramètres...';
 
+// On vérifie si le formulaire a été soumis en post
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    // On vérifie si un message a été envoyé dans le form, si oui, on met la valeur dans message, sinon message = null
     $message = isset($_POST['message']) ? $_POST['message'] : null;
+
+    // pareil, on vérifie si une méthode est sélectionner, si oui, on le stocke dans action, sinon null
     $action = isset($_POST['chiffrer_dechiffrer']) ? $_POST['chiffrer_dechiffrer'] : null;
-    $message_chiffre = null;
+    $message_chiffre = null; // initialisation de la variables
 
     if ($message !== null && $action !== null) {
         if ($action == 'chiffrer') {
@@ -28,9 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $message_resultat = "$message_chiffre est votre message déchiffré.";
         }
 
+        //on vérifie qu'une session est ouverte
         if (isset($_SESSION['id'])) {
             $user_id = $_SESSION['id'];
-            $donnees = $conn->real_escape_string($message);
+            $donnees = $conn->real_escape_string($message); // real_escape_string permet d'echapper aux caractère spéciaux
             $resultat = $conn->real_escape_string($message_chiffre);
             $methode = $conn->real_escape_string($action);
             $date_action = date('Y-m-d H:i:s');

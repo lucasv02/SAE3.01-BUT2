@@ -2,19 +2,20 @@
 session_start();
 
 require_once __DIR__ . '/php/env.php';
-
 $db_host = getenv('DB_HOST');
 $db_user = getenv('DB_USER');
 $db_pass = getenv('DB_PASS');
 $db_name = getenv('DB_NAME');
 
 // Supprimer une ligne de l'historique crypto
-if (isset($_POST['delete-crypto-entry']) && isset($_SESSION['id'])) {
-    $entry_id = intval($_POST['delete-crypto-entry']);
+if (isset($_POST['delete-crypto-entry']) && isset($_SESSION['id'])) { // On vérifie que le form a été envoyé avec le champ delete-crypto et si une session existe
+    $entry_id = intval($_POST['delete-crypto-entry']); // on recup l'id de la ligne à supprimer soit la ligne de l'historique
     $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
     if ($conn->connect_error) {
         die("Erreur de connexion : " . $conn->connect_error);
     }
+
+    // On récup ces infos
     $id_utilisateur = $_SESSION['id'];
     $sql_delete_entry = "DELETE FROM historique_crypto WHERE id = ? AND user_id = ?";
     $stmt = $conn->prepare($sql_delete_entry);
@@ -45,7 +46,7 @@ if (isset($_POST['delete-proba-entry']) && isset($_SESSION['id'])) {
 }
 
 
-// Supprimer l'historique crypto
+// Supprimer l'historique entier crypto
 if (isset($_POST['delete-crypto-history']) && isset($_SESSION['id'])) {
     $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
     if ($conn->connect_error) {
@@ -103,6 +104,7 @@ if (isset($_POST['delete-proba-history']) && isset($_SESSION['id'])) {
 <body>
 <div class="wrapper">
 
+    <!-- Affichage Historique crypto-->
     <?php
     if (isset($_SESSION['login']) && $_SESSION['login']) {
         include 'php/menu-c.php';

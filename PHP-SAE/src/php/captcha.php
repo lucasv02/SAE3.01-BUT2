@@ -1,7 +1,7 @@
 <?php
 session_start(); // Necéssaire pour stocker les valeurs à vérifer
 
-//Générer un calcul simple
+//Générer un calcul simple avec des nombre aléatoire
 $a = random_int(0, 10);
 $b = random_int(0, 10);
 

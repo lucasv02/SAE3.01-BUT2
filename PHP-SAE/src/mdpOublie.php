@@ -15,6 +15,8 @@ echo '<!DOCTYPE html>
   <script src="/js/menu.js"></script>
 </head>
 <body>
+
+
 <div class="wrapper">';
 
 include 'php/menu-nc.php';

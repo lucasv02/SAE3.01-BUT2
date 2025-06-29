@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+// Récupère les variables d'environnement
 require_once __DIR__ . '/php/env.php';
 
 $db_host = getenv('DB_HOST');
@@ -8,9 +9,11 @@ $db_user = getenv('DB_USER');
 $db_pass = getenv('DB_PASS');
 $db_name = getenv('DB_NAME');
 
+
 $cnx = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 $table = "utilisateur";
 
+// On teste si la session n'existe pas et teste si session login existe mais renvoie une valeur fausse !
 if (!isset($_SESSION['login']) || !$_SESSION['login']) {
     header('Location: index.php');
     exit;
@@ -18,9 +21,13 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']) {
 
 $message = '';
 
+// Si le formulaire est soumis pour changer son MDP
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // On récupère les valeurs envoyées
     $ancien_mdp = isset($_POST['ancien_mdp']) ? $_POST['ancien_mdp'] : '';
     $nouveau_mdp = isset($_POST['nouveau_mdp']) ? $_POST['nouveau_mdp'] : '';
+
 
     if ($ancien_mdp === '' || $nouveau_mdp === '') {
         $message = 'Veuillez remplir tous les champs.';
@@ -33,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         if ($row = mysqli_fetch_assoc($result)) {
-            if ($row['password'] === $ancien_mdp_hash) {
+            if ($row['password'] === $ancien_mdp_hash) { // on vérifie que ce sont les même
                 $nouveau_mdp_hash = md5($nouveau_mdp);
 
                 if ($ancien_mdp_hash === $nouveau_mdp_hash) {
@@ -96,6 +103,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <button type="submit" class="btn-submit">Changer</button>
         </form>
 
+
+        <!-- strpos sert a selectionner le message, si succès est présent, le message s'affiche en vert, sinon en rouge-->
         <?php if ($message): ?>
             <p style="text-align:center; margin-top:1rem; color: <?php echo (strpos($message, 'succès') !== false) ? 'green' : 'red'; ?>;">
                 <?php echo htmlspecialchars($message); ?>

@@ -1,13 +1,15 @@
 <?php
 session_start();
+
+// Initalisation d'une varaible vide pour stocker les messages d'erreur
 $message = "";
-if (isset($_GET["erreur"])) {
+if (isset($_GET["erreur"])) { // vérifie si dans l'url, il y a une erreur pour afficher un message adapté
     switch ($_GET["erreur"]) {
         case 1:
-            $message = "Erreur de mot de passe ou compte inconnu.";
+            $message = "Erreur de mot de passe ou compte inconnu."; // mesage erreur 1
             break;
         case 2:
-            $message = "Erreur de connexion à la base de données.";
+            $message = "Erreur de connexion à la base de données."; // message erreur 2
     }
 }
 
@@ -29,7 +31,6 @@ echo '<!DOCTYPE html>
 </head>';
 
 
-
 echo '<body>
 
 <div class="wrapper">';
@@ -44,6 +45,7 @@ echo'
             <h1 id="titre-login">Relax Maths</h1>
             <h2 id="explicatif">Connectez-vous à votre compte</h2>
 
+            <!-- Les données entrées dans le form seront envoyé en post au fichier connexion-->
             <form action="/php/connexion.php" method="POST">
                 <label for="identifiant">Identifiant</label>
                 <input type="text" name="identifiant" id="identifiant" placeholder="identifiant" required>

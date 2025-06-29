@@ -1,5 +1,7 @@
 <?php
 session_start();
+
+// Récupération des variables d'environnements
 require_once __DIR__ . '/php/env.php';
 
 $db_host = getenv('DB_HOST');
@@ -7,16 +9,18 @@ $db_user = getenv('DB_USER');
 $db_pass = getenv('DB_PASS');
 $db_name = getenv('DB_NAME');
 
+
 // Suppression de l'historique
+// Si un formulaire a été envoyé en cliquant sur tout supprimer, qu'il existe un id de session et que c'est bien sysadmin de connecté
 if (isset($_POST['delete_all_log']) && isset($_SESSION['id']) && isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin_sys') {
-    $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+    $conn = new mysqli($db_host, $db_user, $db_pass, $db_name); // on se connecte à la BDD
     if ($conn->connect_error) {
         die("Erreur de connexion : " . $conn->connect_error);
     }
 
     $sql_delete_log = "DELETE FROM admin_log";
-    $sql_delete_log = $conn->prepare($sql_delete_log);
-    $sql_delete_log->execute();
+    $sql_delete_log = $conn->prepare($sql_delete_log); // on prépare la requete avec la connexion à la BDD
+    $sql_delete_log->execute(); // on exécute
     $sql_delete_log->close();
 }
 
@@ -27,6 +31,7 @@ if (isset($_POST['delete_line']) && isset($_SESSION['id']) && isset($_SESSION['p
         die("Erreur de connexion : " . $conn->connect_error);
     }
 
+    // On récupère l'id de la ligne à supprimer, s'il n'y a rien, on prend 0, qui normalement ne correspond à rien.
     $id_line = isset($_POST['id_to_delete']) ? intval($_POST['id_to_delete']) : 0;
 
     $sql_delete_log = "DELETE FROM admin_log WHERE idh = ?";
@@ -54,11 +59,11 @@ if (isset($_POST['delete_line']) && isset($_SESSION['id']) && isset($_SESSION['p
     <script src="/js/menu.js" defer></script>
 </head>
 <body>
-<?php
 
+<!-- Afficher les log dans la page Journal dde log" -->
+<?php
 if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permission']) && $_SESSION['permission'] === 'admin_sys') {
     include 'php/menu-c.php';
-
 
     $cnx = new mysqli($db_host, $db_user, $db_pass, $db_name);
 
@@ -75,6 +80,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
     <div class="text-content">
         <h1>Journal de log</h1>
 
+        <!-- S'il y a au moin une ligne de récupérer, on entre dans la boucle -->
         <?php if ($result_log->num_rows > 0): ?>
             <table class="histo_crypto">
                 <thead>
@@ -87,15 +93,22 @@ if (isset($_SESSION['login']) && $_SESSION['login'] && isset($_SESSION['permissi
                 </tr>
                 </thead>
                 <tbody>
+
+                <!-- Parcours des lignes récupérées-->
                 <?php while ($row = $result_log->fetch_assoc()):
+                    // ID correspond à l'utilisateur si le login est correct mais pas le MDP, sinon ID = Inconnu
                     $id = htmlspecialchars($row['idh'] ?? "Inconnu");?>
 
+
+                <!-- Ensuite, on affiche tout dans le tableau-->
                     <tr>
                         <td><?= htmlspecialchars($row['login'] ?? 'Inconnu') ?></td>
                         <td><?= htmlspecialchars($row['action'] ?? 'Inconnu') ?></td>
                         <td><?= htmlspecialchars($row['ip_adresse'] ?? 'Inconnu') ?></td>
                         <td><?= htmlspecialchars($row['date_action'] ?? 'Inconnu') ?></td>
                         <td>
+
+                            <!-- On supprime la ligne avec l'id du log-->
                             <form method='post' action='adminSys.php' class='delete-history-form' onsubmit='return confirm(\"Êtes-vous sûr de vouloir supprimer cette ligne ? Cette action est irréversible.\");'>
                                 <input type='hidden' name='id_to_delete' value=<?=$id?> />
                                 <button type='submit' name='delete_line' class='delete-history-btn'>Supprimer</button>

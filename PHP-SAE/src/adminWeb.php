@@ -11,14 +11,14 @@ $db_name = getenv('DB_NAME');
 
 // === Import CSV Utilisateurs ===
 if (
-    isset($_POST['import_csv']) &&
-    isset($_FILES['csv_file']) &&
-    $_FILES['csv_file']['error'] == UPLOAD_ERR_OK &&
-    isset($_SESSION['login']) &&
-    $_SESSION['permission'] === 'admin_web'
+    isset($_POST['import_csv']) && // Vérifie que le formulaire d'import a bien été soumis
+    isset($_FILES['csv_file']) && // Vérifie qu'un fichier a bien été soumis lors de l'envoie du form
+    $_FILES['csv_file']['error'] == UPLOAD_ERR_OK && // Vérifie que le fichier a été upload sans erreur UPLOAD_ERROR_OK = 0
+    isset($_SESSION['login']) && // vérifie qu'une session est ouverte (qqlun de connecté)
+    $_SESSION['permission'] === 'admin_web' // permission = adminçweb (le seul ayant accès à cet fonctionnalité)
 ) {
-    $fileTmp = $_FILES['csv_file']['tmp_name'];
-    $handle = fopen($fileTmp, 'r');
+    $fileTmp = $_FILES['csv_file']['tmp_name']; // on save le fichier upload dans un fichier temporaire
+    $handle = fopen($fileTmp, 'r'); //on ouvre le fichier en mode lecture / handle -> lire le fichier ligne par ligne
 
     if ($handle !== false) {
         $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);

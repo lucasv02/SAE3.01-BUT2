@@ -8,6 +8,7 @@ echo '
   </div>
 ';
 
+
 // Barre de Navigation
 echo '
   <nav>

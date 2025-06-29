@@ -66,3 +66,4 @@ include 'php/footer.php'; // Bannière bas du site web
 echo '</div>
 </body>
 </html>';
+

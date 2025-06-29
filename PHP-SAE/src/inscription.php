@@ -1,6 +1,8 @@
 <?php
 
-$message = "";
+$message = ""; // Initialisation d'un message vide pour stocker les mesage d'erreur
+
+// if URL --> erreur
 if (isset($_GET["erreur"])) {
     if ($_GET["erreur"] == 2) {
         $message = "Erreur dans le captcha. Veuillez réessayer.";
@@ -10,6 +12,7 @@ if (isset($_GET["erreur"])) {
     $typeMessage = "erreur";
 }
 
+// Si incription ok
 if (isset($_GET["ok"])) {
     $message = "Votre compte a été créé avec succès";
     header('Location: /login.php');
@@ -38,7 +41,7 @@ include 'php/menu-nc.php';
 
 echo '
   <script src="/js/menu.js" defer></script>
-<div class="wrapper">
+    <div class="wrapper">
     <div class="conteneur-formulaire">
         <div class="formulaire">
             <img id="logo" src="img/logo.png" alt="logo représentant une calculatrice" />
